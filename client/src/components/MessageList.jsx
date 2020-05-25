@@ -5,7 +5,6 @@ const styles = {
   test: {
     borderColor: 'black',
     borderWidth: 1,
-    backgroundColor: 'pink',
     width: '100vw',
     display: 'flex',
     flexDirection: 'column',

@@ -7,7 +7,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: 'yellow',
     borderWidth: 1,
     width: '100vw',
     top: '0%',
