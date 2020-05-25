@@ -8,7 +8,7 @@ app.use('/', express.static(path.join(__dirname, '../client/public')));
 
 
 app.get('/', (req, res) => {
-  res.send(`listening on port ${PORT}`);
+  res.send(`listening on port ${PORT}!`);
 });
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
