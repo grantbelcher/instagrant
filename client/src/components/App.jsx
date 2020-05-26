@@ -22,7 +22,6 @@ const styles = {
 };
 
 const App = () => {
-  // const [state, setState] = useState(null);
   useEffect(() => {
     const endpoint = 'http://ec9112ac.ngrok.io';
     const socket = socketIOClient(endpoint);
