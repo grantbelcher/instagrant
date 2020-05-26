@@ -10,8 +10,7 @@ const styles = {
   },
 };
 
-const Message = (props) => {
-  console.log(props);
+const Message = () => {
   return (
     <div style={styles.outline}>
       <div>fuck</div>
