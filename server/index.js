@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const socketIo = require('socket.io');
+const cors = require('cors');
 
 const app = express();
 const server = require('http').createServer(app);
@@ -15,6 +16,7 @@ const getApiAndEmit = async (socket) => {
   }
 };
 
+app.use(cors());
 app.use('/', express.static(path.join(__dirname, '../client/public')));
 
 io.on('connection', (socket) => {
@@ -23,7 +25,7 @@ io.on('connection', (socket) => {
     10000,
   ));
   socket.on('send', (data) => {
-    console.log(data, 'from server');
+    io.emit('recieve message', data);
   });
   socket.on('disconnect', () => console.log('client disconnected'));
 });

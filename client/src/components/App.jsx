@@ -31,9 +31,15 @@ const App = () => {
     socket.on('FROMAPI', (data) => console.log(data));
   }, []);
 
-  const sendMessage = (text, cb) => {
-    socket.emit('send', text, cb);
+  const sendMessage = (text) => {
+    socket.emit('send', text);
   };
+
+  socket.on('recieve message', (data) => {
+    setMessages([...messages, data]);
+  });
+  
+  console.log(messages, 'jjjjjpussy');
 
   return (
     <div>
