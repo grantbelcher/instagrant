@@ -1,14 +1,30 @@
 const express = require('express');
 const path = require('path');
+const socketIo = require('socket.io');
+
+const app = express();
+const server = require('http').createServer(app);
 
 const PORT = 1000;
-const app = express();
+const io = socketIo(server);
+const getApiAndEmit = async (socket) => {
+  try {
+    socket.emit('FROMAPI', 'yooooo');
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
 app.use('/', express.static(path.join(__dirname, '../client/public')));
 
-
-app.get('/', (req, res) => {
-  res.send(`<h1>yo</h1>`);
+io.on('connection', (socket) => {
+  console.log('new connection', setInterval(
+    () => getApiAndEmit(socket),
+    10000,
+  ));
+  socket.on('disconnect', () => console.log('client disconnected'));
 });
 
-app.listen(PORT, () => console.log(`listening on port ${PORT}`));
+server.listen(PORT, () => {
+  console.log(`listening on port ${PORT}!!!`);
+});

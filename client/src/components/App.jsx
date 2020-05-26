@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import socketIOClient from 'socket.io-client';
 import MessageList from './MessageList';
 import TextInput from './TextInput';
 
@@ -23,7 +24,9 @@ const styles = {
 const App = () => {
   // const [state, setState] = useState(null);
   useEffect(() => {
-    console.log(100);
+    const endpoint = 'http://ec9112ac.ngrok.io';
+    const socket = socketIOClient(endpoint);
+    socket.on('FROMAPI', (data) => console.log(data));
   }, []);
   return (
     <div>
