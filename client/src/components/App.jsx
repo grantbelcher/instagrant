@@ -17,7 +17,6 @@ const styles = {
     display: 'flex',
   },
   col1: {
-    // backgroundColor: 'red',
     width: '30%',
     border: 'solid',
     borderColor: '#CCCCCC',
@@ -30,12 +29,36 @@ const styles = {
     borderColor: '#CCCCCC',
     borderWidth: 'thin',
   },
-  header: {
+  headerRight: {
     borderBottom: 'solid',
     borderBottomColor: '#CCCCCC',
     borderBottomWidth: 'thin',
     height: '7vh',
     width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerLeft: {
+    borderBottom: 'solid',
+    borderBottomColor: '#CCCCCC',
+    borderBottomWidth: 'thin',
+    height: '7vh',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  direct: {
+    fontWeight: 'bold',
+  },
+  icon: {
+    marginRight: '1vw',
+  },
+  userInfoHeader: {
+    marginLeft: '1vw',
   },
 };
 
@@ -57,12 +80,17 @@ const App = () => {
   return (
     <div style={styles.container}>
       <div style={styles.col1}>
-        <div style={styles.header}>Direct</div>
+        <div style={styles.headerLeft}>
+          <div />
+          <div style={styles.direct}>Direct</div>
+          <i className="far fa-edit fa-lg" style={styles.icon} />
+        </div>
         <div>Chat List</div>
       </div>
       <div style={styles.col2}>
-        <div style={styles.header}>
-          header2
+        <div style={styles.headerRight}>
+          <div style={styles.userInfoHeader}>User info</div>
+          <i className="fas fa-info-circle fa-lg" style={styles.icon} />
         </div>
       </div>
     </div>
