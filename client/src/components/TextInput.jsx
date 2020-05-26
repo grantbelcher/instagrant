@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const styles = {
   container: {
@@ -39,8 +39,8 @@ const styles = {
   },
 };
 
-const TextInput = () => {
-  console.log('jjj');
+const TextInput = ({ send }) => {
+  const [text, setText] = useState('');
   return (
     <div style={styles.container}>
       <div style={styles.g}>
@@ -48,9 +48,13 @@ const TextInput = () => {
           rows="2"
           // cols="10"
           placeholder="fuck"
+          value={text}
           style={styles.input}
+          onChange={(e) => setText(e.target.value)}
         />
-        <div style={styles.iconBorder}>
+        <div
+          onClick={() => send(text, console.log('fuck'))}
+          style={styles.iconBorder}>
           <i className="fa fa-paper-plane" style={styles.icon} />
         </div>
       </div>

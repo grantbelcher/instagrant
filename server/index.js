@@ -22,6 +22,9 @@ io.on('connection', (socket) => {
     () => getApiAndEmit(socket),
     10000,
   ));
+  socket.on('send', (data) => {
+    console.log(data, 'from server');
+  });
   socket.on('disconnect', () => console.log('client disconnected'));
 });
 
