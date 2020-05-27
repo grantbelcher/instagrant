@@ -3,17 +3,19 @@ import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import LandingPage from './LandingPage';
+import { loadUser } from '../redux/actions/auth';
+import store from '../redux/index';
+import setAuthToken from '../../../utils/setAuthToken';
 
-// useEffect(async () => {
-//   try {
-//     const token = await localStorage.getItem('token');
-//     token ?
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// }, []);
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 const App = ({ isLoggedIn }) => {
-  console.log(isLoggedIn, 'App');
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
   return (
     <div>
       <Switch>

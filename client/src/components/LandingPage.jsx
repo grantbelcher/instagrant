@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Auth from './Auth';
+import { loadUser } from '../redux/actions/auth';
+import store from '../redux/index';
 
 const backgroundImg = 'https://www.wallpaperflare.com/static/691/881/314/vaporwave-glitch-art-mountains-landscape-wallpaper.jpg';
 const styles = {
