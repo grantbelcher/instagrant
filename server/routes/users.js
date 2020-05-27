@@ -4,9 +4,16 @@ const User = require('../../db/models/User');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
+  const { q } = req.query;
   try {
-    const allUsers = await User.find({});
-    return res.send(allUsers);
+    let users = await User.find({
+      name: {
+        $regex: q,
+        $options: 'i',
+      },
+    });
+    users = users.slice(0, 10);
+    return res.send(users);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: error.message });
