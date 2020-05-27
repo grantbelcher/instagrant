@@ -8,9 +8,10 @@ const userRoute = require('./routes/users');
 const app = express();
 
 
-app.use(cors());
+app.use(cors(), express.json());
 app.use('/', express.static(path.join(__dirname, '../client/public')));
 app.use('/users', userRoute);
+
 
 const server = require('http').createServer(app);
 
