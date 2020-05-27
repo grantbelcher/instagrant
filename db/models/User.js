@@ -5,6 +5,10 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   name: String,
   password: String,
+  avatar: {
+    type: String,
+    default: null,
+  },
   chats: [
     {
       type: Schema.ObjectId,
