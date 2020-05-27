@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import socketIOClient from 'socket.io-client';
-import MessageList from './MessageList';
-import TextInput from './TextInput';
+// import MessageList from './MessageList';
+// import TextInput from './TextInput';
 
 const styles = {
   container: {
@@ -67,9 +67,9 @@ const App = () => {
   const endpoint = 'http://localhost:1000';
   const socket = socketIOClient(endpoint);
 
-  const sendMessage = (text) => {
-    socket.emit('send', text);
-  };
+  // const sendMessage = (text) => {
+  //   socket.emit('send', text);
+  // };
 
   socket.on('recieve message', (data) => {
     console.log(messages, 'l');
@@ -98,11 +98,3 @@ const App = () => {
 };
 
 export default App;
-
-{/* <div>
-<div style={styles.container}>
-  <div style={styles.header}>InstaGrant</div>
-  <MessageList />
-</div>
-<TextInput send={sendMessage} />
-</div> */}

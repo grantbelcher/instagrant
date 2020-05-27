@@ -5,6 +5,9 @@ const cors = require('cors');
 
 const app = express();
 const server = require('http').createServer(app);
+const db = require('../db/index');
+
+db();
 
 const PORT = 1000;
 const io = socketIo(server);
