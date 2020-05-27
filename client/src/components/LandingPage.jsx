@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
+import Auth from './Auth';
 
-
-const backgroundImg = 'https://preview.redd.it/4ipebfl1zrp01.jpg?width=960&crop=smart&auto=webp&s=e6f611ee3ff2b74f3edc3239a30006fa298cf733';
+const backgroundImg = 'https://www.wallpaperflare.com/static/691/881/314/vaporwave-glitch-art-mountains-landscape-wallpaper.jpg';
 const styles = {
   container: {
     height: '100vh',
@@ -58,23 +58,43 @@ const styles = {
 };
 
 const LandingPage = () => {
-  console.log('landingpage');
+
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState(null);
+
+  const handleOpen = (e) => {
+    setForm(e.target.textContent);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div
       style={styles.container}
     >
       <div style={styles.box}>
         <h1 style={styles.header}>VICARIOUS.LY</h1>
-        <h2 style={styles.header2}>Your time is limited...waste it living someone else&#39;s life</h2>
+        <h2 style={styles.header2}>Your time is limited... waste it living someone else&#39;s life</h2>
         <div>
-          <Button variant="contained" color="primary" style={styles.button2}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={styles.button2}
+            onClick={(e) => handleOpen(e)}
+          >
             Sign In
           </Button>
-          <Button variant="outlined" color="primary" style={styles.button1}>
+          <Button
+            variant="outlined"
+            color="primary"
+            style={styles.button1}
+            onClick={handleOpen}
+          >
             Sign Up
           </Button>
-          {/* <button>yo</button>
-          <button>yo</button> */}
+          <Auth handleClose={handleClose} open={open} form={form} />
         </div>
       </div>
     </div>
