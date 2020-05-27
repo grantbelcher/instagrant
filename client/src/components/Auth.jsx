@@ -13,7 +13,7 @@ const Auth = ({ handleClose, open, form, setForm }) => {
   const submit = async () => {
     const path = form.split(' ').join('');
     const response = await axios.post(`http://localhost:1000/auth/${path}`, { name, password });
-    console.log(response.data, 'res');
+    console.log(response.data.token, 'res');
   };
 
   const closeModal = () => {
@@ -22,7 +22,6 @@ const Auth = ({ handleClose, open, form, setForm }) => {
     handleClose();
   };
   const type = (form === 'Sign In' ? 'Sign Up' : 'Sign In');
-  console.log(type);
   return (
     <Dialog
       open={open}

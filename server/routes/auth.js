@@ -41,7 +41,7 @@ router.post(
       await newUser.save();
       const { id } = newUser;
       const secret = config.get('secret_key');
-      const token = jwt.sign({ token: id }, secret, { expiresIn: '1h' });
+      const token = jwt.sign({ id }, secret, { expiresIn: '1h' });
       return res.json({ token });
     } catch (err) {
       console.error(err.message);
