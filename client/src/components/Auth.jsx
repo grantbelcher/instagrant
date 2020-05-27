@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { signIn } from '../redux/actions/auth';
 
-const Auth = ({ handleClose, open, form, setForm }) => {
+const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const submit = async () => {
     const path = form.split(' ').join('');
-    const response = await axios.post(`http://localhost:1000/auth/${path}`, { name, password });
-    console.log(response.data, 'res');
+    submitForm(name, password, path);
   };
 
   const closeModal = () => {
@@ -22,7 +22,6 @@ const Auth = ({ handleClose, open, form, setForm }) => {
     handleClose();
   };
   const type = (form === 'Sign In' ? 'Sign Up' : 'Sign In');
-  console.log(type);
   return (
     <Dialog
       open={open}
@@ -68,4 +67,8 @@ const Auth = ({ handleClose, open, form, setForm }) => {
   );
 };
 
-export default Auth;
+const mapDispatchToProps = {
+  submitForm: signIn,
+};
+
+export default connect(null, mapDispatchToProps)(Auth);

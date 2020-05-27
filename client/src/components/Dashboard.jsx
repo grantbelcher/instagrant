@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import socketIOClient from 'socket.io-client';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
+import store from '../redux/index';
+import { signOut } from '../redux/actions/auth';
 // import MessageList from './MessageList';
 // import TextInput from './TextInput';
 
@@ -56,6 +60,7 @@ const styles = {
   },
   icon: {
     marginRight: '1vw',
+    marginLeft: '1vw',
   },
   userInfoHeader: {
     marginLeft: '1vw',
@@ -90,7 +95,13 @@ const Dashboard = () => {
       <div style={styles.col2}>
         <div style={styles.headerRight}>
           <div style={styles.userInfoHeader}>User info</div>
-          <i className="fas fa-info-circle fa-lg" style={styles.icon} />
+          {/* <i className="fas fa-cog fa-lg" style={styles.icon} /> */}
+          <Breadcrumbs aria-label="breadcrumb" >
+            <Link color="inherit" href="/" onClick={() => store.dispatch(signOut())}>
+              log out
+              <i className="fas fa-cog fa-lg" style={styles.icon} />
+            </Link>
+          </Breadcrumbs>
         </div>
       </div>
     </div>

@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Auth from './Auth';
 
-const backgroundImg = 'https://www.wallpaperflare.com/static/691/881/314/vaporwave-glitch-art-mountains-landscape-wallpaper.jpg';
 const styles = {
   container: {
     height: '100vh',
     width: '100vw',
-    backgroundImage: `url(${backgroundImg})`,
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -58,9 +54,15 @@ const styles = {
 };
 
 const LandingPage = () => {
-
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+  }, []);
 
   const handleOpen = (e) => {
     setForm(e.target.textContent);
@@ -69,8 +71,12 @@ const LandingPage = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  return (
+  return loading ? (
+    <div>
+      <LinearProgress />
+      <LinearProgress color="secondary" />
+    </div>
+  ) : (
     <div
       style={styles.container}
     >

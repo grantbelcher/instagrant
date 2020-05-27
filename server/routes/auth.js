@@ -4,7 +4,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const User = require('../../db/models/User');
-// const auth = require('../../middleware/auth');
+const auth = require('../../middleware/auth');
 
 const router = express.Router();
 
@@ -16,6 +16,18 @@ router.get('/', async (req, res) => {
   } catch (err) {
     console.error(err.message);
     return res.json({ message: err.message });
+  }
+});
+
+router.get('/profile', auth, async (req, res) => {
+  try {
+    const { user: id } = req;
+    const user = await User.findById(id).select('-password');
+    if (!user) return res.status(404).json({ message: 'cannot find user' });
+    return res.json({ user });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ message: 'server error' });
   }
 });
 
@@ -41,7 +53,7 @@ router.post(
       await newUser.save();
       const { id } = newUser;
       const secret = config.get('secret_key');
-      const token = jwt.sign({ token: id }, secret, { expiresIn: '1h' });
+      const token = jwt.sign({ id }, secret, { expiresIn: '1h' });
       return res.json({ token });
     } catch (err) {
       console.error(err.message);
