@@ -1,11 +1,23 @@
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
-// const config = require('config');
 
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const User = require('../db/models/User');
 
-// const authMiddleware = async (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
+  try {
+    const { token } = req.headers;
+    if (!token) return res.status(401).json({ message: 'token required' });
+    const secret = await config.get('secret_key');
+    const payload = jwt.decode(token, secret);
+    const { id } = payload;
+    if (!id) return res.status(401).json({ message: 'token required' });
+    const user = await User.findById(id);
+    if (!user) return res.status(401).json({ message: 'token required' });
+    req.user = id;
+    return next();
+  } catch (error) {
+    return res.json({ message: 'authorization error, token required.' });
+  }
+};
 
-//   next();
-// };
-
-// module.exports = authMiddleware;
+module.exports = authMiddleware;

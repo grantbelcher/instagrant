@@ -4,7 +4,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const User = require('../../db/models/User');
-// const auth = require('../../middleware/auth');
+const auth = require('../../middleware/auth');
 
 const router = express.Router();
 
@@ -18,6 +18,12 @@ router.get('/', async (req, res) => {
     return res.json({ message: err.message });
   }
 });
+
+router.get('/profile', auth, (req, res) => {
+  console.log(req.user, 'aquii');
+  res.send('yo');
+});
+
 
 router.post(
   '/SignUp',
