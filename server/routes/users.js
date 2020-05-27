@@ -13,5 +13,4 @@ router.get('/', (req, res) => res.send('yooo'));
 //     return res.status(500).json({ message: 'server error' });
 //   }
 // });
-console.log(router, 'look here');
 module.exports = router;
