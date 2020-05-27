@@ -8,14 +8,11 @@ const App = () => {
   return (
     <div>
       <Switch>
-        <Route path="/dashboard">
-          <Dashboard />
-        </Route>
         <Route path="/">
           <LandingPage />
-          <li>
-            <Link to="/dashboard">dashboard</Link>
-          </li>
+        </Route>
+        <Route path="/dashboard">
+          <Dashboard />
         </Route>
       </Switch>
     </div>

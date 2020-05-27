@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post(
-  '/',
+  '/SignUp',
   [
     check('name').isLength({ min: 5 }),
     check('password').isLength({ min: 5 }),
@@ -51,7 +51,7 @@ router.post(
 );
 
 router.post(
-  '/login',
+  '/SignIn',
   [
     check('name').exists(),
     check('password').exists(),
