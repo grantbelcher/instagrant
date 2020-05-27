@@ -94,7 +94,7 @@ const LandingPage = () => {
           >
             Sign Up
           </Button>
-          <Auth handleClose={handleClose} open={open} form={form} />
+          <Auth handleClose={handleClose} open={open} form={form} setForm={setForm} />
         </div>
       </div>
     </div>

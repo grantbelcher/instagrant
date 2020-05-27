@@ -7,11 +7,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const Auth = ({ handleClose, open, form }) => {
+const Auth = ({ handleClose, open, form, setForm }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const submit = async () => {
-    const path = (form.split(' ').join(''));
+    const path = form.split(' ').join('');
     const response = await axios.post(`http://localhost:1000/auth/${path}`, { name, password });
     console.log(response.data, 'res');
   };
@@ -21,7 +21,8 @@ const Auth = ({ handleClose, open, form }) => {
     setPassword('');
     handleClose();
   };
-
+  const type = (form === 'Sign In' ? 'Sign Up' : 'Sign In');
+  console.log(type);
   return (
     <Dialog
       open={open}
@@ -50,6 +51,12 @@ const Auth = ({ handleClose, open, form }) => {
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         />
+        <Button
+          style={{ float: 'right' }}
+          onClick={() => setForm(type)}
+        >
+          {form === 'Sign In' ? 'Dont have an account? Sign Up' : 'Already have an account? Sign In'}
+        </Button>
       </DialogContent>
       <DialogActions>
         <Button onClick={submit}>submit</Button>
