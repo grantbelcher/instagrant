@@ -38,18 +38,17 @@ router.post(
     check('password').isLength({ min: 5 }),
   ],
   async (req, res) => {
-    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
     try {
-      const { name, password } = req.body;
+      const { name, password, avatar } = req.body;
       const userExists = await User.findOne({ name });
       if (userExists) return res.status(401).json({ message: 'user already exists' });
       const salt = await bcrypt.genSalt(10);
       const hashedPass = await bcrypt.hash(password, salt);
-      const newUser = new User({ name, password: hashedPass });
+      const newUser = new User({ name, password: hashedPass, avatar });
       await newUser.save();
       const { id } = newUser;
       const secret = config.get('secret_key');

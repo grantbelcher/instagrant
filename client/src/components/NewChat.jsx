@@ -9,6 +9,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+// const styles = {
+
+// };
+
 const NewChat = ({ open, setModalOpen }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -17,14 +21,33 @@ const NewChat = ({ open, setModalOpen }) => {
     setQuery('');
     setModalOpen(false);
   };
+  console.log(query);
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      fullWidth
+      maxWidth="xs"
+    >
       <DialogTitle>
         <IconButton onClick={handleClose}>
-          <i className="far fa-edit fa-sm" />
+          <i className="fas fa-times fa-sm" />
         </IconButton>
         New Message
         <Button>Next</Button>
+
+        <DialogContent dividers>
+          <TextField
+            autoFocus
+            label="Search Users"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            maxWidth
+          />
+        </DialogContent>
+        <DialogContent dividers>
+          yoooo
+        </DialogContent>
       </DialogTitle>
 
     </Dialog>
