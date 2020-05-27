@@ -1,13 +1,23 @@
+/* eslint-disable import/order */
 const express = require('express');
 const path = require('path');
 const socketIo = require('socket.io');
 const cors = require('cors');
+const userRoute = require('./routes/users');
 
 const app = express();
+
+
+app.use(cors());
+app.use('/', express.static(path.join(__dirname, '../client/public')));
+app.use('/users', userRoute);
+
 const server = require('http').createServer(app);
+
 const db = require('../db/index');
 
 db();
+
 
 const PORT = 1000;
 const io = socketIo(server);
@@ -18,9 +28,6 @@ const getApiAndEmit = async (socket) => {
     console.error(error.message);
   }
 };
-
-app.use(cors());
-app.use('/', express.static(path.join(__dirname, '../client/public')));
 
 io.on('connection', (socket) => {
   console.log('new connection', setInterval(
