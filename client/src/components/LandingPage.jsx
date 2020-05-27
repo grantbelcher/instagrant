@@ -61,7 +61,7 @@ const LandingPage = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 2500);
   }, []);
 
   const handleOpen = (e) => {

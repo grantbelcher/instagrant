@@ -29,8 +29,6 @@ const App = ({ isLoggedIn }) => {
     </div>
   );
 };
-
-
 const mapStateToProps = (state) => {
   const { isLoggedIn } = state.auth;
   return {
