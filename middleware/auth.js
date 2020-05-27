@@ -11,8 +11,6 @@ const authMiddleware = async (req, res, next) => {
     const payload = jwt.decode(token, secret);
     const { id } = payload;
     if (!id) return res.status(401).json({ message: 'token required' });
-    const user = await User.findById(id);
-    if (!user) return res.status(401).json({ message: 'token required' });
     req.user = id;
     return next();
   } catch (error) {

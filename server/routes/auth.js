@@ -19,9 +19,16 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/profile', auth, (req, res) => {
-  console.log(req.user, 'aquii');
-  res.send('yo');
+router.get('/profile', auth, async (req, res) => {
+  try {
+    const { user: id } = req;
+    const user = await User.findById(id).select('-password');
+    if (!user) return res.status(404).json({ message: 'cannot find user' });
+    return res.json({ user });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ message: 'server error' });
+  }
 });
 
 
