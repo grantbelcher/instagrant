@@ -142,7 +142,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! socket.io-client */ \"./node_modules/socket.io-client/lib/index.js\");\n/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _Dashboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Dashboard */ \"./client/src/components/Dashboard.jsx\");\n/* eslint-disable arrow-body-style */\n\n\n\nvar socketUrl = 'http://5546de74ed9d.ngrok.io/';\n\nvar Main = function Main() {\n  var initSocket = function initSocket() {\n    var connection = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()(socketUrl);\n    connection.on('connect', function () {\n      console.log('connected');\n    });\n  };\n\n  Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useEffect\"])(function () {\n    initSocket();\n  }, []);\n  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Dashboard__WEBPACK_IMPORTED_MODULE_2__[\"default\"], null));\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Main);\n\n//# sourceURL=webpack:///./client/src/components/Main.jsx?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! socket.io-client */ \"./node_modules/socket.io-client/lib/index.js\");\n/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _Dashboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Dashboard */ \"./client/src/components/Dashboard.jsx\");\n/* harmony import */ var _redux_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../redux/index */ \"./client/src/redux/index.js\");\n/* harmony import */ var _redux_actions_socket__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../redux/actions/socket */ \"./client/src/redux/actions/socket.js\");\n/* eslint-disable arrow-body-style */\n\n\n\n\n\nvar socketUrl = 'http://5546de74ed9d.ngrok.io/';\n\nvar Main = function Main() {\n  var initSocket = function initSocket() {\n    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()(socketUrl);\n    socket.on('connect', function () {\n      _redux_index__WEBPACK_IMPORTED_MODULE_3__[\"default\"].dispatch(Object(_redux_actions_socket__WEBPACK_IMPORTED_MODULE_4__[\"addSocket\"])(socket));\n    });\n  };\n\n  Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useEffect\"])(function () {\n    initSocket();\n  }, []);\n  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Dashboard__WEBPACK_IMPORTED_MODULE_2__[\"default\"], null));\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Main);\n\n//# sourceURL=webpack:///./client/src/components/Main.jsx?");
 
 /***/ }),
 
@@ -206,6 +206,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
+/***/ "./client/src/redux/actions/socket.js":
+/*!********************************************!*\
+  !*** ./client/src/redux/actions/socket.js ***!
+  \********************************************/
+/*! exports provided: addSocket */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"addSocket\", function() { return addSocket; });\n/* eslint-disable import/prefer-default-export */\nvar addSocket = function addSocket(socket) {\n  return function (dispatch) {\n    dispatch({\n      type: 'ADD_SOCKET',\n      payload: socket\n    });\n  };\n};\n\n//# sourceURL=webpack:///./client/src/redux/actions/socket.js?");
+
+/***/ }),
+
 /***/ "./client/src/redux/index.js":
 /*!***********************************!*\
   !*** ./client/src/redux/index.js ***!
@@ -230,18 +242,6 @@ eval("__webpack_require__.r(__webpack_exports__);\nfunction ownKeys(object, enum
 
 /***/ }),
 
-/***/ "./client/src/redux/reducers/counter.js":
-/*!**********************************************!*\
-  !*** ./client/src/redux/reducers/counter.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\nvar initialState = {\n  count: 0,\n  extra: 'hey'\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (function () {\n  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;\n  var action = arguments.length > 1 ? arguments[1] : undefined;\n  var type = action.type;\n\n  switch (type) {\n    case 'INCREMENT':\n      return _objectSpread(_objectSpread({}, state), {}, {\n        count: state.count + 1\n      });\n\n    case 'DECREMENT':\n      return _objectSpread(_objectSpread({}, state), {}, {\n        count: state.count - 1\n      });\n\n    default:\n      return state;\n  }\n});\n\n//# sourceURL=webpack:///./client/src/redux/reducers/counter.js?");
-
-/***/ }),
-
 /***/ "./client/src/redux/reducers/index.js":
 /*!********************************************!*\
   !*** ./client/src/redux/reducers/index.js ***!
@@ -250,7 +250,19 @@ eval("__webpack_require__.r(__webpack_exports__);\nfunction ownKeys(object, enum
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ \"./node_modules/redux/es/redux.js\");\n/* harmony import */ var _counter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./counter */ \"./client/src/redux/reducers/counter.js\");\n/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth */ \"./client/src/redux/reducers/auth.js\");\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__[\"combineReducers\"])({\n  counter: _counter__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  auth: _auth__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n}));\n\n//# sourceURL=webpack:///./client/src/redux/reducers/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ \"./node_modules/redux/es/redux.js\");\n/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth */ \"./client/src/redux/reducers/auth.js\");\n/* harmony import */ var _socket__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./socket */ \"./client/src/redux/reducers/socket.js\");\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__[\"combineReducers\"])({\n  auth: _auth__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  socket: _socket__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n}));\n\n//# sourceURL=webpack:///./client/src/redux/reducers/index.js?");
+
+/***/ }),
+
+/***/ "./client/src/redux/reducers/socket.js":
+/*!*********************************************!*\
+  !*** ./client/src/redux/reducers/socket.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nfunction ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }\n\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\nvar initialState = {\n  socket: null\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (function () {\n  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;\n  var action = arguments.length > 1 ? arguments[1] : undefined;\n  var type = action.type,\n      payload = action.payload;\n\n  switch (type) {\n    case 'ADD_SOCKET':\n      return _objectSpread(_objectSpread({}, state), {}, {\n        socket: payload\n      });\n\n    default:\n      return state;\n  }\n});\n\n//# sourceURL=webpack:///./client/src/redux/reducers/socket.js?");
 
 /***/ }),
 
