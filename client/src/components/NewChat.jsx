@@ -9,6 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import UserList from './UserList';
 
 
 const NewChat = ({ open, setModalOpen }) => {
@@ -43,7 +44,6 @@ const NewChat = ({ open, setModalOpen }) => {
         </IconButton>
         New Message
         <Button>Next</Button>
-
         <DialogContent dividers>
           <TextField
             autoFocus
@@ -52,10 +52,11 @@ const NewChat = ({ open, setModalOpen }) => {
             onChange={(e) => setQuery(e.target.value)}
             maxWidth
           />
+          To:
         </DialogContent>
-        <DialogContent dividers>
-          yoooo
-        </DialogContent>
+        {/* <DialogContent> */}
+          <UserList users={suggestions} />
+        {/* </DialogContent> */}
       </DialogTitle>
 
     </Dialog>

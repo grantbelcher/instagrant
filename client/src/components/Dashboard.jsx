@@ -107,7 +107,7 @@ const Dashboard = () => {
               <i className="fas fa-cog fa-lg" style={styles.icon} />
             </Link>
           </Breadcrumbs>
-          <NewChat open={modalOpen} setModalOpen={setModalOpen} />
+          <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ maxHeight: '50vh' }} />
         </div>
       </div>
     </div>
