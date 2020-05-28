@@ -3,14 +3,16 @@ const express = require('express');
 const path = require('path');
 const socketIo = require('socket.io');
 const cors = require('cors');
-const userRoute = require('./routes/auth');
+const authRoute = require('./routes/auth');
+const userRoute = require('./routes/users');
 
 const app = express();
 
 
 app.use(cors(), express.json());
 app.use('/', express.static(path.join(__dirname, '../client/public')));
-app.use('/auth', userRoute);
+app.use('/auth', authRoute);
+app.use('/users', userRoute);
 
 
 const server = require('http').createServer(app);

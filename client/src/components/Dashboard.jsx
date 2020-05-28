@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import socketIOClient from 'socket.io-client';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
+import IconButton from '@material-ui/core/IconButton';
 import store from '../redux/index';
 import { signOut } from '../redux/actions/auth';
-// import MessageList from './MessageList';
-// import TextInput from './TextInput';
+import NewChat from './NewChat';
+
 
 const styles = {
   container: {
@@ -68,6 +69,8 @@ const styles = {
 };
 
 const Dashboard = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   const [messages, setMessages] = useState([]);
   const endpoint = 'http://localhost:1000';
   const socket = socketIOClient(endpoint);
@@ -88,7 +91,9 @@ const Dashboard = () => {
         <div style={styles.headerLeft}>
           <div />
           <div style={styles.direct}>Direct</div>
-          <i className="far fa-edit fa-lg" style={styles.icon} />
+          <IconButton onClick={() => setModalOpen(true)}>
+            <i className="far fa-edit fa-sm" style={styles.icon} />
+          </IconButton>
         </div>
         <div>Chat List</div>
       </div>
@@ -96,12 +101,13 @@ const Dashboard = () => {
         <div style={styles.headerRight}>
           <div style={styles.userInfoHeader}>User info</div>
           {/* <i className="fas fa-cog fa-lg" style={styles.icon} /> */}
-          <Breadcrumbs aria-label="breadcrumb" >
+          <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" href="/" onClick={() => store.dispatch(signOut())}>
               log out
               <i className="fas fa-cog fa-lg" style={styles.icon} />
             </Link>
           </Breadcrumbs>
+          <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} />
         </div>
       </div>
     </div>
