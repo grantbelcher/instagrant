@@ -10,7 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const UserList = ({ users, recipients, setRecipients }) => {
   const listItems = users.map((user) => {
-    if (!recipients.includes(user.name)) {
+    const isRecipient = recipients.find((obj) => obj._id === user._id);
+    if (!isRecipient) {
       return (
         <ListItem
           button
