@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Dashboard from './Dashboard';
 import LandingPage from './LandingPage';
+import Main from './Main';
 import { loadUser } from '../redux/actions/auth';
 import store from '../redux/index';
 import setAuthToken from '../../../utils/setAuthToken';
@@ -23,7 +23,7 @@ const App = ({ isLoggedIn }) => {
           {isLoggedIn ? <Redirect to="/dashboard" /> : <LandingPage />}
         </Route>
         <Route path="/dashboard">
-          <Dashboard />
+          <Main />
         </Route>
       </Switch>
     </div>
