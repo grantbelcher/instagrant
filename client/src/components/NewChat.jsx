@@ -12,12 +12,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import UserList from './UserList';
 import Recipients from './Recipients';
 
-
 const NewChat = ({ open, setModalOpen }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [recipients, setRecipients] = useState([]);
-  console.log(recipients, 'recipients');
 
   const searchUsers = async () => {
     const results = await axios.get(`http://localhost:1000/users?q=${query}`);
@@ -33,45 +31,41 @@ const NewChat = ({ open, setModalOpen }) => {
     setModalOpen(false);
   };
 
-  // add recipient
-  // const addRecipient = (id, name) => {
-  //   console.log(id, name, 'user');
-  //   setRecipients([...recipients, name]);
-  //   console.log(recipients, 'yooo');
-  // };
-
-  // remove recipient
-  const removeRecipient = (user) => {
-    const filteredList = suggestions.filter((item) => (item.name !== user));
-    setSuggestions(filteredList);
-  };
-
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       fullWidth
       maxWidth="xs"
-      style={{ minHeight: '60vh', maxHeight: '60vh' }}
+      style={{ maxHeight: '80vh', minHeight: '70vh' }}
     >
       <DialogTitle>
-        <IconButton onClick={handleClose}>
-          <i className="fas fa-times fa-sm" />
-        </IconButton>
-        New Message
-        <Button>Next</Button>
-        <DialogContent dividers style={{ display: 'flex', flexDirection: 'column' }}>
-          <TextField
-            autoFocus
-            label="Search Users"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            maxWidth
-            style={{ paddingBottom: '4vh' }}
-          />
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+        >
+          <IconButton onClick={handleClose}>
+            <i className="fas fa-times fa-sm" />
+          </IconButton>
+          New Message
+          <Button>Next</Button>
+
+        </div>
+        <DialogContent dividers>
           To:
-          <Recipients />
+          {' '}
+          <Recipients recipients={recipients} setRecipients={setRecipients} />
         </DialogContent>
+        <TextField
+          autoFocus
+          label="Search Users"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          style={{ marginTop: '2vh', width: '70%' }}
+        />
         <UserList users={suggestions} recipients={recipients} setRecipients={setRecipients} />
       </DialogTitle>
 

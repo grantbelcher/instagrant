@@ -20,9 +20,9 @@ const UserList = ({ users, recipients, setRecipients }) => {
           onClick={() => setRecipients([...recipients, user])}
         >
           <ListItemAvatar>
-            <Avatar>
-              ????
-            </Avatar>
+            <Avatar
+              alt={user.name} src={`${user.avatar}`}
+            />
           </ListItemAvatar>
           <ListItemText primary={user.name} secondary="placeholder" />
         </ListItem>
