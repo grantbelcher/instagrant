@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import socketIOClient from 'socket.io-client';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
@@ -70,20 +69,6 @@ const styles = {
 
 const Dashboard = () => {
   const [modalOpen, setModalOpen] = useState(false);
-
-  const [messages, setMessages] = useState([]);
-  const endpoint = 'http://localhost:1000';
-  const socket = socketIOClient(endpoint);
-
-  // const sendMessage = (text) => {
-  //   socket.emit('send', text);
-  // };
-
-  socket.on('recieve message', (data) => {
-    console.log(messages, 'l');
-    setMessages([...messages, data]);
-  });
-  console.log(messages, 'jjjjjpussy');
 
   return (
     <div style={styles.container}>
