@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 /* eslint-disable react/prop-types */
@@ -13,19 +14,21 @@ const UserList = ({ users, recipients, setRecipients }) => {
     const isRecipient = recipients.find((obj) => obj._id === user._id);
     if (!isRecipient) {
       return (
-        <ListItem
-          button
-          divider
-          key={user.id}
-          onClick={() => setRecipients([...recipients, user])}
-        >
-          <ListItemAvatar>
-            <Avatar
-              alt={user.name} src={`${user.avatar}`}
-            />
-          </ListItemAvatar>
-          <ListItemText primary={user.name} secondary="placeholder" />
-        </ListItem>
+        <div key={user._id}>
+          <ListItem
+            button
+            divider
+            onClick={() => setRecipients([...recipients, user])}
+          >
+            <ListItemAvatar>
+              <Avatar
+                alt={user.name}
+                src={`${user.avatar}`}
+              />
+            </ListItemAvatar>
+            <ListItemText primary={user.name} secondary="placeholder" />
+          </ListItem>
+        </div>
       );
     }
   });

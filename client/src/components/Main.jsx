@@ -7,8 +7,9 @@ const socketUrl = 'http://5546de74ed9d.ngrok.io/';
 
 const Main = () => {
   const initSocket = () => {
-    io(socketUrl, () => {
-      console.log('connection made?');
+    const connection = io(socketUrl);
+    connection.on('connect', () => {
+      console.log('connected');
     });
   };
   useEffect(() => {
