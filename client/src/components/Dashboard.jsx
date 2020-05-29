@@ -4,6 +4,7 @@ import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import store from '../redux/index';
 import { signOut } from '../redux/actions/auth';
+import { removeSocket } from '../redux/actions/socket';
 import NewChat from './NewChat';
 
 
@@ -70,6 +71,11 @@ const styles = {
 const Dashboard = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
+  const logOutClick = () => {
+    store.dispatch(removeSocket());
+    store.dispatch(signOut());
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.col1}>
@@ -85,9 +91,8 @@ const Dashboard = () => {
       <div style={styles.col2}>
         <div style={styles.headerRight}>
           <div style={styles.userInfoHeader}>User info</div>
-          {/* <i className="fas fa-cog fa-lg" style={styles.icon} /> */}
           <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={() => store.dispatch(signOut())}>
+            <Link color="inherit" href="/" onClick={() => logOutClick()}>
               log out
               <i className="fas fa-cog fa-lg" style={styles.icon} />
             </Link>

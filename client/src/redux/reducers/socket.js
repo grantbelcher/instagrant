@@ -10,6 +10,11 @@ export default (state = initialState, action) => {
         ...state,
         socket: payload,
       };
+    case 'REMOVE_SOCKET':
+      return {
+        ...state,
+        payload: null,
+      };
     default:
       return state;
   }

@@ -2,16 +2,8 @@ import React, { useState } from 'react';
 
 const styles = {
   container: {
-    // border: 'solid',
-    // borderWidth: 1,
-    // borderColor: 'black',
-    // float: 'right',
-    // display: 'flex',
-
-    // flexDirection: 'row',
     position: 'fixed',
     height: '4vh',
-    // top: '95vh',
     width: '100vw',
     bottom: '3vh',
     backgroundColor: 'rgba(355, 355, 355, 0.8)',
@@ -21,7 +13,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'flex-end',
   },
   input: {
     width: '90vw',

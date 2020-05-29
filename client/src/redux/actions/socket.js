@@ -5,3 +5,9 @@ export const addSocket = (socket) => (dispatch) => {
     payload: socket,
   });
 };
+
+export const removeSocket = (socket) => (dispatch) => {
+  dispatch({
+    type: 'REMOVE_SOCKET',
+  });
+};
