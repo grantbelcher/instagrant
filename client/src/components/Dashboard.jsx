@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { connect } from 'react-redux';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
@@ -6,6 +7,7 @@ import store from '../redux/index';
 import { signOut } from '../redux/actions/auth';
 import { removeSocket } from '../redux/actions/socket';
 import NewChat from './NewChat';
+import SocketContext from '../context/index';
 
 
 const styles = {
@@ -68,12 +70,13 @@ const styles = {
   },
 };
 
-const Dashboard = () => {
+const Dashboard = ({ socket, user }) => {
   const [modalOpen, setModalOpen] = useState(false);
-
+  const context = useContext(SocketContext);
+  console.log(context, 'context');
+  console.log(socket, 'yooo');
   const logOutClick = () => {
-    store.dispatch(removeSocket());
-    store.dispatch(signOut());
+    context.emit('MESSAGE_SENT', 'testing');
   };
 
   return (
@@ -92,10 +95,11 @@ const Dashboard = () => {
         <div style={styles.headerRight}>
           <div style={styles.userInfoHeader}>User info</div>
           <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={() => logOutClick()}>
+            <button onClick={logOutClick} >click</button>
+            {/* <Link color="inherit" href="/" onClick={logOutClick}>
               log out
               <i className="fas fa-cog fa-lg" style={styles.icon} />
-            </Link>
+            </Link> */}
           </Breadcrumbs>
           <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} />
         </div>
@@ -104,4 +108,12 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+const mapStateToProps = ({ socket, auth }) => {
+  const { user } = auth;
+  return ({
+    user,
+    socket,
+  });
+};
+
+export default connect(mapStateToProps, null)(Dashboard);

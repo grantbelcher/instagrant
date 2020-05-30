@@ -3,6 +3,7 @@ const Chat = require('../db/models/Chats');
 const Message = require('../db/models/Message');
 
 let connectedUsers = {};
+let community = [];
 
 const socketManager = (socket) => {
 
@@ -13,9 +14,17 @@ const socketManager = (socket) => {
     console.log(connectedUsers, 'connected');
   });
   // USER DISCONNECTS
-
+  socket.on('USER_DISCONNECTED', (user) => {
+    console.log('yoo')
+    connectedUsers = removeUser(connectedUsers, user);
+    console.log(connectedUsers, 'connected users');
+  });
   // USER LOGS OUT
-
+  socket.on('MESSAGE_SENT', (message) => {
+    console.log(message);
+    community.push(message);
+    console.log(community, 'messages');
+  });
 };
 
 
