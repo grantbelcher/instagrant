@@ -42,4 +42,8 @@ function removeUser(userList, user) {
   return newList;
 }
 
+// function sendMessage (chatId, message) => {
+//   const { socket }
+// }
+
 module.exports = socketManager;

@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { connect } from 'react-redux';
+import SocketContext from '../context/index';
 
 const styles = {
   container: {
@@ -13,7 +15,6 @@ const styles = {
     alignItems: 'center',
   },
   input: {
-    // width: '85%',
     borderRadius: 5,
     alignSelf: 'flex-start',
     resize: 'none',
@@ -32,9 +33,16 @@ const styles = {
   },
 };
 
-const TextInput = () => {
+const TextInput = ({ user }) => {
   const [text, setText] = useState('');
-  console.log('yppppp');
+  const connection = useContext(SocketContext);
+
+  const sendMessage = () => {
+    if (text.length > 0) {
+      connection.emit('MESSAGE_SENT', { user, text });
+    }
+    console.log('error');
+  };
   return (
     <div style={styles.container}>
       <div style={styles.g}>
@@ -45,10 +53,17 @@ const TextInput = () => {
           style={styles.input}
           onChange={(e) => setText(e.target.value)}
         />
-        <i className="fas fa-paper-plane fa-sm" style={styles.iconBorder} />
+        <i className="fas fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage}/>
       </div>
     </div>
   );
 };
 
-export default TextInput;
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+  return {
+    user,
+  };
+};
+
+export default connect(mapStateToProps, null)(TextInput);
