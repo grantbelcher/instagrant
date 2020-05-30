@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
-import store from '../redux/index';
-import { signOut } from '../redux/actions/auth';
-import { removeSocket } from '../redux/actions/socket';
 import NewChat from './NewChat';
+import ChatDisplay from './ChatDisplay';
 import SocketContext from '../context/index';
-
+import { selectChat } from '../redux/actions/chats';
 
 const styles = {
   container: {
@@ -70,14 +68,17 @@ const styles = {
   },
 };
 
-const Dashboard = ({ socket, user }) => {
+const Dashboard = ({ socket, user, chatSelector }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const context = useContext(SocketContext);
-  console.log(context, 'context');
-  console.log(socket, 'yooo');
+
   const logOutClick = () => {
     context.emit('MESSAGE_SENT', 'testing');
   };
+
+  // setActiveChat = (chat) => {
+  //   chatSelector()
+  // }
 
   return (
     <div style={styles.container}>
@@ -95,14 +96,14 @@ const Dashboard = ({ socket, user }) => {
         <div style={styles.headerRight}>
           <div style={styles.userInfoHeader}>User info</div>
           <Breadcrumbs aria-label="breadcrumb">
-            <button onClick={logOutClick} >click</button>
-            {/* <Link color="inherit" href="/" onClick={logOutClick}>
+            <Link color="inherit" href="/" onClick={logOutClick}>
               log out
               <i className="fas fa-cog fa-lg" style={styles.icon} />
-            </Link> */}
+            </Link>
           </Breadcrumbs>
           <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} />
         </div>
+        <ChatDisplay />
       </div>
     </div>
   );
@@ -114,6 +115,10 @@ const mapStateToProps = ({ socket, auth }) => {
     user,
     socket,
   });
+};
+
+const mapDispatchToProps = {
+  chatSelector: selectChat,
 };
 
 export default connect(mapStateToProps, null)(Dashboard);

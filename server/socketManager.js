@@ -1,5 +1,5 @@
 const User = require('../db/models/User');
-const Chat = require('../db/models/Chats');
+const Chat = require('../db/models/Chat');
 const Message = require('../db/models/Message');
 
 let connectedUsers = {};
@@ -7,11 +7,10 @@ let community = [];
 
 const socketManager = (socket) => {
 
-
   // USER CONNECTS
   socket.on('USER_CONNECTED', (user) => {
     connectedUsers = addUser(connectedUsers, user);
-    console.log(connectedUsers, 'connected');
+    console.log(connectedUsers, 'connected users');
   });
   // USER DISCONNECTS
   socket.on('USER_DISCONNECTED', (user) => {
