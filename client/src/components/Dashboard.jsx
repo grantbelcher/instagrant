@@ -111,7 +111,7 @@ const Dashboard = ({ user, chatSelector, loadChats }) => {
               <i className="fas fa-cog fa-lg" style={styles.icon} />
             </Link>
           </Breadcrumbs>
-          <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} />
+          <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} user={user} />
         </div>
         <ChatDisplay />
       </div>
