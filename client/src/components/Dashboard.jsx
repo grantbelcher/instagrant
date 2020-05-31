@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
@@ -76,9 +77,6 @@ const Dashboard = ({ user, chatSelector, loadChats }) => {
     context.emit('MESSAGE_SENT', 'testing');
   };
 
-  // setActiveChat = (chat) => {
-  //   chatSelector()
-  // }
   useEffect(() => {
     context.emit('COMMUNITY_CHAT', (chat) => {
       chatSelector(chat);
@@ -117,6 +115,18 @@ const Dashboard = ({ user, chatSelector, loadChats }) => {
       </div>
     </div>
   );
+};
+
+Dashboard.propTypes = {
+  user: PropTypes.shape({
+    chats: PropTypes.array.isRequired,
+  }),
+};
+
+Dashboard.defaultProps = {
+  user: {
+    chats: [],
+  },
 };
 
 const mapStateToProps = ({ auth }) => {

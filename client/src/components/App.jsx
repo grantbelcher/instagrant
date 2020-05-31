@@ -7,14 +7,17 @@ import { loadUser } from '../redux/actions/auth';
 import store from '../redux/index';
 import setAuthToken from '../../../utils/setAuthToken';
 
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
-}
+// if (localStorage.token) {
+//   setAuthToken(localStorage.token);
+// }
 
-const App = ({ isLoggedIn }) => {
+const App = ({ isLoggedIn, token }) => {
   useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);
+    console.log(isLoggedIn, 'App load user');
+    if (isLoggedIn) {
+      store.dispatch(loadUser(token));
+    }
+  }, [isLoggedIn]);
 
   return (
     <div>
@@ -30,9 +33,10 @@ const App = ({ isLoggedIn }) => {
   );
 };
 const mapStateToProps = (state) => {
-  const { isLoggedIn } = state.auth;
+  const { isLoggedIn, token } = state.auth;
   return {
     isLoggedIn,
+    token
   };
 };
 

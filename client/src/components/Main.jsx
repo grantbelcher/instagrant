@@ -11,13 +11,13 @@ const socketUrl = 'http://bd24cc33fc23.ngrok.io';
 const socket = io(socketUrl);
 
 const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) => {
-  const { chats } = user;
+  // const { chats } = user;
   const initSocket = (currentChat) => {
     socket.on('connect', () => {
       console.log('connected');
     });
     socket.on('MESSAGE_RECIEVED', (updatedChat) => {
-      const inChats = chats.some((chat) => {
+      const inChats = user.chats.some((chat) => {
         return chat === updatedChat._id;
       });
       if (inChats) {
@@ -29,6 +29,7 @@ const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) =
       newConnection(connectedUsers);
     });
   };
+
 
   useEffect(() => {
     const options = activeChat;

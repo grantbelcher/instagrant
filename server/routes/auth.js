@@ -20,8 +20,10 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/profile', auth, async (req, res) => {
+// router.get('/profile', async (req, res) => {
   try {
     const { user: id } = req;
+    // const { id } = 
     const user = await User.findById(id).select('-password');
     if (!user) return res.status(404).json({ message: 'cannot find user' });
     return res.json({ user });
