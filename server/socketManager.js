@@ -13,10 +13,7 @@ const getCommunityChat = (callback) => {
   });
 };
 
-
-
 const socketManager = (socket) => {
-
   // USER CONNECTS
   socket.on('USER_CONNECTED', (user) => {
     connectedUsers = addUser(connectedUsers, user);
@@ -29,12 +26,15 @@ const socketManager = (socket) => {
     console.log(connectedUsers, 'connected users');
   });
   // USER LOGS OUT
-  socket.on('MESSAGE_SENT', (message) => {
-    console.log(message);
-    // console.log(message);
-    // find chat by id,
-    // push message to array,
-    // send back via callback
+  socket.on('MESSAGE_SENT', async (message, callback) => {
+    const { chatId, user, text } = message;
+    const currentChat = await Chat.findById(chatId);
+    currentChat.messages.push({
+      username: user.name,
+      text,
+    });
+    await currentChat.save();
+    callback(currentChat);
   });
   socket.on('COMMUNITY_CHAT', (callback) => {
     getCommunityChat(callback);

@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import TextInput from './TextInput';
 
+
 const ChatDisplay = ({ activeChat }) => {
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    if (activeChat !== null) {
+      console.log(activeChat.messages);
+      const newMessages = activeChat.messages.map((message) => {
+        console.log(message.text, 'yooo');
+        return <div>{message.text}</div>;
+      });
+      setMessages(newMessages);
+    }
+  }, [activeChat]);
   return (
     <div>
-      <div>Active Chat</div>
+      {messages}
       <TextInput activeChat={activeChat} />
     </div>
   );

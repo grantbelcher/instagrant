@@ -19,7 +19,6 @@ const Main = ({ user, isLoggedIn }) => {
 
   useEffect(() => {
     if (user) {
-      console.log(user, 'initializing');
       initSocket();
     }
     console.log('init');

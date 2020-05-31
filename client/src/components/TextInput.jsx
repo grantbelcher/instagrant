@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { connect } from 'react-redux';
 import SocketContext from '../context/index';
+import { selectChat } from '../redux/actions/chats';
 
 const styles = {
   container: {
@@ -33,16 +34,19 @@ const styles = {
   },
 };
 
-const TextInput = ({ user, activeChat }) => {
+const TextInput = ({ user, activeChat, updateChat }) => {
   const [text, setText] = useState('');
   const connection = useContext(SocketContext);
   console.log(activeChat, 'textInput');
   const sendMessage = () => {
     // add chat.Id
     if (text.length > 0) {
-      connection.emit('MESSAGE_SENT', { user, text, chatId: activeChat._id});
+      connection.emit('MESSAGE_SENT', { user, text, chatId: activeChat._id}, (newChat) => {
+        updateChat(newChat);
+      });
+    } else {
+      console.log('error');
     }
-    console.log('error');
   };
 
   // const sendTyping = (isTyping) => {
@@ -75,4 +79,8 @@ const mapStateToProps = ({ auth, chats }) => {
   };
 };
 
-export default connect(mapStateToProps, null)(TextInput);
+const mapDispatchToProps = {
+  updateChat: selectChat,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TextInput);
