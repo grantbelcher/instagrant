@@ -26,6 +26,7 @@ const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) =
     });
     socket.emit('USER_CONNECTED', user);
     socket.on('NEW_USER_CONNECTED', (connectedUsers) => {
+      console.log('emitting', connectedUsers)
       newConnection(connectedUsers);
     });
   };

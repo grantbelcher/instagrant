@@ -17,6 +17,8 @@ const socketManager = (socket) => {
   // USER CONNECTS
   socket.on('USER_CONNECTED', (user) => {
     connectedUsers = addUser(connectedUsers, user);
+    console.log(connectedUsers, 'connected users');
+    socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
     socket.emit('NEW_USER_CONNECTED', connectedUsers);
   });
   // USER DISCONNECTS
@@ -57,9 +59,5 @@ function removeUser(userList, user) {
   console.log(newList);
   return newList;
 }
-
-// function sendMessage (chatId, message) => {
-//   const { socket }
-// }
 
 module.exports = socketManager;
