@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
       User.findById(user._id)
         .then((doc) => {
           console.log(doc, 'doc');
-          // doc.chats.push(newChat._id);
+          doc.chats.push(newChat._id);
           return doc;
         })
         .then((newDoc) => newDoc.save((err, data) => {
