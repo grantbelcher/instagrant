@@ -17,7 +17,7 @@ const socketManager = (socket) => {
   // USER CONNECTS
   socket.on('USER_CONNECTED', (user) => {
     connectedUsers = addUser(connectedUsers, user);
-    console.log(connectedUsers, 'connected users');
+    socket.emit('NEW_USER_CONNECTED', connectedUsers);
   });
   // USER DISCONNECTS
   socket.on('USER_DISCONNECTED', (user) => {

@@ -21,3 +21,10 @@ export const updateChat = (chat) => (dispatch) => {
     payload: chat,
   });
 };
+
+export const newLogin = activeUsers => (dispatch) => {
+  dispatch({
+    type: 'NEW_LOGIN',
+    payload: activeUsers,
+  });
+};

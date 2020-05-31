@@ -5,15 +5,14 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
-import { selectChat, updateChat } from '../redux/actions/chats';
-const socketUrl = 'http://81df685322e8.ngrok.io';
+import { selectChat, updateChat, newLogin } from '../redux/actions/chats';
+const socketUrl = 'http://bd24cc33fc23.ngrok.io';
 
 const socket = io(socketUrl);
 
-const Main = ({ user, isLoggedIn, activeChat, updateChatList }) => {
+const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) => {
   const { chats } = user;
   const initSocket = (currentChat) => {
-    console.log(currentChat, 'activeChat');
     socket.on('connect', () => {
       console.log('connected');
     });
@@ -26,6 +25,9 @@ const Main = ({ user, isLoggedIn, activeChat, updateChatList }) => {
       }
     });
     socket.emit('USER_CONNECTED', user);
+    socket.on('NEW_USER_CONNECTED', (connectedUsers) => {
+      newConnection(connectedUsers);
+    });
   };
 
   useEffect(() => {
@@ -56,6 +58,7 @@ const mapStateToProps = ({ auth, chats }) => {
 
 const mapDispatchToProps = {
   updateChatList: updateChat,
+  newConnection: newLogin,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
