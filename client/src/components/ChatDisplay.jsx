@@ -15,7 +15,9 @@ const ChatDisplay = ({ activeChat }) => {
   }, [activeChat]);
   return (
     <div>
-      {messages}
+      <div style={{ position: 'relative', height: '80%' }}>
+        {messages}
+      </div>
       <TextInput activeChat={activeChat} />
     </div>
   );

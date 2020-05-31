@@ -1,6 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
 export const getChats = (chats) => (dispatch) => {
-  console.log(chats, 'actions');
+
   dispatch({
     type: 'GET_CHATS',
     payload: chats,
