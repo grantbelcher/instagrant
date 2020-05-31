@@ -1,59 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { connect } from 'react-redux';
+import SocketContext from '../context/index';
+import { selectChat } from '../redux/actions/chats';
 
 const styles = {
   container: {
-    // border: 'solid',
-    // borderWidth: 1,
-    // borderColor: 'black',
-    // float: 'right',
-    // display: 'flex',
-
-    // flexDirection: 'row',
-    position: 'fixed',
-    height: '4vh',
-    // top: '95vh',
-    width: '100vw',
-    bottom: '3vh',
+    position: 'absolute',
+    width: '69%',
+    bottom: '0%',
     backgroundColor: 'rgba(355, 355, 355, 0.8)',
-    paddingBottom: '2vh',
   },
   g: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'flex-end',
   },
   input: {
-    width: '90vw',
     borderRadius: 5,
     alignSelf: 'flex-start',
     resize: 'none',
+    flex: 49,
   },
   iconBorder: {
+    position: 'relative',
     borderRadius: '20%',
     backgroundColor: 'grey',
     justifyContent: 'center',
     alignContent: 'center',
     alignSelf: 'flex-end',
-    padding: '3vw',
+    flex: 1,
+    padding: '2.3%',
+    marginLeft: 5,
   },
 };
 
-const TextInput = () => {
+const TextInput = ({ user, activeChat, updateChat }) => {
   const [text, setText] = useState('');
+  const connection = useContext(SocketContext);
+  const sendMessage = () => {
+    if (text.length > 0) {
+      connection.emit('MESSAGE_SENT', { user, text, chatId: activeChat._id});
+    } else {
+      console.log('error');
+    }
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.g}>
         <textarea
           rows="2"
-          placeholder="fuck"
+          placeholder="fucdddk"
           value={text}
           style={styles.input}
           onChange={(e) => setText(e.target.value)}
         />
+        <i className="fas fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage}/>
       </div>
     </div>
   );
 };
 
-export default TextInput;
+const mapStateToProps = ({ auth, chats }) => {
+  const { user } = auth;
+  const { activeChat } = chats;
+  return {
+    user,
+    activeChat,
+  };
+};
+
+const mapDispatchToProps = {
+  updateChat: selectChat,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TextInput);

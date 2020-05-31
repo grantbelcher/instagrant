@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { connect } from 'react-redux';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
-import store from '../redux/index';
-import { signOut } from '../redux/actions/auth';
 import NewChat from './NewChat';
-
+import ChatDisplay from './ChatDisplay';
+import SocketContext from '../context/index';
+import { selectChat, getChats } from '../redux/actions/chats';
 
 const styles = {
   container: {
@@ -67,8 +68,27 @@ const styles = {
   },
 };
 
-const Dashboard = () => {
+const Dashboard = ({ user, chatSelector, loadChats }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const context = useContext(SocketContext);
+
+  const logOutClick = () => {
+    context.emit('MESSAGE_SENT', 'testing');
+  };
+
+  // setActiveChat = (chat) => {
+  //   chatSelector()
+  // }
+  useEffect(() => {
+    context.emit('COMMUNITY_CHAT', (chat) => {
+      chatSelector(chat);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(user);
+    loadChats(user.chats);
+  }, [user]);
 
   return (
     <div style={styles.container}>
@@ -85,18 +105,30 @@ const Dashboard = () => {
       <div style={styles.col2}>
         <div style={styles.headerRight}>
           <div style={styles.userInfoHeader}>User info</div>
-          {/* <i className="fas fa-cog fa-lg" style={styles.icon} /> */}
           <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={() => store.dispatch(signOut())}>
+            <Link color="inherit" href="/" onClick={logOutClick}>
               log out
               <i className="fas fa-cog fa-lg" style={styles.icon} />
             </Link>
           </Breadcrumbs>
-          <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} />
+          <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} user={user} />
         </div>
+        <ChatDisplay />
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+  return ({
+    user,
+  });
+};
+
+const mapDispatchToProps = {
+  chatSelector: selectChat,
+  loadChats: getChats,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

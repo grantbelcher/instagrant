@@ -13,7 +13,6 @@ const styles = {
 };
 
 const MessageList = () => {
-  console.log('uo');
   const array = [<Message />, <Message />, <Message />, <Message />, <Message />, <Message />, <Message />, <Message />, <Message />, <Message />, <Message />, <Message />];
   return (
     <div style={styles.test}>

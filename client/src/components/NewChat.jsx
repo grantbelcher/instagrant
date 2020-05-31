@@ -12,10 +12,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import UserList from './UserList';
 import Recipients from './Recipients';
 
-const NewChat = ({ open, setModalOpen }) => {
+const NewChat = ({ open, setModalOpen, user }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [recipients, setRecipients] = useState([]);
+  const [recipients, setRecipients] = useState([user]);
 
   const searchUsers = async () => {
     const results = await axios.get(`http://localhost:1000/users?q=${query}`);
@@ -29,6 +29,19 @@ const NewChat = ({ open, setModalOpen }) => {
   const handleClose = () => {
     setQuery('');
     setModalOpen(false);
+  };
+
+  const newChat = async () => {
+    try {
+      const toUsers = [{ _id: '5eceee6ec868515bc9818ee5' }, { _id: '5ecef13ec868515bc9818eed' }];
+      const name = 'test';
+      const data = { name, recipients };
+      console.log(recipients);
+      const results = await axios.post('http://localhost:1000/chats', data);
+      console.log(results.data);
+    } catch (error) {
+      console.error('error');
+    }
   };
 
   return (
@@ -51,7 +64,9 @@ const NewChat = ({ open, setModalOpen }) => {
             <i className="fas fa-times fa-sm" />
           </IconButton>
           New Message
-          <Button>Next</Button>
+          <Button onClick={newChat}>
+            Next
+          </Button>
 
         </div>
         <DialogContent dividers>

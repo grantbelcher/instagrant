@@ -20,4 +20,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.post('/addChat', async (req, res) => {
+  const { id, userId } = req.body;
+  try {
+    const user = await User.findById(userId);
+    console.log(user);
+    user.chats.push(id);
+    await user.save();
+    res.send(user.chats);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 module.exports = router;

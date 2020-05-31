@@ -10,12 +10,14 @@ const io = require('socket.io')(server);
 const cors = require('cors');
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
+const chatsRoute = require('./routes/chats');
 
 
 app.use(cors(), express.json());
 app.use('/', express.static(path.join(__dirname, '../client/public')));
 app.use('/auth', authRoute);
 app.use('/users', userRoute);
+app.use('/chats', chatsRoute);
 
 const db = require('../db/index');
 
