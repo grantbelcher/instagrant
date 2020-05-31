@@ -6,18 +6,11 @@ const Message = require('../db/models/Message');
 
 let connectedUsers = {};
 const getCommunityChat = (callback) => {
-  Chat.find({}, (err, data) => {
+  Chat.findOne({ name: 'Community' }, (err, data) => {
     if (err) console.error(err);
     console.log(data);
     callback(data);
   });
-  // try {
-  //   const communityChat = await Chat.find({});
-  //   return communityChat;
-  // } catch (err) {
-  //   console.error(err.message);
-  //   return null;
-  // }
 };
 
 
@@ -37,9 +30,11 @@ const socketManager = (socket) => {
   });
   // USER LOGS OUT
   socket.on('MESSAGE_SENT', (message) => {
+    console.log(message);
     // console.log(message);
-    // community.push(message);
-    // console.log(community, 'messages');
+    // find chat by id,
+    // push message to array,
+    // send back via callback
   });
   socket.on('COMMUNITY_CHAT', (callback) => {
     getCommunityChat(callback);

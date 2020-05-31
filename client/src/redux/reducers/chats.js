@@ -9,7 +9,7 @@ export default function (state = initialState, action) {
     case 'SELECT_CHAT':
       return {
         ...state,
-        current: payload,
+        activeChat: payload,
       };
     default:
       return state;
