@@ -34,7 +34,8 @@ const socketManager = (socket) => {
       text,
     });
     await currentChat.save();
-    callback(currentChat);
+    socket.emit('MESSAGE_RECIEVED', currentChat);
+    // callback(currentChat);
   });
   socket.on('COMMUNITY_CHAT', (callback) => {
     getCommunityChat(callback);

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const Chat = require('../../db/models/Chat')
+const User = require('../../db/models/User')
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -10,15 +11,34 @@ router.post('/', async (req, res) => {
     await newChat.save();
     console.log(newChat);
     // for each recipient
-      // add newChat's id to their chat list
-      // save each user
-
-
+    recipients.forEach((user) => {
+      User.findById(user._id)
+        .then((doc) => {
+          doc.chats.push(newChat._id);
+          return doc;
+        })
+        .then((newDoc) => newDoc.save((err, data) => {
+          console.log('chat added');
+        }));
+    });
     return res.send(newChat);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: 'Server Error' });
+    return res.status(500).json({ message: 'Server Error' });
   }
 });
+
+router.get('/', async (req, res) => {
+  const { ids } = req.body;
+  try {
+    const chats = await Chat.find().where('_id').in(ids).exec();
+    console.log(chats, 'get chats route');
+    return res.send(chats);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ message: 'server error' });
+  }
+});
+
 
 module.exports = router;

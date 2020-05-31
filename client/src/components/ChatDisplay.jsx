@@ -7,9 +7,7 @@ const ChatDisplay = ({ activeChat }) => {
   const [messages, setMessages] = useState([]);
   useEffect(() => {
     if (activeChat !== null) {
-      console.log(activeChat.messages);
       const newMessages = activeChat.messages.map((message) => {
-        console.log(message.text, 'yooo');
         return <div>{message.text}</div>;
       });
       setMessages(newMessages);

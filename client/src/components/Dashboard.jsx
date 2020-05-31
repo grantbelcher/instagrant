@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import NewChat from './NewChat';
 import ChatDisplay from './ChatDisplay';
 import SocketContext from '../context/index';
-import { selectChat } from '../redux/actions/chats';
+import { selectChat, getChats } from '../redux/actions/chats';
 
 const styles = {
   container: {
@@ -68,7 +68,7 @@ const styles = {
   },
 };
 
-const Dashboard = ({ socket, user, chatSelector }) => {
+const Dashboard = ({ user, chatSelector, loadChats }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const context = useContext(SocketContext);
 
@@ -80,12 +80,15 @@ const Dashboard = ({ socket, user, chatSelector }) => {
   //   chatSelector()
   // }
   useEffect(() => {
-    console.log('yooo');
     context.emit('COMMUNITY_CHAT', (chat) => {
-      console.log(chat);
       chatSelector(chat);
     });
   }, []);
+
+  useEffect(() => {
+    console.log(user);
+    loadChats(user.chats);
+  }, [user]);
 
   return (
     <div style={styles.container}>
@@ -116,16 +119,16 @@ const Dashboard = ({ socket, user, chatSelector }) => {
   );
 };
 
-const mapStateToProps = ({ socket, auth }) => {
+const mapStateToProps = ({ auth }) => {
   const { user } = auth;
   return ({
     user,
-    socket,
   });
 };
 
 const mapDispatchToProps = {
   chatSelector: selectChat,
+  loadChats: getChats,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

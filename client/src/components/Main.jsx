@@ -1,18 +1,29 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable arrow-body-style */
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
-
+import { selectChat } from '../redux/actions/chats';
 const socketUrl = 'http://04abbf994ef1.ngrok.io';
 
 const socket = io(socketUrl);
 
 const Main = ({ user, isLoggedIn }) => {
+  const { chats } = user;
   const initSocket = () => {
     socket.on('connect', () => {
       console.log('connected');
+    });
+    socket.on('MESSAGE_RECIEVED', (updatedChat) => {
+      const inChats = chats.some((chat) => {
+        console.log(chat._id, updatedChat._id, 'MESSAGE RECIEVED');
+        return chat._id === updatedChat._id;
+      });
+      if (inChats) {
+        
+      }
     });
     socket.emit('USER_CONNECTED', user);
   };
@@ -38,6 +49,10 @@ const mapStateToProps = ({ auth }) => {
     isLoggedIn,
     user,
   });
+};
+
+const mapDispatchToProps = {
+  updateChat: selectChat,
 };
 
 export default connect(mapStateToProps, null)(Main);
