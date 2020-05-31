@@ -31,13 +31,16 @@ const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) =
     });
   };
 
+  const disconnect = () => {
+    socket.emit('USER_DISCONNECTED', user);
+  };
 
   useEffect(() => {
     const options = activeChat;
     if (user) {
       initSocket(options);
     }
-    // awui
+    window.addEventListener('beforeunload', disconnect);
   }, [user, activeChat]);
 
 

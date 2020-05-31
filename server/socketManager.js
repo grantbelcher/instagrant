@@ -17,17 +17,16 @@ const socketManager = (socket) => {
   // USER CONNECTS
   socket.on('USER_CONNECTED', (user) => {
     connectedUsers = addUser(connectedUsers, user);
-    console.log(connectedUsers, 'connected users');
     socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
     socket.emit('NEW_USER_CONNECTED', connectedUsers);
   });
   // USER DISCONNECTS
   socket.on('USER_DISCONNECTED', (user) => {
-    console.log('yoo');
-    connectedUsers = removeUser(connectedUsers, user);
-    console.log(connectedUsers, 'connected users');
+    if (user !== null) {
+      connectedUsers = removeUser(connectedUsers, user);
+      socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
+    }
   });
-  // USER LOGS OUT
   socket.on('MESSAGE_SENT', async (message, callback) => {
     const { chatId, user, text } = message;
     const currentChat = await Chat.findById(chatId);
@@ -42,6 +41,9 @@ const socketManager = (socket) => {
   socket.on('COMMUNITY_CHAT', (callback) => {
     getCommunityChat(callback);
   });
+  // socket.on('disconnect', (obj) => {
+  //   console.log('!!!!!!!!!!!!!!!', obj);
+  // });
 };
 
 
@@ -54,9 +56,11 @@ function addUser(userList, user) {
 }
 
 function removeUser(userList, user) {
+  console.log(user, 'look here');
   let newList = userList;
-  delete newList[user.name];
-  console.log(newList);
+  if (newList[user.name]) {
+    delete newList[user.name];
+  }
   return newList;
 }
 
