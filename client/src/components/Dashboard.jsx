@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
@@ -79,6 +79,13 @@ const Dashboard = ({ socket, user, chatSelector }) => {
   // setActiveChat = (chat) => {
   //   chatSelector()
   // }
+  useEffect(() => {
+    console.log('yooo');
+    context.emit('COMMUNITY_CHAT', (chat) => {
+      console.log(chat);
+      chatSelector(chat);
+    });
+  }, []);
 
   return (
     <div style={styles.container}>
@@ -121,4 +128,4 @@ const mapDispatchToProps = {
   chatSelector: selectChat,
 };
 
-export default connect(mapStateToProps, null)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

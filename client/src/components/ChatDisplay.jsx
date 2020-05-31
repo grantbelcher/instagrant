@@ -6,7 +6,7 @@ const ChatDisplay = ({ activeChat }) => {
   return (
     <div>
       <div>Active Chat</div>
-      <TextInput />
+      <TextInput activeChat={activeChat} />
     </div>
   );
 };

@@ -1,9 +1,26 @@
+
 const User = require('../db/models/User');
 const Chat = require('../db/models/Chat');
 const Message = require('../db/models/Message');
 
+
 let connectedUsers = {};
-let community = [];
+const getCommunityChat = (callback) => {
+  Chat.find({}, (err, data) => {
+    if (err) console.error(err);
+    console.log(data);
+    callback(data);
+  });
+  // try {
+  //   const communityChat = await Chat.find({});
+  //   return communityChat;
+  // } catch (err) {
+  //   console.error(err.message);
+  //   return null;
+  // }
+};
+
+
 
 const socketManager = (socket) => {
 
@@ -14,15 +31,18 @@ const socketManager = (socket) => {
   });
   // USER DISCONNECTS
   socket.on('USER_DISCONNECTED', (user) => {
-    console.log('yoo')
+    console.log('yoo');
     connectedUsers = removeUser(connectedUsers, user);
     console.log(connectedUsers, 'connected users');
   });
   // USER LOGS OUT
   socket.on('MESSAGE_SENT', (message) => {
-    console.log(message);
-    community.push(message);
-    console.log(community, 'messages');
+    // console.log(message);
+    // community.push(message);
+    // console.log(community, 'messages');
+  });
+  socket.on('COMMUNITY_CHAT', (callback) => {
+    getCommunityChat(callback);
   });
 };
 

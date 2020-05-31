@@ -33,16 +33,22 @@ const styles = {
   },
 };
 
-const TextInput = ({ user }) => {
+const TextInput = ({ user, activeChat }) => {
   const [text, setText] = useState('');
   const connection = useContext(SocketContext);
 
   const sendMessage = () => {
+    // add chat.Id
     if (text.length > 0) {
       connection.emit('MESSAGE_SENT', { user, text });
     }
     console.log('error');
   };
+
+  const sendTyping = (isTyping) => {
+    // add chatId
+  }
+
   return (
     <div style={styles.container}>
       <div style={styles.g}>
