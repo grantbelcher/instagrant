@@ -27,16 +27,18 @@ const socketManager = (socket) => {
       socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
     }
   });
-  socket.on('MESSAGE_SENT', async (message, callback) => {
+  socket.on('MESSAGE_SENT', async (message) => {
+    console.log(message, 'looooook heeeeeeeeeeeer');
     const { chatId, user, text } = message;
     const currentChat = await Chat.findById(chatId);
     currentChat.messages.push({
       username: user.name,
+      avatar: user.avatar,
       text,
     });
     await currentChat.save();
+    socket.broadcast.emit('MESSAGE_RECIEVED', currentChat);
     socket.emit('MESSAGE_RECIEVED', currentChat);
-    // callback(currentChat);
   });
   socket.on('COMMUNITY_CHAT', (callback) => {
     getCommunityChat(callback);

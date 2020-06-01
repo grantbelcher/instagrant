@@ -15,7 +15,7 @@ const styles = {
     alignItems: 'center',
   },
   testtwo: {
-    maxHeight: 200,
+    maxHeight: '68vh',
     overflow: 'auto',
   },
 };

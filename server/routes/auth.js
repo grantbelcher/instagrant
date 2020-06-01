@@ -4,6 +4,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const User = require('../../db/models/User');
+const Chat = require('../../db/models/Chat');
 const auth = require('../../middleware/auth');
 
 const router = express.Router();
@@ -23,7 +24,6 @@ router.get('/profile', auth, async (req, res) => {
 // router.get('/profile', async (req, res) => {
   try {
     const { user: id } = req;
-    // const { id } = 
     const user = await User.findById(id).select('-password');
     if (!user) return res.status(404).json({ message: 'cannot find user' });
     return res.json({ user });
@@ -51,6 +51,9 @@ router.post(
       const salt = await bcrypt.genSalt(10);
       const hashedPass = await bcrypt.hash(password, salt);
       const newUser = new User({ name, password: hashedPass, avatar });
+      const communityChat = await Chat.findOne({ name: 'Community' });
+      console.log(communityChat._id);
+      newUser.chats.push(communityChat._id);
       await newUser.save();
       const { id } = newUser;
       const secret = config.get('secret_key');
