@@ -5,6 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
+import UserIcon from './UserIcon';
 
 const styles = {
   message: {
@@ -18,10 +19,11 @@ const styles = {
 const Message = ({ message, name }) => {
   return (
     <>
-      <ListItem style={(name === message.username) ? styles.myMessage : styles.message} >
-        <ListItemAvatar>
+      <ListItem style={(name === message.username) ? styles.myMessage : styles.message}>
+        {/* <ListItemAvatar>
           <Avatar alt={message.username} src={message.avatar} />
-        </ListItemAvatar>
+        </ListItemAvatar> */}
+        <UserIcon name={message.username} imgUrl={message.avatar} />
         <ListItemText
           primary={message.username}
           secondary={message.text}
