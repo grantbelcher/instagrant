@@ -2,7 +2,9 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 const initialState = {
-  activeChat: null,
+  activeChat: {
+    messages: [],
+  },
   chats: [],
   connectedUsers: {},
 };

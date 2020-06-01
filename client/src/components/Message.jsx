@@ -1,20 +1,23 @@
 import React from 'react';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 
-const styles = {
-  outline: {
-    // borderWidth: '1em',
-    borderTopColor: 'blue',
-    width: '100vw',
-    borderTop: 'solid',
-    height: '13vh',
-  },
-};
+// const styles = {
+// };
 
-const Message = () => {
+const Message = ({ message }) => {
+  console.log(message);
   return (
-    <div style={styles.outline}>
-      <div>fuck</div>
-    </div>
+    <>
+      <ListItem>
+        <ListItemText
+          primary={message.username}
+          secondary={message.text}
+        />
+      </ListItem>
+      <Divider />
+    </>
   );
 };
 
