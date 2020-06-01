@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import List from '@material-ui/core/List';
 import Paper from '@material-ui/core/Paper';
 import Message from './Message';
@@ -21,10 +21,23 @@ const styles = {
 };
 
 const MessageList = ({ messages }) => {
+  const listEndRef = useRef(null);
+  const scrollToBottom = () => {
+    listEndRef.current.scrollIntoView({ behavior: "auto" });
+  };
+
+  useEffect(scrollToBottom, [messages]);
+
   return (
     <Paper style={styles.testtwo}>
       <List>
-        {messages.map((message) => <Message message={message} />)}
+        {messages.map((message, i) => {
+          if (i === messages.length - 1) {
+            return <Message ref={listEndRef} message={message} last={(i === messages.length - 1)} />;
+          }
+          return <Message message={message} last={(i === messages.length - 1)} />;
+        })}
+        <div ref={listEndRef} />
       </List>
     </Paper>
 

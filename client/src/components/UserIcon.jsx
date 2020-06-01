@@ -6,24 +6,28 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
 
-const UserIcon = ({ name, imgUrl }) => (
+const UserIcon = ({ name, imgUrl, connectedUsers }) => {
+  const connected = (connectedUsers[name] !== undefined);
+  return (
   <ListItemAvatar>
     <Badge
       color="secondary"
       badgeContent="10"
       variant="dot"
       overlap="circle"
+      invisible={!connected}
     >
       <Avatar alt={name} src={imgUrl} />
     </Badge>
   </ListItemAvatar>
-);
+  );
+};
 
 const mapStateToProps = ({ chats }) => {
   const { connectedUsers } = chats;
   return {
-    connectedusers,
+    connectedUsers,
   };
 };
 
-export default connect(null, null)(UserIcon);
+export default connect(mapStateToProps, null)(UserIcon);

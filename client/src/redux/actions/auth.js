@@ -13,8 +13,9 @@ export const loadUser = (token) => async (dispatch) => {
     setAuthToken(token);
   }
   try {
+
     const res = await axios.get('/auth/profile', { token });
-    console.log(res.data.user, 'load user action');
+    console.log(res.data.user, 'load user action!!!!!');
     dispatch({
       type: 'USER_LOADED',
       payload: res.data.user,

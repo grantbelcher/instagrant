@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -13,13 +14,16 @@ const styles = {
   },
   myMessage: {
     backgroundColor: '#F9DFF2',
-  }
-}
+  },
+};
 
-const Message = ({ message, name }) => {
+const Message = ({ message, name, last }) => {
   return (
     <>
-      <ListItem style={(name === message.username) ? styles.myMessage : styles.message}>
+      <ListItem
+        autoFocus={last}
+        style={(name === message.username) ? styles.myMessage : styles.message}
+      >
         {/* <ListItemAvatar>
           <Avatar alt={message.username} src={message.avatar} />
         </ListItemAvatar> */}
@@ -34,11 +38,29 @@ const Message = ({ message, name }) => {
   );
 };
 
+Message.propTypes = {
+  message: PropTypes.shape({
+    text: PropTypes.string,
+    username: PropTypes.string,
+    avatar: PropTypes.string,
+  }),
+};
+
+Message.defaultProps = {
+  message: {
+    text: '',
+    username: '',
+    avatar: '',
+  },
+};
+
 const mapStateToProps = ({ auth }) => {
   const { user } = auth;
-  return {
-    name: user.name,
-  };
+  if (user.name !== undefined) {
+    return {
+      name: user.name,
+    };
+  }
 };
 
 export default connect(mapStateToProps, null)(Message);
