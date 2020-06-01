@@ -2,8 +2,11 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 const initialState = {
-  activeChat: null,
+  activeChat: {
+    messages: [],
+  },
   chats: [],
+  connectedUsers: {},
 };
 
 export default function (state = initialState, action) {
@@ -31,6 +34,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         chats: [...chatsCopy, payload],
+      };
+    case 'NEW_LOGIN':
+      return {
+        ...state,
+        connectedUsers: payload,
       };
     default:
       return state;

@@ -13,6 +13,7 @@ const chatSchema = new Schema({
     {
       id: Schema.ObjectId,
       username: String,
+      avatar: String,
       text: String,
       date: {
         type: Date,

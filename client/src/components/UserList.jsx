@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
+import UserIcon from './UserIcon';
 
 const UserList = ({ users, recipients, setRecipients }) => {
   const listItems = users.map((user) => {
@@ -20,12 +21,13 @@ const UserList = ({ users, recipients, setRecipients }) => {
             divider
             onClick={() => setRecipients([...recipients, user])}
           >
-            <ListItemAvatar>
+            {/* <ListItemAvatar>
               <Avatar
                 alt={user.name}
                 src={`${user.avatar}`}
               />
-            </ListItemAvatar>
+            </ListItemAvatar> */}
+            <UserIcon name={user.name} imgUrl={user.avatar} />
             <ListItemText primary={user.name} secondary="placeholder" />
           </ListItem>
         </div>

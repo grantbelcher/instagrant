@@ -17,29 +17,35 @@ const socketManager = (socket) => {
   // USER CONNECTS
   socket.on('USER_CONNECTED', (user) => {
     connectedUsers = addUser(connectedUsers, user);
-    console.log(connectedUsers, 'connected users');
+    socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
+    socket.emit('NEW_USER_CONNECTED', connectedUsers);
   });
   // USER DISCONNECTS
   socket.on('USER_DISCONNECTED', (user) => {
-    console.log('yoo');
-    connectedUsers = removeUser(connectedUsers, user);
-    console.log(connectedUsers, 'connected users');
+    if (user !== null) {
+      connectedUsers = removeUser(connectedUsers, user);
+      socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
+    }
   });
-  // USER LOGS OUT
-  socket.on('MESSAGE_SENT', async (message, callback) => {
+  socket.on('MESSAGE_SENT', async (message) => {
+    console.log(message, 'looooook heeeeeeeeeeeer');
     const { chatId, user, text } = message;
     const currentChat = await Chat.findById(chatId);
     currentChat.messages.push({
       username: user.name,
+      avatar: user.avatar,
       text,
     });
     await currentChat.save();
+    socket.broadcast.emit('MESSAGE_RECIEVED', currentChat);
     socket.emit('MESSAGE_RECIEVED', currentChat);
-    // callback(currentChat);
   });
   socket.on('COMMUNITY_CHAT', (callback) => {
     getCommunityChat(callback);
   });
+  // socket.on('disconnect', (obj) => {
+  //   console.log('!!!!!!!!!!!!!!!', obj);
+  // });
 };
 
 
@@ -52,14 +58,12 @@ function addUser(userList, user) {
 }
 
 function removeUser(userList, user) {
+  console.log(user, 'look here');
   let newList = userList;
-  delete newList[user.name];
-  console.log(newList);
+  if (newList[user.name]) {
+    delete newList[user.name];
+  }
   return newList;
 }
-
-// function sendMessage (chatId, message) => {
-//   const { socket }
-// }
 
 module.exports = socketManager;

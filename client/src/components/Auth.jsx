@@ -45,6 +45,7 @@ const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
           margin="dense"
           id="name"
           label="password"
+          type="password"
           fullWidth
           required
           onChange={(e) => setPassword(e.target.value)}

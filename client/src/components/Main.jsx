@@ -5,27 +5,36 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
-import { selectChat, updateChat } from '../redux/actions/chats';
-const socketUrl = 'http://81df685322e8.ngrok.io';
+import { selectChat, updateChat, newLogin } from '../redux/actions/chats';
+
+const socketUrl = 'http://fa5497ae270e.ngrok.io';
 
 const socket = io(socketUrl);
 
-const Main = ({ user, isLoggedIn, activeChat, updateChatList }) => {
-  const { chats } = user;
+const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) => {
+  // const { chats } = user;
   const initSocket = (currentChat) => {
-    console.log(currentChat, 'activeChat');
     socket.on('connect', () => {
       console.log('connected');
     });
     socket.on('MESSAGE_RECIEVED', (updatedChat) => {
-      const inChats = chats.some((chat) => {
+      console.log(user.chats, updatedChat._id);
+      const inChats = user.chats.some((chat) => {
         return chat === updatedChat._id;
       });
       if (inChats) {
+        console.log(inChats, 'updated chat');
         updateChatList(updatedChat);
       }
     });
     socket.emit('USER_CONNECTED', user);
+    socket.on('NEW_USER_CONNECTED', (connectedUsers) => {
+      newConnection(connectedUsers);
+    });
+  };
+
+  const disconnect = () => {
+    socket.emit('USER_DISCONNECTED', user);
   };
 
   useEffect(() => {
@@ -33,7 +42,7 @@ const Main = ({ user, isLoggedIn, activeChat, updateChatList }) => {
     if (user) {
       initSocket(options);
     }
-    // awui
+    window.addEventListener('beforeunload', disconnect);
   }, [user, activeChat]);
 
 
@@ -56,6 +65,7 @@ const mapStateToProps = ({ auth, chats }) => {
 
 const mapDispatchToProps = {
   updateChatList: updateChat,
+  newConnection: newLogin,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
