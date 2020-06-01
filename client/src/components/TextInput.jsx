@@ -43,6 +43,7 @@ const TextInput = ({ user, activeChat, updateChat }) => {
     } else {
       console.log('error');
     }
+    setText('');
   };
 
   return (
@@ -50,7 +51,7 @@ const TextInput = ({ user, activeChat, updateChat }) => {
       <div style={styles.g}>
         <textarea
           rows="2"
-          placeholder="fucdddk"
+          placeholder="whats up?"
           value={text}
           style={styles.input}
           onChange={(e) => setText(e.target.value)}
