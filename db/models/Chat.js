@@ -6,7 +6,12 @@ const chatSchema = new Schema({
   name: String,
   users: [
     {
-      type: Schema.ObjectId, ref: 'User',
+      _id: {
+        type: Schema.ObjectId,
+        ref: 'User',
+      },
+      username: String,
+      avatar: String,
     },
   ],
   messages: [

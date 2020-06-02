@@ -36,9 +36,9 @@ const NewChat = ({ open, setModalOpen, user }) => {
       const toUsers = [{ _id: '5eceee6ec868515bc9818ee5' }, { _id: '5ecef13ec868515bc9818eed' }];
       const name = 'test';
       const data = { name, recipients };
-      console.log(recipients);
+      console.log(recipients, 'recipients');
       const results = await axios.post('http://localhost:1000/chats', data);
-      console.log(results.data);
+      console.log(results.data, 'new chat!!!!!');
     } catch (error) {
       console.error('error');
     }

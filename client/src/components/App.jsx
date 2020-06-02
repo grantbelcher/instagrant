@@ -13,7 +13,6 @@ import setAuthToken from '../../../utils/setAuthToken';
 
 const App = ({ isLoggedIn, token }) => {
   useEffect(() => {
-    console.log(isLoggedIn, 'App load user');
     if (isLoggedIn) {
       store.dispatch(loadUser(token));
     }

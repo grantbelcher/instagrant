@@ -18,12 +18,10 @@ const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) =
       console.log('connected');
     });
     socket.on('MESSAGE_RECIEVED', (updatedChat) => {
-      console.log(user.chats, updatedChat._id);
       const inChats = user.chats.some((chat) => {
         return chat === updatedChat._id;
       });
       if (inChats) {
-        console.log(inChats, 'updated chat');
         updateChatList(updatedChat);
       }
     });

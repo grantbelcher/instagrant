@@ -85,7 +85,6 @@ const Dashboard = ({ user, chatSelector, loadChats }) => {
   }, []);
 
   useEffect(() => {
-    console.log(user);
     loadChats(user.chats);
   }, [user]);
 

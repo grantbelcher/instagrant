@@ -8,7 +8,6 @@ let connectedUsers = {};
 const getCommunityChat = (callback) => {
   Chat.findOne({ name: 'Community' }, (err, data) => {
     if (err) console.error(err);
-    console.log(data);
     callback(data);
   });
 };
@@ -28,7 +27,6 @@ const socketManager = (socket) => {
     }
   });
   socket.on('MESSAGE_SENT', async (message) => {
-    console.log(message, 'looooook heeeeeeeeeeeer');
     const { chatId, user, text } = message;
     const currentChat = await Chat.findById(chatId);
     currentChat.messages.push({
@@ -43,9 +41,6 @@ const socketManager = (socket) => {
   socket.on('COMMUNITY_CHAT', (callback) => {
     getCommunityChat(callback);
   });
-  // socket.on('disconnect', (obj) => {
-  //   console.log('!!!!!!!!!!!!!!!', obj);
-  // });
 };
 
 
@@ -58,7 +53,6 @@ function addUser(userList, user) {
 }
 
 function removeUser(userList, user) {
-  console.log(user, 'look here');
   let newList = userList;
   if (newList[user.name]) {
     delete newList[user.name];
