@@ -4,17 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Message from './Message';
 
 const styles = {
-  test: {
-    backgroundColor: 'red',
-    borderColor: 'black',
-    borderWidth: 1,
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  testtwo: {
+  container: {
     maxHeight: '68vh',
     overflow: 'auto',
   },
@@ -29,7 +19,7 @@ const MessageList = ({ messages }) => {
   useEffect(scrollToBottom, [messages]);
 
   return (
-    <Paper style={styles.testtwo}>
+    <Paper style={styles.container}>
       <List>
         {messages.map((message, i) => {
           if (i === messages.length - 1) {

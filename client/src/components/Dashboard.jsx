@@ -5,6 +5,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import NewChat from './NewChat';
+import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
 import SocketContext from '../context/index';
 import { selectChat, getChats } from '../redux/actions/chats';
@@ -98,7 +99,7 @@ const Dashboard = ({ user, chatSelector, loadChats }) => {
             <i className="far fa-edit fa-sm" style={styles.icon} />
           </IconButton>
         </div>
-        <div>Chat List</div>
+        <ChatList />
       </div>
       <div style={styles.col2}>
         <div style={styles.headerRight}>
