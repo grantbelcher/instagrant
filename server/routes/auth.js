@@ -52,7 +52,6 @@ router.post(
       const hashedPass = await bcrypt.hash(password, salt);
       const newUser = new User({ name, password: hashedPass, avatar });
       const communityChat = await Chat.findOne({ name: 'Community' });
-      console.log(communityChat._id);
       newUser.chats.push(communityChat._id);
       await newUser.save();
       const { id } = newUser;

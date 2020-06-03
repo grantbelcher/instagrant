@@ -1,12 +1,13 @@
-import React, { } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import UserIcon from './UserIcon';
+import { selectChat } from '../redux/actions/chats';
 
-const ChatListItem = ({ chat, currentUser }) => {
+const ChatListItem = ({ chat, currentUser, handleClick }) => {
   const { users, messages, name } = chat;
   let recipients;
   let usernames;
@@ -15,8 +16,6 @@ const ChatListItem = ({ chat, currentUser }) => {
 
   if (users !== undefined && users.length > 0) {
     recipients = users.filter((user) => user._id !== currentUser._id);
-    // usernames = recipients.reduce((acc, user) => (acc + `${user.name}, `), '');
-    // usernames = usernames.sub
     if (recipients.length > 1) {
       usernames = `${recipients[0].name}, ${recipients[1].name.substr(0, 4)}...`;
     } else {
@@ -27,7 +26,10 @@ const ChatListItem = ({ chat, currentUser }) => {
   }
   return (
     <>
-      <ListItem>
+      <ListItem
+        button
+        onClick={() => handleClick(chat)}
+      >
         <UserIcon name={recipient} imgUrl={recipientAvatar} />
         <ListItemText
           primary={usernames ? usernames : 'yo'}
@@ -66,4 +68,8 @@ const mapStateToProps = ({ auth }) => {
   };
 };
 
-export default connect(mapStateToProps, null)(ChatListItem);
+const mapDispatchToProps = {
+  handleClick: selectChat,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatListItem);

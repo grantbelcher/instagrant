@@ -15,7 +15,7 @@ const styles = {
 const ChatList = ({ activeChat, allChats, token }) => {
   const [chatList, setChatList] = useState([]);
   useEffect(() => {
-    const chats = allChats.map((chat) => <ChatListItem chat={chat} />);
+    const chats = allChats.map((chat) => <ChatListItem button chat={chat} />);
     setChatList(chats);
   }, [allChats]);
 
