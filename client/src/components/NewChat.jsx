@@ -18,7 +18,7 @@ const NewChat = ({ open, setModalOpen, user }) => {
   const [recipients, setRecipients] = useState([user]);
 
   const searchUsers = async () => {
-    const results = await axios.get(`http://localhost:1000/users?q=${query}`);
+    const results = await axios.get(`http://c9442567e8ca.ngrok.io/users?q=${query}`);
     setSuggestions(results.data);
   };
 

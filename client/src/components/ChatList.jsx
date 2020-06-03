@@ -18,11 +18,10 @@ const ChatList = ({ activeChat, allChats, token }) => {
     <Paper style={styles.container}>
       <List>
         {allChats.map((chat) => {
-          console.log(chat.name, 'chat name');
           if (chat.users.length > 0) {
-            return <ChatListItem chatName={chat.name} avatar={chat.users[0].avatar} />;
+            return <ChatListItem chat={chat} avatar={chat.users[0].avatar} />;
           }
-          return <ChatListItem chatName={chat.name} avatar={""} />;
+          return <ChatListItem chat={chat} avatar={""} />;
         })}
       </List>
     </Paper>

@@ -7,7 +7,7 @@ import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
 import { selectChat, updateChat, newLogin } from '../redux/actions/chats';
 
-const socketUrl = 'http://e8b63ed1b843.ngrok.io';
+const socketUrl = 'http://c9442567e8ca.ngrok.io';
 
 const socket = io(socketUrl);
 
