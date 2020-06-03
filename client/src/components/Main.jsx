@@ -8,6 +8,7 @@ import SocketContext from '../context/index';
 import { selectChat, updateChat, newLogin } from '../redux/actions/chats';
 
 const socketUrl = 'http://c9442567e8ca.ngrok.io';
+// const socketUrl = 'http://localhost:1000/';
 
 const socket = io(socketUrl);
 

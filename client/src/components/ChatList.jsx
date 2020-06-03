@@ -13,16 +13,17 @@ const styles = {
 };
 
 const ChatList = ({ activeChat, allChats, token }) => {
-  console.log(allChats);
+  const [chatList, setChatList] = useState([]);
+  useEffect(() => {
+    const chats = allChats.map((chat) => <ChatListItem chat={chat} />);
+    setChatList(chats);
+  }, [allChats]);
+
   return (
     <Paper style={styles.container}>
       <List>
-        {allChats.map((chat) => {
-          if (chat.users.length > 0) {
-            return <ChatListItem chat={chat} avatar={chat.users[0].avatar} />;
-          }
-          return <ChatListItem chat={chat} avatar={""} />;
-        })}
+        {console.log(chatList, 'list   dsdsdd')}
+        {chatList}
       </List>
     </Paper>
   );

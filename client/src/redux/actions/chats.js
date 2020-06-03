@@ -3,10 +3,10 @@
 import axios from 'axios';
 
 export const getChats = (chats) => async (dispatch) => {
-  console.log(chats, 'chats action');
+  // console.log(chats, 'chats action');
   try {
     const res = await axios.post('/chats/user', { ids: chats });
-    console.log(res.data, 'response');
+    // console.log(res.data, 'response');
     dispatch({
       type: 'UPDATE_CHAT_LIST',
       payload: res.data,

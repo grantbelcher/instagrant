@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   const { recipients, name } = req.body;
+  console.log(recipients, 'recipientssssssssss');
   try {
     const newChat = new Chat({ name, users: recipients });
     await newChat.save();

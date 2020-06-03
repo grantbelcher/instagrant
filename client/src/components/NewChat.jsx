@@ -37,8 +37,8 @@ const NewChat = ({ open, setModalOpen, user }) => {
       const name = 'test';
       const data = { name, recipients };
       console.log(recipients, 'recipients');
-      const results = await axios.post('http://localhost:1000/chats', data);
-      console.log(results.data, 'new chat!!!!!');
+      const results = await axios.post('http://c9442567e8ca.ngrok.io/chats', data);
+      // console.log(results.data, 'new chat!!!!!');
     } catch (error) {
       console.error('error');
     }
