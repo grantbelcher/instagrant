@@ -1,11 +1,19 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
-export const getChats = (chats) => (dispatch) => {
+import axios from 'axios';
 
-  dispatch({
-    type: 'GET_CHATS',
-    payload: chats,
-  });
+export const getChats = (chats) => async (dispatch) => {
+  console.log(chats, 'chats action');
+  try {
+    const res = await axios.post('/chats/user', { ids: chats });
+    console.log(res.data, 'response');
+    dispatch({
+      type: 'UPDATE_CHAT_LIST',
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log('error updating chats');
+  }
 };
 
 export const selectChat = (chat) => (dispatch) => {

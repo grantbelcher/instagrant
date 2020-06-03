@@ -35,6 +35,11 @@ export default function (state = initialState, action) {
         ...state,
         chats: [...chatsCopy, payload],
       };
+    case 'UPDATE_CHAT_LIST':
+      return {
+        ...state,
+        chats: payload,
+      };
     case 'NEW_LOGIN':
       return {
         ...state,

@@ -27,7 +27,7 @@ const styles = {
   header2: {
     color: 'white',
     textShadow: '2px 2px purple',
-    fontSize: '5vh',
+    fontSize: '4vh',
   },
   button1: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -81,8 +81,8 @@ const LandingPage = () => {
       style={styles.container}
     >
       <div style={styles.box}>
-        <h1 style={styles.header}>VICARIOUS.LY</h1>
-        <h2 style={styles.header2}>Your time is limited... waste it living someone else&#39;s life</h2>
+        <h1 style={styles.header}>InstaGrant</h1>
+        <h2 style={styles.header2}>make all of your friends jealous</h2>
         <div>
           <Button
             variant="contained"

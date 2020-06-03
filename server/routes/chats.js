@@ -28,17 +28,18 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
+router.post('/user', async (req, res) => {
   const { ids } = req.body;
+  console.log(req, ids, 'chats routs');
   try {
     const chats = await Chat.find().where('_id').in(ids).exec();
+    console.log(chats, 'get chats route');
     return res.send(chats);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: 'server error' });
   }
 });
-
 
 
 module.exports = router;
