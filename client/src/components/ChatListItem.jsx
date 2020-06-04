@@ -13,16 +13,18 @@ const styles = {
   },
 };
 
-const ChatListItem = ({ chat, currentUser, handleClick, activeChat }) => {
+const ChatListItem = ({
+  chat, currentUser, handleClick, activeChat,
+}) => {
   const { users, messages, name } = chat;
   let recipients;
   let usernames;
   let recipient;
   let recipientAvatar;
   let lastMessage;
+  let chatName;
 
   if (users !== undefined && users.length > 0) {
-    
     recipients = users.filter((user) => user._id !== currentUser._id);
     if (recipients.length > 1) {
       usernames = `${recipients[0].name}, ${recipients[1].name.substr(0, 4)}...`;
@@ -31,6 +33,9 @@ const ChatListItem = ({ chat, currentUser, handleClick, activeChat }) => {
     }
     recipient = recipients[0].name;
     recipientAvatar = recipients[0].avatar;
+  }
+  if (chat.name === 'Community') {
+    chatName = 'Community Chat';
   }
   if (messages && messages.length > 0) {
     lastMessage = messages[messages.length - 1];
@@ -45,7 +50,7 @@ const ChatListItem = ({ chat, currentUser, handleClick, activeChat }) => {
       >
         <UserIcon name={recipient} imgUrl={recipientAvatar} />
         <ListItemText
-          primary={usernames ? usernames : 'loading'}
+          primary={usernames || chatName}
           secondary={lastMessage.username ? `${lastMessage.username}: ${lastMessage.text.substr(0, 13)}...` : 'loading'}
         />
       </ListItem>
