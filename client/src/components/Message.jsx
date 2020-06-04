@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
@@ -16,6 +17,8 @@ const styles = {
 };
 
 const Message = ({ message, name, last }) => {
+  let { date } = message;
+  date = moment(date).fromNow();
   return (
     <>
       <ListItem
@@ -27,7 +30,7 @@ const Message = ({ message, name, last }) => {
         </ListItemAvatar> */}
         <UserIcon name={message.username} imgUrl={message.avatar} />
         <ListItemText
-          primary={message.username}
+          primary={`${message.username} - ${date}`}
           secondary={message.text}
         />
       </ListItem>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -23,6 +24,8 @@ const ChatListItem = ({
   let recipientAvatar;
   let lastMessage;
   let chatName;
+  let lastActivity;
+  let secondaryText;
 
   if (users !== undefined && users.length > 0) {
     recipients = users.filter((user) => user._id !== currentUser._id);
@@ -39,7 +42,13 @@ const ChatListItem = ({
   }
   if (messages && messages.length > 0) {
     lastMessage = messages[messages.length - 1];
-    console.log(lastMessage);
+    lastActivity = moment(lastMessage.date).fromNow();
+    secondaryText = (
+      <>
+        <div>{`${lastMessage.username}: ${lastMessage.text.substr(0, 13)}...`}</div>
+        <div>{lastActivity}</div>
+      </>
+    );
   }
   return (
     <>
@@ -51,7 +60,8 @@ const ChatListItem = ({
         <UserIcon name={recipient} imgUrl={recipientAvatar} />
         <ListItemText
           primary={usernames || chatName}
-          secondary={lastMessage.username ? `${lastMessage.username}: ${lastMessage.text.substr(0, 13)}...` : 'loading'}
+          secondary={secondaryText}
+          // secondary={lastMessage.username ? `${lastMessage.username}: ${lastMessage.text.substr(0, 13)}...\n${lastActivity}` : 'loading'}
         />
       </ListItem>
       <Divider />

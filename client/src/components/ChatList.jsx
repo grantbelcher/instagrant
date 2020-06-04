@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ChatListItem from './ChatListItem';
@@ -16,7 +17,10 @@ const styles = {
 const ChatList = ({ activeChat, allChats, token }) => {
   const [chatList, setChatList] = useState([]);
   useEffect(() => {
-    const chats = allChats.map((chat) => <ChatListItem button chat={chat} />);
+    let chats = allChats.sort((a, b) => {
+      return moment(b.messages[b.messages.length - 1].date) - moment(a.messages[a.messages.length - 1].date);
+    });
+    chats = allChats.map((chat) => <ChatListItem button chat={chat} />);
     setChatList(chats);
   }, [allChats]);
 
