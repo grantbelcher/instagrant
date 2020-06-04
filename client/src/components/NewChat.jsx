@@ -11,6 +11,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import UserList from './UserList';
 import Recipients from './Recipients';
 import SocketContext from '../context/index';
+import store from '../redux/index';
+import { selectChat } from '../redux/actions/chats';
 
 const NewChat = ({ open, setModalOpen, user }) => {
   const connection = useContext(SocketContext);
@@ -38,7 +40,17 @@ const NewChat = ({ open, setModalOpen, user }) => {
     let results;
     axios.post('http://c9442567e8ca.ngrok.io/chats', data)
       .then((res) => res.data)
-      .then((chat) => connection.emit('NEW_CHAT_CREATED', chat))
+      .then((chat) => {
+        connection.emit('NEW_CHAT_CREATED', chat);
+        return chat;
+      })
+      .then((newActiveChat) => store.dispatch({
+        type: 'SELECT_CHAT',
+        payload: newActiveChat,
+      }))
+      .then(() => {
+        handleClose();
+      })
       .catch((err) => console.error(err.message, ' errrrrr'));
   };
 
