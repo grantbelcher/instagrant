@@ -77,6 +77,12 @@ const initialUsers = [
   },
 ];
 
+const initialMessage = {
+  _id: '5ed81e09b1a0c469407c0216',
+  username: 'Admin69',
+  avatar: 'https://is2-ssl.mzstatic.com/image/thumb/Purple71/v4/f2/13/74/f21374ed-8a0f-70a4-2f03-b863315e0f4c/source/256x256bb.jpg',
+  text: 'NEW CHAT CREATED',
+};
 
 // const createUsers = async (userList) => {
 //   const { _id } = await Chat.findOne({ name: 'Community' });
@@ -84,7 +90,7 @@ const initialUsers = [
 // };
 
 const seed = async () => {
-  const community = new Chat({ name: 'Community' });
+  const community = new Chat({ name: 'Community', messages: [initialMessage] });
   await community.save();
   initialUsers.forEach(async (user) => {
     const newUser = new User(user);

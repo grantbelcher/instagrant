@@ -38,6 +38,10 @@ const socketManager = (socket) => {
     socket.broadcast.emit('MESSAGE_RECIEVED', currentChat);
     socket.emit('MESSAGE_RECIEVED', currentChat);
   });
+  socket.on('NEW_CHAT_CREATED', async (chat) => {
+    socket.broadcast.emit('NEW_CHAT', chat);
+    socket.emit('NEW_CHAT', chat);
+  });
   socket.on('COMMUNITY_CHAT', (callback) => {
     getCommunityChat(callback);
   });

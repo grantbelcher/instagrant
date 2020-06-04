@@ -26,6 +26,15 @@ const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) =
         updateChatList(updatedChat);
       }
     });
+    socket.on('NEW_CHAT', (chat) => {
+      let inNewChat;
+      chat.users.forEach((recipient) => {
+        if (recipient._id === user._id) {
+          inNewChat = true;
+        }
+      });
+      if (inNewChat) updateChatList(chat);
+    });
     socket.emit('USER_CONNECTED', user);
     socket.on('NEW_USER_CONNECTED', (connectedUsers) => {
       newConnection(connectedUsers);

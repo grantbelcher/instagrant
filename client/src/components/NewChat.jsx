@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,8 +10,10 @@ import IconButton from '@material-ui/core/IconButton';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import UserList from './UserList';
 import Recipients from './Recipients';
+import SocketContext from '../context/index';
 
 const NewChat = ({ open, setModalOpen, user }) => {
+  const connection = useContext(SocketContext);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [recipients, setRecipients] = useState([]);
@@ -31,15 +33,13 @@ const NewChat = ({ open, setModalOpen, user }) => {
   };
 
   const newChat = async () => {
-    try {
-      const name = 'test';
-      const data = { name, recipients: [user, ...recipients] };
-      console.log(recipients, 'recipients');
-      const results = await axios.post('http://c9442567e8ca.ngrok.io/chats', data);
-      // console.log(results.data, 'new chat!!!!!');
-    } catch (error) {
-      console.error(error.message, 'error');
-    }
+    const name = 'test';
+    const data = { name, recipients: [user, ...recipients] };
+    let results;
+    axios.post('http://c9442567e8ca.ngrok.io/chats', data)
+      .then((res) => res.data)
+      .then((chat) => connection.emit('NEW_CHAT_CREATED', chat))
+      .catch((err) => console.error(err.message, ' errrrrr'));
   };
 
   return (

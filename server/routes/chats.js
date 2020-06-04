@@ -14,7 +14,6 @@ const initialMessage = {
 
 router.post('/', async (req, res) => {
   const { recipients, name } = req.body;
-  console.log(recipients, 'recipientssssssssss');
   try {
     const newChat = new Chat({ name, users: recipients, messages: initialMessage });
     await newChat.save();
