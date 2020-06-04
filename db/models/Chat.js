@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const chatSchema = new Schema({
   name: String,
+  hashedIds: String,
   users: [
     {
       _id: {

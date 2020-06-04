@@ -30,9 +30,17 @@ export const updateChat = (chat) => (dispatch) => {
   });
 };
 
-export const newLogin = activeUsers => (dispatch) => {
+export const newLogin = (activeUsers) => (dispatch) => {
   dispatch({
     type: 'NEW_LOGIN',
     payload: activeUsers,
+  });
+};
+
+export const updateTypingUsers = (typingUsers) => (dispatch) => {
+  console.log(typingUsers, 'ACTION');
+  dispatch({
+    type: 'USER_TYPING',
+    payload: typingUsers,
   });
 };

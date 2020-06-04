@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import NewChat from './NewChat';
 import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
+import Header from './Header';
 import SocketContext from '../context/index';
 import { selectChat, getChats } from '../redux/actions/chats';
 
@@ -40,7 +41,7 @@ const styles = {
     borderBottom: 'solid',
     borderBottomColor: '#CCCCCC',
     borderBottomWidth: 'thin',
-    height: '7vh',
+    height: '11vh',
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -51,7 +52,7 @@ const styles = {
     borderBottom: 'solid',
     borderBottomColor: '#CCCCCC',
     borderBottomWidth: 'thin',
-    height: '7vh',
+    height: '11vh',
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -70,7 +71,9 @@ const styles = {
   },
 };
 
-const Dashboard = ({ user, chatSelector, loadChats }) => {
+
+
+const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const context = useContext(SocketContext);
 
@@ -93,7 +96,9 @@ const Dashboard = ({ user, chatSelector, loadChats }) => {
       <div style={styles.col1}>
         <div style={styles.headerLeft}>
           <div />
-          <div style={styles.direct}>Direct</div>
+          <div style={styles.direct}>
+            <h2>DMs</h2>
+          </div>
           <IconButton onClick={() => setModalOpen(true)}>
             <i className="far fa-edit fa-sm" style={styles.icon} />
           </IconButton>
@@ -102,7 +107,9 @@ const Dashboard = ({ user, chatSelector, loadChats }) => {
       </div>
       <div style={styles.col2}>
         <div style={styles.headerRight}>
-          <div style={styles.userInfoHeader}>User info</div>
+          <div style={styles.userInfoHeader}>
+            <Header />
+          </div>
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" href="/" onClick={logOutClick}>
               log out

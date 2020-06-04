@@ -24,7 +24,7 @@ export const signIn = (name, password, path) => async (dispatch) => {
       type: 'LOADING',
     });
     dispatch(loadUser());
-    const response = await axios.post(`http://c9442567e8ca.ngrok.io/auth/${path}`, { name, password });
+    const response = await axios.post(`http://bd1155087a72.ngrok.io/auth/${path}`, { name, password });
     // localStorage.setItem('token', response.data.token);
     dispatch({
       type: 'AUTH_SUCCESS',

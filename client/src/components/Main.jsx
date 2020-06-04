@@ -5,9 +5,10 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
-import { selectChat, updateChat, newLogin } from '../redux/actions/chats';
+import { selectChat, updateChat, newLogin, updateTypingUsers } from '../redux/actions/chats';
+import store from '../redux/index';
 
-const socketUrl = 'http://c9442567e8ca.ngrok.io';
+const socketUrl = 'http://bd1155087a72.ngrok.io';
 // const socketUrl = 'http://localhost:1000/';
 
 const socket = io(socketUrl);
@@ -39,6 +40,17 @@ const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) =
     socket.on('NEW_USER_CONNECTED', (connectedUsers) => {
       newConnection(connectedUsers);
     });
+    socket.on('USER_TYPING', (typingUsers) => {
+      console.log(typingUsers);
+      updateTypingUsers(typingUsers);
+    });
+    socket.on('STOP_TYPING', (typingUsers) => {
+      console.log(typingUsers);
+      store.dispatch({
+        type: 'STOP_TYPING',
+        payload: typingUsers,
+      });
+    });
   };
 
   const disconnect = () => {
@@ -56,7 +68,7 @@ const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) =
 
   return (
     <SocketContext.Provider value={socket}>
-      <Dashboard />
+      <Dashboard activeChat={activeChat} />
     </SocketContext.Provider>
   );
 };

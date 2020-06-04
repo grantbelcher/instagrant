@@ -7,6 +7,7 @@ const initialState = {
   },
   chats: [],
   connectedUsers: {},
+  typingUsers: {},
 };
 
 export default function (state = initialState, action) {
@@ -44,6 +45,17 @@ export default function (state = initialState, action) {
       return {
         ...state,
         connectedUsers: payload,
+      };
+    case 'USER_TYPING':
+      console.log(payload, 'payload')
+      return {
+        ...state,
+        typingUsers: payload,
+      };
+    case 'STOP_TYPING':
+      return {
+        ...state,
+        typingUsers: payload,
       };
     default:
       return state;

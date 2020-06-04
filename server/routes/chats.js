@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const Chat = require('../../db/models/Chat');
 const User = require('../../db/models/User');
+const sortIds = require('../../utils/sortRecipientIds');
 
 const router = express.Router();
 
@@ -14,21 +15,30 @@ const initialMessage = {
 
 router.post('/', async (req, res) => {
   const { recipients, name } = req.body;
+  console.log(recipients)
+  const recipIds = recipients.map(({ _id }) => _id);
+  const hashedIds = (sortIds(recipIds));
   try {
-    const newChat = new Chat({ name, users: recipients, messages: initialMessage });
-    await newChat.save();
-    // for each recipient
-    recipients.forEach((user) => {
-      User.findById(user._id)
-        .then((doc) => {
-          doc.chats.push(newChat._id);
-          return doc;
-        })
-        .then((newDoc) => newDoc.save((err, data) => {
-          console.log('saving');
-        }));
-    });
-    return res.send(newChat);
+    const existingChat = await Chat.findOne({ hashedIds });
+    console.log('heeeeeeeeee')
+    if (!existingChat) {
+      const newChat = new Chat({ name, users: recipients, messages: initialMessage, hashedIds });
+      await newChat.save();
+      // for each recipient
+      recipients.forEach((user) => {
+        User.findById(user._id)
+          .then((doc) => {
+            doc.chats.push(newChat._id);
+            return doc;
+          })
+          .then((newDoc) => newDoc.save((err, data) => {
+            console.log('saving');
+          }));
+      });
+      return res.send(newChat);
+    }
+    console.log('chat exists');
+    return res.send(existingChat);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Server Error' });

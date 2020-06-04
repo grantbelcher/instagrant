@@ -9,7 +9,7 @@ import ChatListItem from './ChatListItem';
 
 const styles = {
   container: {
-    height: '82.3vh',
+    height: '78vh',
     overflow: 'auto',
   },
 };
