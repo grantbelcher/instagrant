@@ -5,11 +5,18 @@ const User = require('../../db/models/User');
 
 const router = express.Router();
 
+const initialMessage = {
+  _id: '5ed81e09b1a0c469407c0216',
+  username: 'Admin69',
+  avatar: 'https://is2-ssl.mzstatic.com/image/thumb/Purple71/v4/f2/13/74/f21374ed-8a0f-70a4-2f03-b863315e0f4c/source/256x256bb.jpg',
+  text: 'NEW CHAT CREATED',
+};
+
 router.post('/', async (req, res) => {
   const { recipients, name } = req.body;
   console.log(recipients, 'recipientssssssssss');
   try {
-    const newChat = new Chat({ name, users: recipients });
+    const newChat = new Chat({ name, users: recipients, messages: initialMessage });
     await newChat.save();
     // for each recipient
     recipients.forEach((user) => {
@@ -31,7 +38,6 @@ router.post('/', async (req, res) => {
 
 router.post('/user', async (req, res) => {
   const { ids } = req.body;
-  console.log(req, ids, 'chats routs');
   try {
     const chats = await Chat.find().where('_id').in(ids).exec();
     console.log(chats, 'get chats route');

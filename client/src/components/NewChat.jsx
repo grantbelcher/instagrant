@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,7 +14,7 @@ import Recipients from './Recipients';
 const NewChat = ({ open, setModalOpen, user }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [recipients, setRecipients] = useState([user]);
+  const [recipients, setRecipients] = useState([]);
 
   const searchUsers = async () => {
     const results = await axios.get(`http://c9442567e8ca.ngrok.io/users?q=${query}`);
@@ -33,14 +32,13 @@ const NewChat = ({ open, setModalOpen, user }) => {
 
   const newChat = async () => {
     try {
-      const toUsers = [{ _id: '5eceee6ec868515bc9818ee5' }, { _id: '5ecef13ec868515bc9818eed' }];
       const name = 'test';
-      const data = { name, recipients };
+      const data = { name, recipients: [user, ...recipients] };
       console.log(recipients, 'recipients');
       const results = await axios.post('http://c9442567e8ca.ngrok.io/chats', data);
       // console.log(results.data, 'new chat!!!!!');
     } catch (error) {
-      console.error('error');
+      console.error(error.message, 'error');
     }
   };
 
@@ -72,7 +70,7 @@ const NewChat = ({ open, setModalOpen, user }) => {
         <DialogContent dividers>
           To:
           {' '}
-          <Recipients recipients={recipients} setRecipients={setRecipients} />
+          <Recipients recipients={recipients} setRecipients={setRecipients} user={user} />
         </DialogContent>
         <TextField
           autoFocus
@@ -87,6 +85,5 @@ const NewChat = ({ open, setModalOpen, user }) => {
     </Dialog>
   );
 };
-
 
 export default NewChat;
