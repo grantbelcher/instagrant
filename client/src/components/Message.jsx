@@ -14,11 +14,28 @@ const styles = {
   myMessage: {
     backgroundColor: '#F9DFF2',
   },
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  messageDate: {
+    fontSize: "smaller",
+    marginLeft: '5px',
+  },
 };
 
 const Message = ({ message, name, last }) => {
   let { date } = message;
   date = moment(date).fromNow();
+  let primaryText;
+  primaryText = (
+    <div style={styles.header}>
+      <div>{`${message.username}`}</div>
+      <div style={styles.messageDate}> · {date}</div>
+    </div>
+  );
+
   return (
     <>
       <ListItem
@@ -30,7 +47,7 @@ const Message = ({ message, name, last }) => {
         </ListItemAvatar> */}
         <UserIcon name={message.username} imgUrl={message.avatar} />
         <ListItemText
-          primary={`${message.username} - ${date}`}
+          primary={primaryText}
           secondary={message.text}
         />
       </ListItem>
