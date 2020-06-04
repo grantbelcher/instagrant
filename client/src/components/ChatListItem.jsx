@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -12,6 +13,9 @@ const styles = {
   activeStyle: {
     backgroundColor: '#f5f5f5',
   },
+  boldFont: {
+    fontWeight: 'bold'
+  }
 };
 
 const ChatListItem = ({
@@ -26,6 +30,7 @@ const ChatListItem = ({
   let chatName;
   let lastActivity;
   let secondaryText;
+  let primaryText;
 
   if (users !== undefined && users.length > 0) {
     recipients = users.filter((user) => user._id !== currentUser._id);
@@ -43,10 +48,13 @@ const ChatListItem = ({
   if (messages && messages.length > 0) {
     lastMessage = messages[messages.length - 1];
     lastActivity = moment(lastMessage.date).fromNow();
+    primaryText = (
+      <div style={activeChat._id === chat._id ? styles.boldFont : null}>{usernames || chatName}</div>
+    );
     secondaryText = (
       <>
-        <div>{`${lastMessage.username}: ${lastMessage.text.substr(0, 13)}...`}</div>
-        <div>{lastActivity}</div>
+        <div style={activeChat._id === chat._id ? styles.boldFont : null}>{`${lastMessage.username}: ${lastMessage.text.substr(0, 15)}...`}</div>
+        <div style={activeChat._id === chat._id ? styles.boldFont : null}>{lastActivity}</div>
       </>
     );
   }
@@ -59,7 +67,7 @@ const ChatListItem = ({
       >
         <UserIcon name={recipient} imgUrl={recipientAvatar} />
         <ListItemText
-          primary={usernames || chatName}
+          primary={primaryText}
           secondary={secondaryText}
           // secondary={lastMessage.username ? `${lastMessage.username}: ${lastMessage.text.substr(0, 13)}...\n${lastActivity}` : 'loading'}
         />
