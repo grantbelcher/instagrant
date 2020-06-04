@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';

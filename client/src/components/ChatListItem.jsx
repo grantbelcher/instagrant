@@ -7,14 +7,22 @@ import Divider from '@material-ui/core/Divider';
 import UserIcon from './UserIcon';
 import { selectChat } from '../redux/actions/chats';
 
-const ChatListItem = ({ chat, currentUser, handleClick }) => {
+const styles = {
+  activeStyle: {
+    backgroundColor: '#f5f5f5',
+  },
+};
+
+const ChatListItem = ({ chat, currentUser, handleClick, activeChat }) => {
   const { users, messages, name } = chat;
   let recipients;
   let usernames;
   let recipient;
   let recipientAvatar;
+  let lastMessage;
 
   if (users !== undefined && users.length > 0) {
+    
     recipients = users.filter((user) => user._id !== currentUser._id);
     if (recipients.length > 1) {
       usernames = `${recipients[0].name}, ${recipients[1].name.substr(0, 4)}...`;
@@ -24,16 +32,21 @@ const ChatListItem = ({ chat, currentUser, handleClick }) => {
     recipient = recipients[0].name;
     recipientAvatar = recipients[0].avatar;
   }
+  if (messages && messages.length > 0) {
+    lastMessage = messages[messages.length - 1];
+    console.log(lastMessage);
+  }
   return (
     <>
       <ListItem
+        style={activeChat._id === chat._id ? styles.activeStyle : null}
         button
         onClick={() => handleClick(chat)}
       >
         <UserIcon name={recipient} imgUrl={recipientAvatar} />
         <ListItemText
-          primary={usernames ? usernames : 'yo'}
-          secondary="yo"
+          primary={usernames ? usernames : 'loading'}
+          secondary={lastMessage.username ? `${lastMessage.username}: ${lastMessage.text.substr(0, 13)}...` : 'loading'}
         />
       </ListItem>
       <Divider />
@@ -61,10 +74,12 @@ const ChatListItem = ({ chat, currentUser, handleClick }) => {
 //   }],
 // };
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, chats }) => {
   const { user: currentUser } = auth;
+  const { activeChat } = chats;
   return {
     currentUser,
+    activeChat,
   };
 };
 
