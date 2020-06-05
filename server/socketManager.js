@@ -28,21 +28,6 @@ const socketManager = (socket) => {
       socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
     }
   });
-  // socket.on('START_TYPING', (user) => {
-  //   console.log(typingUsers, 'start')
-  //   typingUsers = addUser(typingUsers, user);
-  //   socket.broadcast.emit('USER_TYPING', typingUsers);
-  // });
-  // socket.on('STOP_TYPING', (user) => {
-  //   console.log(user, 'stopped typing')
-  //   if (!typingUsers.name) {
-  //     console.log('error detecting typing');
-  //   } else {
-  //     typingUsers = removeUser(typingUsers, user);
-  //     console.log(typingUsers, 'stopped')
-  //     socket.broadcast.emit('STOP_TYPING', typingUsers);
-  //   }
-  // });
 
   socket.on('MESSAGE_SENT', (message) => {
     const { chatId, user, text } = message;
@@ -84,6 +69,7 @@ const socketManager = (socket) => {
   // });
    });
   socket.on('NEW_CHAT_CREATED', async (chat) => {
+    console.log(chat, 'prior to broadcasting');
     socket.broadcast.emit('NEW_CHAT', chat);
     socket.emit('NEW_CHAT', chat);
   });

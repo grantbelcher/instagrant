@@ -21,7 +21,7 @@ const NewChat = ({ open, setModalOpen, user }) => {
   const [recipients, setRecipients] = useState([]);
 
   const searchUsers = async () => {
-    const results = await axios.get(`http://ba0ccc585370.ngrok.io/users?q=${query}`);
+    const results = await axios.get(`http://localhost:1000/users?q=${query}`);
     setSuggestions(results.data);
   };
 
@@ -38,7 +38,7 @@ const NewChat = ({ open, setModalOpen, user }) => {
     const name = 'test';
     const data = { name, recipients: [user, ...recipients] };
     let results;
-    axios.post('http://ba0ccc585370.ngrok.io/chats', data)
+    axios.post('http://localhost:1000/chats', data)
       .then((res) => res.data)
       .then((chat) => {
         connection.emit('NEW_CHAT_CREATED', chat);

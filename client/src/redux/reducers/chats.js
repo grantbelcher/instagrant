@@ -25,17 +25,18 @@ export default function (state = initialState, action) {
       };
     case 'UPDATE_CHAT':
       const chatsCopy = state.chats.filter((chat) => chat._id !== payload._id);
-      if (payload._id === state.activeChat._id) {
+      console.log([...chatsCopy, payload], 'REDUCER!!!!!');
+      // if (payload._id === state.activeChat._id) {
         return {
           ...state,
           activeChat: payload,
           chats: [...chatsCopy, payload],
         };
-      }
-      return {
-        ...state,
-        chats: [...chatsCopy, payload],
-      };
+      // }
+      // return {
+      //   ...state,
+      //   chats: [...chatsCopy, payload],
+      // };
     case 'UPDATE_CHAT_LIST':
       return {
         ...state,

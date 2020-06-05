@@ -24,6 +24,7 @@ export const selectChat = (chat) => (dispatch) => {
 };
 
 export const updateChat = (chat) => (dispatch) => {
+  console.log(chat, 'update Chat action');
   dispatch({
     type: 'UPDATE_CHAT',
     payload: chat,
