@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
-import ChatListItem from './ChatListItem';
+// import ChatListItem from './ChatListItem';
 
 
 const styles = {

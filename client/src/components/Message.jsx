@@ -26,7 +26,6 @@ const styles = {
 };
 
 const Message = ({ message, last }) => {
-  console.log(message, 'message');
 // const Message = ({ message, name, last }) => {
   const { date } = message;
   let formattedDate = moment(date).fromNow();

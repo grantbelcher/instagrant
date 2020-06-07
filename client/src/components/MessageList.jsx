@@ -18,7 +18,6 @@ const MessageList = ({ messages }) => {
   };
 
   useEffect(scrollToBottom, [messages]);
-  console.log(messages, 'look heresadsadwqawdasd');
   return (
     <Paper style={styles.container}>
       <List>

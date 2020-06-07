@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
-import { selectChat, updateChat, newLogin, updateTypingUsers } from '../redux/actions/chats';
+import { updateConnectedUsers } from '../redux/actions/chats';
 import store from '../redux/index';
 
 
@@ -13,32 +13,36 @@ const socketUrl = 'http://localhost:1000/';
 
 const socket = io(socketUrl);
 
-const Main = ({ user, isLoggedIn }) => {
+const Main = ({ user, isLoggedIn, updateConnections }) => {
 
   const initSocket = () => {
     socket.emit('USER_CONNECTED', user);
     socket.on('NEW_USER_CONNECTED', (connectedUsers) => {
-      console.log(connectedUsers);
+      updateConnections(connectedUsers);
+    });
+    socket.on('USER_DISCONNECTED', (connectedUsers) => {
+      updateConnections(connectedUsers);
     });
   };
 
   const disconnect = () => {
-    socket.emit('USER_DISCONNECTED', user);
+    if (user) {
+      socket.emit('DISCONNECTING', user);
+    }
   };
 
   useEffect(() => {
-    console.log(user);
+    console.log('fuck youuuuu');
     if (user) {
       initSocket();
     }
     window.addEventListener('beforeunload', disconnect);
-  }, []);
+  }, [user]);
 
 
   return (
     <SocketContext.Provider value={socket}>
-      {/* <Dashboard activeChat={activeChat} /> */}
-      <Dashboard /> 
+      <Dashboard />
     </SocketContext.Provider>
   );
 };
@@ -55,9 +59,8 @@ const mapStateToProps = ({ auth }) => {
   });
 };
 
-// const mapDispatchToProps = {
-//   updateChatList: updateChat,
-//   newConnection: newLogin,
-// };
+const mapDispatchToProps = {
+  updateConnections: updateConnectedUsers,
+};
 
-export default connect(mapStateToProps, null)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
