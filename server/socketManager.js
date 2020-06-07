@@ -5,10 +5,11 @@ const Message = require('../db/models/Message');
 
 
 let connectedUsers = {};
+let typingUsers = {};
+
 const getCommunityChat = (callback) => {
   Chat.findOne({ name: 'Community' }, (err, data) => {
     if (err) console.error(err);
-    console.log(data);
     callback(data);
   });
 };
@@ -27,25 +28,55 @@ const socketManager = (socket) => {
       socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
     }
   });
-  socket.on('MESSAGE_SENT', async (message) => {
-    console.log(message, 'looooook heeeeeeeeeeeer');
+
+  socket.on('MESSAGE_SENT', (message) => {
     const { chatId, user, text } = message;
-    const currentChat = await Chat.findById(chatId);
-    currentChat.messages.push({
-      username: user.name,
-      avatar: user.avatar,
-      text,
-    });
-    await currentChat.save();
-    socket.broadcast.emit('MESSAGE_RECIEVED', currentChat);
-    socket.emit('MESSAGE_RECIEVED', currentChat);
+    console.log(message, 'MESSAGE SENT');
+    let currentChat;
+    Chat.findById(chatId)
+      .then((doc) => {
+        doc.messages.push({
+          username: user.name,
+          avatar: user.avatar,
+          text,
+        });
+        return doc;
+      })
+      .then((updatedChat) => {
+        updatedChat.save()
+          .then((newChat) => {
+            socket.broadcast.emit('MESSAGE_RECIEVED', newChat);
+            socket.emit('MESSAGE_RECIEVED', newChat);
+          })
+          .catch((err) => {
+            console.error(err.message);
+          });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
+    // currentChat.save()
+    //   .then(() => {
+    //     socket.broadcast.emit('MESSAGE_RECIEVED', currentChat);
+    //   })
+    //   .then(() => {
+    //     socket.emit('MESSAGE_RECIEVED', currentChat);
+    //   })
+  //     .catch((err) => {
+  //       console.log(err.message);
+  //     });
+  // });
+   });
+  socket.on('NEW_CHAT_CREATED', async (chat) => {
+    console.log(chat, 'prior to broadcasting');
+    socket.broadcast.emit('NEW_CHAT', chat);
+    socket.emit('NEW_CHAT', chat);
   });
   socket.on('COMMUNITY_CHAT', (callback) => {
     getCommunityChat(callback);
   });
-  // socket.on('disconnect', (obj) => {
-  //   console.log('!!!!!!!!!!!!!!!', obj);
-  // });
+
 };
 
 
@@ -58,12 +89,12 @@ function addUser(userList, user) {
 }
 
 function removeUser(userList, user) {
-  console.log(user, 'look here');
   let newList = userList;
   if (newList[user.name]) {
     delete newList[user.name];
   }
   return newList;
 }
+
 
 module.exports = socketManager;

@@ -5,7 +5,8 @@ import Message from './Message';
 
 const styles = {
   container: {
-    maxHeight: '68vh',
+    maxHeight: '70vh',
+    minHeight: '70vh',
     overflow: 'auto',
   },
 };

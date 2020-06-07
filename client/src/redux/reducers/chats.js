@@ -7,6 +7,7 @@ const initialState = {
   },
   chats: [],
   connectedUsers: {},
+  typingUsers: {},
 };
 
 export default function (state = initialState, action) {
@@ -24,21 +25,38 @@ export default function (state = initialState, action) {
       };
     case 'UPDATE_CHAT':
       const chatsCopy = state.chats.filter((chat) => chat._id !== payload._id);
-      if (payload._id === state.activeChat._id) {
+      console.log([...chatsCopy, payload], 'REDUCER!!!!!');
+      // if (payload._id === state.activeChat._id) {
         return {
           ...state,
           activeChat: payload,
           chats: [...chatsCopy, payload],
         };
-      }
+      // }
+      // return {
+      //   ...state,
+      //   chats: [...chatsCopy, payload],
+      // };
+    case 'UPDATE_CHAT_LIST':
       return {
         ...state,
-        chats: [...chatsCopy, payload],
+        chats: payload,
       };
     case 'NEW_LOGIN':
       return {
         ...state,
         connectedUsers: payload,
+      };
+    case 'USER_TYPING':
+      console.log(payload, 'payload')
+      return {
+        ...state,
+        typingUsers: payload,
+      };
+    case 'STOP_TYPING':
+      return {
+        ...state,
+        typingUsers: payload,
       };
     default:
       return state;

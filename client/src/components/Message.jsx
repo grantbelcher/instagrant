@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import UserIcon from './UserIcon';
 
@@ -15,9 +14,39 @@ const styles = {
   myMessage: {
     backgroundColor: '#F9DFF2',
   },
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  messageDate: {
+    fontSize: "smaller",
+    marginLeft: '5px',
+  },
 };
 
 const Message = ({ message, name, last }) => {
+  let { date } = message;
+  let formattedDate = moment(date).fromNow();
+  const [relativeTime, setRelativeTime] = useState(formattedDate);
+      useEffect(() => {
+        const interval = setInterval(() => {
+          formattedDate = moment(date).fromNow();
+          console.log('intervall');
+          setRelativeTime(formattedDate);
+        }, 30000);
+        return () => {
+          clearInterval(interval);
+        };
+      }, []);
+  let primaryText;
+  primaryText = (
+    <div style={styles.header}>
+      <div>{`${message.username}`}</div>
+      <div style={styles.messageDate}> · {relativeTime}</div>
+    </div>
+  );
+
   return (
     <>
       <ListItem
@@ -29,7 +58,7 @@ const Message = ({ message, name, last }) => {
         </ListItemAvatar> */}
         <UserIcon name={message.username} imgUrl={message.avatar} />
         <ListItemText
-          primary={message.username}
+          primary={primaryText}
           secondary={message.text}
         />
       </ListItem>

@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,11 +10,15 @@ import IconButton from '@material-ui/core/IconButton';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import UserList from './UserList';
 import Recipients from './Recipients';
+import SocketContext from '../context/index';
+import store from '../redux/index';
+import { selectChat } from '../redux/actions/chats';
 
 const NewChat = ({ open, setModalOpen, user }) => {
+  const connection = useContext(SocketContext);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [recipients, setRecipients] = useState([user]);
+  const [recipients, setRecipients] = useState([]);
 
   const searchUsers = async () => {
     const results = await axios.get(`http://localhost:1000/users?q=${query}`);
@@ -32,16 +35,23 @@ const NewChat = ({ open, setModalOpen, user }) => {
   };
 
   const newChat = async () => {
-    try {
-      const toUsers = [{ _id: '5eceee6ec868515bc9818ee5' }, { _id: '5ecef13ec868515bc9818eed' }];
-      const name = 'test';
-      const data = { name, recipients };
-      console.log(recipients);
-      const results = await axios.post('http://localhost:1000/chats', data);
-      console.log(results.data);
-    } catch (error) {
-      console.error('error');
-    }
+    const name = 'test';
+    const data = { name, recipients: [user, ...recipients] };
+    let results;
+    axios.post('http://localhost:1000/chats', data)
+      .then((res) => res.data)
+      .then((chat) => {
+        connection.emit('NEW_CHAT_CREATED', chat);
+        return chat;
+      })
+      .then((newActiveChat) => store.dispatch({
+        type: 'SELECT_CHAT',
+        payload: newActiveChat,
+      }))
+      .then(() => {
+        handleClose();
+      })
+      .catch((err) => console.error(err.message, ' errrrrr'));
   };
 
   return (
@@ -72,7 +82,7 @@ const NewChat = ({ open, setModalOpen, user }) => {
         <DialogContent dividers>
           To:
           {' '}
-          <Recipients recipients={recipients} setRecipients={setRecipients} />
+          <Recipients recipients={recipients} setRecipients={setRecipients} user={user} />
         </DialogContent>
         <TextField
           autoFocus
@@ -87,6 +97,5 @@ const NewChat = ({ open, setModalOpen, user }) => {
     </Dialog>
   );
 };
-
 
 export default NewChat;

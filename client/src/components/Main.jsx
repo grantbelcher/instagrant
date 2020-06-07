@@ -5,31 +5,54 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
-import { selectChat, updateChat, newLogin } from '../redux/actions/chats';
+import { selectChat, updateChat, newLogin, updateTypingUsers } from '../redux/actions/chats';
+import store from '../redux/index';
 
-const socketUrl = 'http://b73eb2dcabce.ngrok.io';
+
+const socketUrl = 'http://localhost:1000/';
 
 const socket = io(socketUrl);
 
-const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) => {
+const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection, usersChats }) => {
   // const { chats } = user;
   const initSocket = (currentChat) => {
     socket.on('connect', () => {
       console.log('connected');
     });
     socket.on('MESSAGE_RECIEVED', (updatedChat) => {
-      console.log(user.chats, updatedChat._id);
-      const inChats = user.chats.some((chat) => {
-        return chat === updatedChat._id;
+      console.log(usersChats, 'LOOOOK HERE');
+      const inChats = usersChats.some((chat) => {
+        console.log(chat._id === updatedChat._id, 'looking in chat');
+        return chat._id === updatedChat._id;
       });
       if (inChats) {
-        console.log(inChats, 'updated chat');
         updateChatList(updatedChat);
       }
+    });
+    socket.on('NEW_CHAT', (chat) => {
+      let inNewChat;
+      chat.users.forEach((recipient) => {
+        if (recipient._id === user._id) {
+          inNewChat = true;
+        }
+      });
+      console.log(chat, inNewChat, 'IN NEW CHAT, MAIN.JSX')
+      if (inNewChat) updateChatList(chat);
     });
     socket.emit('USER_CONNECTED', user);
     socket.on('NEW_USER_CONNECTED', (connectedUsers) => {
       newConnection(connectedUsers);
+    });
+    socket.on('USER_TYPING', (typingUsers) => {
+      console.log(typingUsers);
+      updateTypingUsers(typingUsers);
+    });
+    socket.on('STOP_TYPING', (typingUsers) => {
+      console.log(typingUsers);
+      store.dispatch({
+        type: 'STOP_TYPING',
+        payload: typingUsers,
+      });
     });
   };
 
@@ -48,7 +71,7 @@ const Main = ({ user, isLoggedIn, activeChat, updateChatList, newConnection }) =
 
   return (
     <SocketContext.Provider value={socket}>
-      <Dashboard />
+      <Dashboard activeChat={activeChat} />
     </SocketContext.Provider>
   );
 };
@@ -60,6 +83,7 @@ const mapStateToProps = ({ auth, chats }) => {
     isLoggedIn,
     user,
     activeChat,
+    usersChats: chats['chats'],
   });
 };
 
