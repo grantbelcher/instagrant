@@ -75,6 +75,7 @@ const styles = {
 
 const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [rerender, setRerender] = useState(false);
   const context = useContext(SocketContext);
 
   const logOutClick = () => {
@@ -90,6 +91,14 @@ const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
   useEffect(() => {
     loadChats(user.chats);
   }, [user]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRerender(!rerender);
+      console.log('intervallllllllll')
+    }, 60000);
+    return (() => clearInterval(interval))
+  }, []);
 
   return (
     <div style={styles.container}>

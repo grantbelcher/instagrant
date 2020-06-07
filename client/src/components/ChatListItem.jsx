@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -14,8 +14,8 @@ const styles = {
     backgroundColor: '#f5f5f5',
   },
   boldFont: {
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 };
 
 const ChatListItem = ({
@@ -31,6 +31,23 @@ const ChatListItem = ({
   let lastActivity;
   let secondaryText;
   let primaryText;
+  let date = '';
+  if (messages & messages.length > 0) {
+    date = moment(message[messages.length - 1].date).fromNow();
+  }
+
+  let formattedDate = moment(date).fromNow();
+  const [relativeTime, setRelativeTime] = useState(date);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      formattedDate = moment(date).fromNow();
+      setRelativeTime(formattedDate);
+    }, 30000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
 
   if (users !== undefined && users.length > 0) {
     recipients = users.filter((user) => user._id !== currentUser._id);
