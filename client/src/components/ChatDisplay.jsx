@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextInput from './TextInput';
 import MessageList from './MessageList';
+import placeholder from '../../../utils/placeholder';
 
 const ChatDisplay = ({ activeChat }) => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(placeholder);
   // useEffect(() => {
   //   if (activeChat !== null) {
   //     const newMessages = activeChat.messages.map((message) => {
@@ -16,18 +17,18 @@ const ChatDisplay = ({ activeChat }) => {
   // }, [activeChat]);
   return (
     <div>
-      <MessageList messages={activeChat.messages} />
-      <TextInput activeChat={activeChat} />
+      <MessageList messages={messages} />
+      <TextInput />
     </div>
   );
 };
 
-const mapStateToProps = ({ chats }) => {
-  const { activeChat } = chats;
-  return {
-    activeChat,
-  };
-};
+// const mapStateToProps = ({ chats }) => {
+//   const { activeChat } = chats;
+//   return {
+//     activeChat,
+//   };
+// };
 
 ChatDisplay.propTypes = {
   activeChat: PropTypes.shape({
@@ -41,4 +42,4 @@ ChatDisplay.defaultProps = {
   },
 };
 
-export default connect(mapStateToProps, null)(ChatDisplay);
+export default connect(null, null)(ChatDisplay);

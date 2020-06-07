@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
@@ -9,7 +9,7 @@ import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
 import Header from './Header';
 import SocketContext from '../context/index';
-import { selectChat, getChats } from '../redux/actions/chats';
+
 
 const styles = {
   container: {
@@ -71,34 +71,10 @@ const styles = {
   },
 };
 
-
-
-const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
+// const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
+const Dashboard = ({ user }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [rerender, setRerender] = useState(false);
-  const context = useContext(SocketContext);
-
-  const logOutClick = () => {
-    context.emit('MESSAGE_SENT', 'testing');
-  };
-
-  useEffect(() => {
-    context.emit('COMMUNITY_CHAT', (chat) => {
-      chatSelector(chat);
-    });
-  }, []);
-
-  useEffect(() => {
-    loadChats(user.chats);
-  }, [user]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRerender(!rerender);
-      console.log('intervallllllllll')
-    }, 60000);
-    return (() => clearInterval(interval))
-  }, []);
+  // const context = useContext(SocketContext);
 
   return (
     <div style={styles.container}>
@@ -120,7 +96,7 @@ const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
             <Header />
           </div>
           <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={logOutClick}>
+            <Link color="inherit" href="/">
               log out
               <i className="fas fa-cog fa-lg" style={styles.icon} />
             </Link>
@@ -133,17 +109,17 @@ const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
   );
 };
 
-Dashboard.propTypes = {
-  user: PropTypes.shape({
-    chats: PropTypes.array.isRequired,
-  }),
-};
+// Dashboard.propTypes = {
+//   user: PropTypes.shape({
+//     chats: PropTypes.array.isRequired,
+//   }),
+// };
 
-Dashboard.defaultProps = {
-  user: {
-    chats: [],
-  },
-};
+// Dashboard.defaultProps = {
+//   user: {
+//     chats: [],
+//   },
+// };
 
 const mapStateToProps = ({ auth }) => {
   const { user } = auth;
@@ -152,9 +128,5 @@ const mapStateToProps = ({ auth }) => {
   });
 };
 
-const mapDispatchToProps = {
-  chatSelector: selectChat,
-  loadChats: getChats,
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, null)(Dashboard);

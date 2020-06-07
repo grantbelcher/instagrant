@@ -14,32 +14,33 @@ const styles = {
   },
 };
 
-const ChatList = ({ activeChat, allChats, token }) => {
+// const ChatList = ({ activeChat, allChats, token }) => {
+const ChatList = () => {
   const [chatList, setChatList] = useState([]);
-  useEffect(() => {
-    let chats = allChats.sort((a, b) => {
-      return moment(b.messages[b.messages.length - 1].date) - moment(a.messages[a.messages.length - 1].date);
-    });
-    chats = allChats.map((chat) => <ChatListItem button chat={chat} />);
-    setChatList(chats);
-  }, [allChats]);
+  // useEffect(() => {
+  //   let chats = allChats.sort((a, b) => {
+  //     return moment(b.messages[b.messages.length - 1].date) - moment(a.messages[a.messages.length - 1].date);
+  //   });
+  //   chats = allChats.map((chat) => <ChatListItem button chat={chat} />);
+  //   setChatList(chats);
+  // }, [allChats]);
 
   return (
     <Paper style={styles.container}>
       <List>
-        {console.log(chatList, 'list   dsdsdd')}
-        {chatList}
+        hey
+        {/* {chatList} */}
       </List>
     </Paper>
   );
 };
 
-const mapStateToProps = ({ chats, auth }) => {
-  const { activeChat, chats: allChats } = chats;
-  return {
-    activeChat,
-    allChats,
-  };
-};
+// const mapStateToProps = ({ chats, auth }) => {
+//   const { activeChat, chats: allChats } = chats;
+//   return {
+//     activeChat,
+//     allChats,
+//   };
+// };
 
-export default connect(mapStateToProps, null)(ChatList);
+export default connect(null, null)(ChatList);

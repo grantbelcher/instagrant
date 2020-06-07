@@ -34,35 +34,18 @@ const styles = {
   },
 };
 
-const TextInput = ({ user, activeChat, updateChat }) => {
+const TextInput = ({ user }) => {
   const [text, setText] = useState('');
-  const [typing, setTyping] = useState(false);
   const connection = useContext(SocketContext);
   const sendMessage = () => {
-    if (text.length > 0) {
-      console.log(text, 'sending');
-      connection.emit('MESSAGE_SENT', { user, text, chatId: activeChat._id});
-    } else {
-      console.log('error');
-    }
+    // if (text.length > 0) {
+    //   console.log(text, 'sending');
+    //   connection.emit('MESSAGE_SENT', { user, text, chatId: activeChat._id});
+    // } else {
+    //   console.log('error');
+    // }
     setText('');
   };
-  const typeHandle = () => {
-    setTyping(true);
-    setTimeout(() => {
-      setTyping(false);
-    }, 4000);
-  };
-
-  useEffect(() => {
-    const data = { ...user, chatId: activeChat._id };
-    if (typing) {
-      connection.emit('START_TYPING', data);
-    } else {
-      console.log('initial');
-      connection.emit('STOP_TYPING', data);
-    }
-  }, [typing]);
 
   return (
     <div style={styles.container}>
@@ -73,7 +56,7 @@ const TextInput = ({ user, activeChat, updateChat }) => {
           value={text}
           style={styles.input}
           onChange={(e) => setText(e.target.value)}
-          onKeyPress={typeHandle}
+          // onKeyPress={typeHandle}
         />
         <i className="fas fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage}/>
       </div>
@@ -81,17 +64,15 @@ const TextInput = ({ user, activeChat, updateChat }) => {
   );
 };
 
-const mapStateToProps = ({ auth, chats }) => {
+const mapStateToProps = ({ auth }) => {
   const { user } = auth;
-  const { activeChat } = chats;
   return {
     user,
-    activeChat,
   };
 };
 
-const mapDispatchToProps = {
-  updateChat: selectChat,
-};
+// const mapDispatchToProps = {
+//   updateChat: selectChat,
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TextInput);
+export default connect(mapStateToProps, null)(TextInput);

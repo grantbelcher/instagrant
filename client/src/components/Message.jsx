@@ -20,30 +20,35 @@ const styles = {
     alignItems: 'baseline',
   },
   messageDate: {
-    fontSize: "smaller",
+    fontSize: 'smaller',
     marginLeft: '5px',
   },
 };
 
-const Message = ({ message, name, last }) => {
-  let { date } = message;
+const Message = ({ message, last }) => {
+  console.log(message, 'message');
+// const Message = ({ message, name, last }) => {
+  const { date } = message;
   let formattedDate = moment(date).fromNow();
   const [relativeTime, setRelativeTime] = useState(formattedDate);
-      useEffect(() => {
-        const interval = setInterval(() => {
-          formattedDate = moment(date).fromNow();
-          console.log('intervall');
-          setRelativeTime(formattedDate);
-        }, 30000);
-        return () => {
-          clearInterval(interval);
-        };
-      }, []);
-  let primaryText;
-  primaryText = (
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     formattedDate = moment(date).fromNow();
+  //     console.log('intervall');
+  //     setRelativeTime(formattedDate);
+  //   }, 30000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
+  const primaryText = (
     <div style={styles.header}>
       <div>{`${message.username}`}</div>
-      <div style={styles.messageDate}> · {relativeTime}</div>
+      <div style={styles.messageDate}>
+        {' '}
+        ·
+        {relativeTime}
+      </div>
     </div>
   );
 
@@ -51,7 +56,8 @@ const Message = ({ message, name, last }) => {
     <>
       <ListItem
         autoFocus={last}
-        style={(name === message.username) ? styles.myMessage : styles.message}
+        style={styles.message}
+        // style={(name === message.username) ? styles.myMessage : styles.message}
       >
         {/* <ListItemAvatar>
           <Avatar alt={message.username} src={message.avatar} />
@@ -83,13 +89,13 @@ Message.defaultProps = {
   },
 };
 
-const mapStateToProps = ({ auth }) => {
-  const { user } = auth;
-  if (user.name !== undefined) {
-    return {
-      name: user.name,
-    };
-  }
-};
+// const mapStateToProps = ({ auth }) => {
+//   const { user } = auth;
+//   if (user.name !== undefined) {
+//     return {
+//       name: user.name,
+//     };
+//   }
+// };
 
-export default connect(mapStateToProps, null)(Message);
+export default connect(null, null)(Message);

@@ -5,8 +5,9 @@ import { withStyles } from '@material-ui/core/styles';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
-
-const UserIcon = ({ name, imgUrl, connectedUsers }) => {
+const connectedUsers = {};
+// const UserIcon = ({ name, imgUrl, connectedUsers }) => {
+const UserIcon = ({ name, imgUrl }) => {
   const connected = (connectedUsers[name] !== undefined);
   return (
   <ListItemAvatar>
@@ -23,11 +24,11 @@ const UserIcon = ({ name, imgUrl, connectedUsers }) => {
   );
 };
 
-const mapStateToProps = ({ chats }) => {
-  const { connectedUsers } = chats;
-  return {
-    connectedUsers,
-  };
-};
+// const mapStateToProps = ({ chats }) => {
+//   const { connectedUsers } = chats;
+//   return {
+//     connectedUsers,
+//   };
+// };
 
-export default connect(mapStateToProps, null)(UserIcon);
+export default connect(null, null)(UserIcon);

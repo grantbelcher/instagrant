@@ -18,11 +18,12 @@ const MessageList = ({ messages }) => {
   };
 
   useEffect(scrollToBottom, [messages]);
-
+  console.log(messages, 'look heresadsadwqawdasd');
   return (
     <Paper style={styles.container}>
       <List>
         {messages.map((message, i) => {
+          
           if (i === messages.length - 1) {
             return <Message ref={listEndRef} message={message} last={(i === messages.length - 1)} />;
           }
