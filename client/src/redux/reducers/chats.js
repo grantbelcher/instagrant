@@ -22,6 +22,11 @@ export default function (state = initialState, action) {
         ...state,
         activeChat: payload,
       };
+    case "LOAD_CHATS":
+      return {
+        ...state,
+        chats: payload,
+      };
     case 'UPDATE_CONNECTED_USERS':
       return {
         ...state,

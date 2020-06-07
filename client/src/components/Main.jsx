@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
-import { updateConnectedUsers, loadCommunityChat } from '../redux/actions/chats';
+import { updateConnectedUsers, loadCommunityChat, loadChats } from '../redux/actions/chats';
 import store from '../redux/index';
 
 
@@ -13,7 +13,7 @@ const socketUrl = 'http://localhost:1000/';
 
 const socket = io(socketUrl);
 
-const Main = ({ user, isLoggedIn, updateConnections, loadCommunity }) => {
+const Main = ({ user, isLoggedIn, updateConnections, loadCommunity, loadUsersChats }) => {
 
   const initSocket = () => {
     socket.emit('USER_CONNECTED', user);
@@ -24,6 +24,9 @@ const Main = ({ user, isLoggedIn, updateConnections, loadCommunity }) => {
       console.log(connectedUsers, 'CONNECTED USERS');
       updateConnections(connectedUsers);
     });
+    socket.on('MESSAGE_SENT', (message) => {
+      console.log(message, 'RECIEVED');
+    });
   };
 
   const disconnect = () => {
@@ -33,10 +36,10 @@ const Main = ({ user, isLoggedIn, updateConnections, loadCommunity }) => {
   };
 
   useEffect(() => {
-    console.log('fuck youuuuu');
     if (user) {
       initSocket();
       loadCommunity();
+      loadUsersChats(user);
     }
     window.addEventListener('beforeunload', disconnect);
   }, [user]);
@@ -50,12 +53,14 @@ const Main = ({ user, isLoggedIn, updateConnections, loadCommunity }) => {
 };
 
 // const mapStateToProps = ({ auth, chats }) => {
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, chat }) => {
   const { user, isLoggedIn } = auth;
+  const { activeChat } = chat;
   // const { activeChat } = chats;
   return ({
     isLoggedIn,
     user,
+    activeChat,
     // activeChat,
     // usersChats: chats['chats'],
   });
@@ -64,6 +69,7 @@ const mapStateToProps = ({ auth }) => {
 const mapDispatchToProps = {
   updateConnections: updateConnectedUsers,
   loadCommunity: loadCommunityChat,
+  loadUsersChats: loadChats,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

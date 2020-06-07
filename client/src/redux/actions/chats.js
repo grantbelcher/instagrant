@@ -17,6 +17,23 @@ export const loadCommunityChat = () => (dispatch) => {
     .catch((err) => console.error(err.message));
 };
 
+export const loadChats = (user) => (dispatch) => {
+  const { chats: ids } = user;
+
+  axios.post('/chats/user', { ids })
+    .then((res) => {
+      const { data } = res;
+      return data;
+    })
+    .then((data) => {
+      dispatch({
+        type: 'LOAD_CHATS',
+        payload: data,
+      });
+    })
+    .catch((err) => console.error(err.message));
+};
+
 export const updateConnectedUsers = (list) => (dispatch) => {
   dispatch({
     type: 'UPDATE_CONNECTED_USERS',

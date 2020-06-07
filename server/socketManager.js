@@ -14,16 +14,15 @@ const socketManager = (socket) => {
     socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
     socket.emit('NEW_USER_CONNECTED', connectedUsers);
   });
-  // USER DISCONNECTS
-  // socket.on('USER_DISCONNECTED', (user) => {
-  //   if (user !== null) {
-  //     connectedUsers = removeUser(connectedUsers, user);
-  //     socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
-  //   }
-  // });
   socket.on('DISCONNECTING', (user) => {
     connectedUsers = removeUser(connectedUsers, user);
     socket.broadcast.emit('USER_DISCONNECTED', connectedUsers);
+  });
+  
+  socket.on('SENDING_MESSAGE', (message) => {
+    console.log(message, 'fuck my life');
+    socket.broadcast.emit('MESSAGE_SENT', message);
+    socket.emit('MESSAGE_SENT', message);
   });
 };
 

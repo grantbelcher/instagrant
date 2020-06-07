@@ -17,8 +17,8 @@ const ChatDisplay = ({ activeChat }) => {
   // }, [activeChat]);
   return (
     <div>
-      <MessageList messages={messages} />
-      <TextInput />
+      <MessageList messages={activeChat.messages} />
+      <TextInput chat={activeChat} />
     </div>
   );
 };

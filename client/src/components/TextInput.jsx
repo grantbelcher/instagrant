@@ -34,16 +34,16 @@ const styles = {
   },
 };
 
-const TextInput = ({ user }) => {
+const TextInput = ({ user, activeChat }) => {
+  console.log(activeChat, 'text input')
   const [text, setText] = useState('');
   const connection = useContext(SocketContext);
   const sendMessage = () => {
-    // if (text.length > 0) {
-    //   console.log(text, 'sending');
-    //   connection.emit('MESSAGE_SENT', { user, text, chatId: activeChat._id});
-    // } else {
-    //   console.log('error');
-    // }
+    if (text.length > 0) {
+      connection.emit('SENDING_MESSAGE', { user, text, chatId: activeChat._id});
+    } else {
+      console.log('error');
+    }
     setText('');
   };
 
@@ -64,10 +64,12 @@ const TextInput = ({ user }) => {
   );
 };
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, chat }) => {
   const { user } = auth;
+  const { activeChat } = chat;
   return {
     user,
+    activeChat,
   };
 };
 
