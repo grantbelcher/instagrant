@@ -1,6 +1,10 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
+import axios from 'axios';
+
+
+
 const initialState = {
   activeChat: {
     messages: [],
@@ -13,6 +17,11 @@ const initialState = {
 export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
+    case 'LOAD_COMMUNITY_CHAT':
+      return {
+        ...state,
+        activeChat: payload,
+      };
     case 'UPDATE_CONNECTED_USERS':
       return {
         ...state,

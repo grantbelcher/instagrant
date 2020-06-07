@@ -13,14 +13,22 @@ const initialMessage = {
   text: 'NEW CHAT CREATED',
 };
 
+router.get('/community', async (req, res) => {
+  try {
+    const community = await Chat.findOne({ name: 'Community' });
+    return res.send(community);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 router.post('/', async (req, res) => {
   const { recipients, name } = req.body;
-  console.log(recipients)
   const recipIds = recipients.map(({ _id }) => _id);
   const hashedIds = (sortIds(recipIds));
   try {
     const existingChat = await Chat.findOne({ hashedIds });
-    console.log('heeeeeeeeee')
     if (!existingChat) {
       const newChat = new Chat({ name, users: recipients, messages: initialMessage, hashedIds });
       await newChat.save();
