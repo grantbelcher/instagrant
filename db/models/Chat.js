@@ -25,6 +25,7 @@ const chatSchema = new Schema({
         type: Date,
         default: Date.now,
       },
+      chatId: String,
     },
   ],
 });

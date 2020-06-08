@@ -18,9 +18,8 @@ const socketManager = (socket) => {
     connectedUsers = removeUser(connectedUsers, user);
     socket.broadcast.emit('USER_DISCONNECTED', connectedUsers);
   });
-  
+
   socket.on('SENDING_MESSAGE', (message) => {
-    console.log(message, 'fuck my life');
     socket.broadcast.emit('MESSAGE_SENT', message);
     socket.emit('MESSAGE_SENT', message);
   });

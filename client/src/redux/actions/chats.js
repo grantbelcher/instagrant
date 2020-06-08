@@ -34,6 +34,14 @@ export const loadChats = (user) => (dispatch) => {
     .catch((err) => console.error(err.message));
 };
 
+export const updateChats = (message) => (dispatch) => {
+  console.log(message, 'action')
+  dispatch({
+    type: 'UPDATE_CHATS',
+    payload: message,
+  });
+};
+
 export const updateConnectedUsers = (list) => (dispatch) => {
   dispatch({
     type: 'UPDATE_CONNECTED_USERS',

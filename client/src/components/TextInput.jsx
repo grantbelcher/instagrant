@@ -35,7 +35,6 @@ const styles = {
 };
 
 const TextInput = ({ user, activeChat }) => {
-  console.log(activeChat, 'text input')
   const [text, setText] = useState('');
   const connection = useContext(SocketContext);
   const sendMessage = () => {
