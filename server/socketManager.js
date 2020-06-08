@@ -5,7 +5,7 @@ const Message = require('../db/models/Message');
 
 
 let connectedUsers = {};
-let typingUsers = {};
+const typingUsers = {};
 
 const socketManager = (socket) => {
   // USER CONNECTS
@@ -19,12 +19,17 @@ const socketManager = (socket) => {
     socket.broadcast.emit('USER_DISCONNECTED', connectedUsers);
   });
 
-  socket.on('SENDING_MESSAGE', (message) => {
+  socket.on('SENDING_MESSAGE', async (message) => {
     const { user, text, chatId } = message;
-    const newMessage = new Message({ username: user.name, text, chatId });
-    console.log(newMessage, 'before');
-    socket.broadcast.emit('MESSAGE_SENT', newMessage);
-    socket.emit('MESSAGE_SENT', newMessage);
+    const chat = await Chat.findById(chatId);
+    if (!chat) return socket.emit('ERROR');
+    const newMessage = new Message({
+      username: user.name, avatar: user.avatar, text, chatId,
+    });
+    chat.messages.push(newMessage);
+    socket.broadcast.emit('MESSAGE_SENT', chat);
+    socket.emit('MESSAGE_SENT', chat);
+    await chat.save();
   });
 };
 
@@ -38,7 +43,7 @@ function addUser(userList, user) {
 }
 
 function removeUser(userList, user) {
-  let newList = userList;
+  const newList = userList;
   if (newList[user.name]) {
     delete newList[user.name];
   }

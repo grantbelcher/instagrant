@@ -7,6 +7,7 @@ const messageSchema = new Schema({
   chatId: String,
   username: String,
   text: String,
+  avatar: String,
   date: {
     type: Date,
     default: Date.now,

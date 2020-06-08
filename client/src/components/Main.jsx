@@ -27,9 +27,8 @@ const Main = ({
       console.log(connectedUsers, 'CONNECTED USERS');
       updateConnections(connectedUsers);
     });
-    socket.on('MESSAGE_SENT', (message) => {
-      // check id of message vs chats in state
-      updateChatList(message);
+    socket.on('MESSAGE_SENT', (updatedChat) => {
+      updateChatList(updatedChat);
     });
   };
 

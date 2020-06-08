@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
@@ -27,35 +28,23 @@ export default function (state = initialState, action) {
         chats: payload,
       };
     case 'UPDATE_CHATS':
-      const { chatId } = payload;
+      const { _id } = payload;
       const { chats, activeChat } = state;
-      
-      const indexInChats = chats.findIndex((chat) => chat._id === chatId);
-      console.log(indexInChats, chatId);
+      const indexInChats = chats.findIndex((chat) => {
+        return chat._id === _id;
+      });
+      console.log(activeChat._id, _id, 'CHAT ID IN REDUCER');
       if (indexInChats > -1) {
-        const { messages } = chats[indexInChats];
         const firstChats = chats.slice(0, indexInChats);
         const lastChats = chats.slice(indexInChats + 1, chats.length);
 
-        if (chatId === activeChat._id) {
+        if (_id === activeChat._id) {
           return {
             ...state,
-            activeChat: {
-              ...activeChat,
-              messages: [
-                ...activeChat.messages,
-                payload,
-              ],
-            },
+            activeChat: payload,
             chats: [
               ...firstChats,
-              {
-                ...chats[indexInChats],
-                messages: [
-                  ...chats[indexInChats].messages,
-                  payload,
-                ],
-              },
+              payload,
               ...lastChats,
             ],
           };
@@ -65,17 +54,12 @@ export default function (state = initialState, action) {
           ...state,
           chats: [
             ...firstChats,
-            {
-              ...chats[indexInChats],
-              messages: [
-                ...chats[indexInChats].messages,
-                payload,
-              ],
-            },
+            payload,
             ...lastChats,
           ],
         };
       }
+      break;
     case 'UPDATE_CONNECTED_USERS':
       return {
         ...state,

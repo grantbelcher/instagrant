@@ -34,10 +34,10 @@ export const loadChats = (user) => (dispatch) => {
     .catch((err) => console.error(err.message));
 };
 
-export const updateChats = (message) => (dispatch) => {
+export const updateChats = (updatedChat) => (dispatch) => {
   dispatch({
     type: 'UPDATE_CHATS',
-    payload: message,
+    payload: updatedChat,
   });
 };
 
