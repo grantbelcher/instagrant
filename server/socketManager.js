@@ -20,6 +20,7 @@ const socketManager = (socket) => {
   });
 
   socket.on('SENDING_MESSAGE', (message) => {
+    // const newMessage = new Message(message);
     socket.broadcast.emit('MESSAGE_SENT', message);
     socket.emit('MESSAGE_SENT', message);
   });

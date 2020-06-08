@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
 import List from '@material-ui/core/List';
 import Paper from '@material-ui/core/Paper';
 import Message from './Message';
@@ -11,7 +12,11 @@ const styles = {
   },
 };
 
-const MessageList = ({ messages }) => {
+const MessageList = ({ activeChat }) => {
+  console.log(activeChat);
+  if (!activeChat) return null;
+  const { messages } = activeChat;
+  console.log(messages, 'look here');
   const listEndRef = useRef(null);
   const scrollToBottom = () => {
     listEndRef.current.scrollIntoView({ behavior: "auto" });
@@ -22,7 +27,6 @@ const MessageList = ({ messages }) => {
     <Paper style={styles.container}>
       <List>
         {messages.map((message, i) => {
-          
           if (i === messages.length - 1) {
             return <Message ref={listEndRef} message={message} last={(i === messages.length - 1)} />;
           }
@@ -35,4 +39,11 @@ const MessageList = ({ messages }) => {
   );
 };
 
-export default MessageList;
+const mapStateToProps = ({ chat }) => {
+  const { activeChat } = chat;
+  return {
+    activeChat,
+  };
+}
+
+export default connect(mapStateToProps, null)(MessageList);

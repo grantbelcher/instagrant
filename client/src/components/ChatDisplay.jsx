@@ -9,7 +9,8 @@ const ChatDisplay = ({ activeChat }) => {
   // const [messages, setMessages] = useState(placeholder);
   return (
     <div>
-      <MessageList messages={activeChat.messages} />
+      <MessageList />
+      {/* <MessageList messages={activeChat.messages} /> */}
       <TextInput chat={activeChat} />
     </div>
   );

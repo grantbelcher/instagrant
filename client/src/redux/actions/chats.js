@@ -35,7 +35,6 @@ export const loadChats = (user) => (dispatch) => {
 };
 
 export const updateChats = (message) => (dispatch) => {
-  console.log(message, 'action')
   dispatch({
     type: 'UPDATE_CHATS',
     payload: message,

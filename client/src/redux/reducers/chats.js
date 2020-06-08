@@ -4,7 +4,6 @@
 import axios from 'axios';
 
 
-
 const initialState = {
   activeChat: {
     messages: [],
@@ -29,17 +28,54 @@ export default function (state = initialState, action) {
       };
     case 'UPDATE_CHATS':
       const { chatId } = payload;
-      const { chats: chatsCopy } = state;
-      const indexInChats = chatsCopy.findIndex((chat) => chat._id === chatId);
+      const { chats, activeChat } = state;
+      
+      const indexInChats = chats.findIndex((chat) => chat._id === chatId);
+      console.log(indexInChats, chatId);
       if (indexInChats > -1) {
-        const { messages } = chatsCopy[indexInChats];
-        chatsCopy[indexInChats].messages = [...messages, payload];
-        console.log(chatsCopy[indexInChats].messages, 'eyyy');
+        const { messages } = chats[indexInChats];
+        const firstChats = chats.slice(0, indexInChats);
+        const lastChats = chats.slice(indexInChats + 1, chats.length);
+
+        if (chatId === activeChat._id) {
+          return {
+            ...state,
+            activeChat: {
+              ...activeChat,
+              messages: [
+                ...activeChat.messages,
+                payload,
+              ],
+            },
+            chats: [
+              ...firstChats,
+              {
+                ...chats[indexInChats],
+                messages: [
+                  ...chats[indexInChats].messages,
+                  payload,
+                ],
+              },
+              ...lastChats,
+            ],
+          };
+        }
+        console.log(state.chats, state.activeChat, 'ORIGINL STATE');
+        return {
+          ...state,
+          chats: [
+            ...firstChats,
+            {
+              ...chats[indexInChats],
+              messages: [
+                ...chats[indexInChats].messages,
+                payload,
+              ],
+            },
+            ...lastChats,
+          ],
+        };
       }
-      return {
-        ...state,
-        chats: chatsCopy,
-      };
     case 'UPDATE_CONNECTED_USERS':
       return {
         ...state,
@@ -57,9 +93,9 @@ export default function (state = initialState, action) {
 //   const allChatsCopy = chats;
 //   const chatCopy = chats[indexInChats];
 //   console.log(chats, 'look here');
- // chatCopy.messages = [...chatCopy.messages, message];
-        // allChatsCopy.splice(indexInChats, 1, chatCopy);
+// chatCopy.messages = [...chatCopy.messages, message];
+// allChatsCopy.splice(indexInChats, 1, chatCopy);
 
 // look in active chat
 // compare ids
-  // if mathc
+// if mathc
