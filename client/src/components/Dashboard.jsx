@@ -5,6 +5,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
+import Tooltip from '@material-ui/core/Tooltip';
 import NewChat from './NewChat';
 import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
@@ -86,14 +87,18 @@ const Dashboard = ({ user }) => {
     <div style={styles.container}>
       <div style={styles.col1}>
         <div style={styles.headerLeft}>
-
-          <Badge
-            color="primary"
-            badgeContent={notifications}
+          <Tooltip
+            title={notifications === 1 ? `${notifications} unread chat` : `${notifications} unread chats`}
           >
-            <i className="fas fa-bell fa-lg" style={styles.icon} />
-          </Badge>
-          <div />
+            <Badge
+              color="primary"
+              badgeContent={notifications}
+            >
+              <i className="fas fa-bell fa-lg" style={styles.icon} />
+            </Badge>
+
+          </Tooltip>
+          {/* <div /> */}
           <div style={styles.direct}>
             <h2>DMs</h2>
           </div>
