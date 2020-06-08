@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
 import {
-  updateConnectedUsers, loadCommunityChat, loadChats, updateChats, createNewChat
+  updateConnectedUsers, loadCommunityChat, loadChats, updateChats, createNewChat, updateTypingUsers,
 } from '../redux/actions/chats';
 import store from '../redux/index';
 
@@ -16,7 +16,7 @@ const socketUrl = 'http://localhost:1000/';
 const socket = io(socketUrl);
 
 const Main = ({
- user, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat
+ user, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping
 }) => {
   const initSocket = () => {
     socket.emit('USER_CONNECTED', user);
@@ -32,6 +32,9 @@ const Main = ({
     });
     socket.on('NEW_CHAT_CREATED', (newChat) => {
       createChat(newChat);
+    });
+    socket.on('USER_TYPING', (typingUsers) => {
+      updateTyping(typingUsers);
     });
   };
 
@@ -79,6 +82,7 @@ const mapDispatchToProps = {
   loadUsersChats: loadChats,
   updateChatList: updateChats,
   createChat: createNewChat,
+  updateTyping: updateTypingUsers,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

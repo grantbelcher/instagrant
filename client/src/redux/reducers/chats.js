@@ -81,6 +81,12 @@ export default function (state = initialState, action) {
         ...state,
         connectedUsers: payload,
       };
+    case 'UPDATE_TYPING_USERS':
+      console.log(payload, 'updating in reducer');
+      return {
+        ...state,
+        typingUsers: payload,
+      };
     default:
       return state;
   }

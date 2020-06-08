@@ -5,7 +5,7 @@ const Message = require('../db/models/Message');
 
 
 let connectedUsers = {};
-const typingUsers = {};
+let typingUsers = {};
 
 const socketManager = (socket) => {
   // USER CONNECTS
@@ -36,6 +36,15 @@ const socketManager = (socket) => {
     socket.broadcast.emit('NEW_CHAT_CREATED', newChat);
     socket.emit('NEW_CHAT_CREATED', newChat);
   });
+  socket.on('TYPING', (user) => {
+    typingUsers = addUser(typingUsers, user);
+    socket.broadcast.emit('USER_TYPING', typingUsers);
+  });
+  socket.on('STOP_TYPING', (user) => {
+    typingUsers = removeUser(typingUsers, user, () => {
+      socket.broadcast.emit('USER_TYPING', typingUsers);
+    });
+  });
 };
 
 
@@ -47,10 +56,13 @@ function addUser(userList, user) {
   return newList;
 }
 
-function removeUser(userList, user) {
+function removeUser(userList, user, callback) {
   const newList = userList;
   if (newList[user.name]) {
     delete newList[user.name];
+    if (callback) {
+      callback();
+    }
   }
   return newList;
 }

@@ -76,8 +76,16 @@ export const createNewChat = (chat) => (dispatch) => {
 };
 
 export const updateConnectedUsers = (list) => (dispatch) => {
+  console.log(list, 'action')
   dispatch({
     type: 'UPDATE_CONNECTED_USERS',
+    payload: list,
+  });
+};
+
+export const updateTypingUsers = (list) => (dispatch) => {
+  dispatch({
+    type: 'UPDATE_TYPING_USERS',
     payload: list,
   });
 };

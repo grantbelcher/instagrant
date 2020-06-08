@@ -36,6 +36,7 @@ const styles = {
 
 const TextInput = ({ user, activeChat }) => {
   const [text, setText] = useState('');
+  const [typing, setTyping] = useState('false');
   const connection = useContext(SocketContext);
   const sendMessage = () => {
     if (text.length > 0) {
@@ -46,6 +47,19 @@ const TextInput = ({ user, activeChat }) => {
     setText('');
   };
 
+  const typeHandle = () => {
+    console.log('called');
+    if (typing) {
+      console.log('typing is true');
+      connection.emit('TYPING', user);
+      setTimeout(() => {
+        connection.emit('STOP_TYPING', user);
+      }, 4000);
+    } else {
+      console.log('typing is false');
+    }
+  };
+  console.log(typing, 'typing');
   return (
     <div style={styles.container}>
       <div style={styles.g}>
@@ -55,7 +69,8 @@ const TextInput = ({ user, activeChat }) => {
           value={text}
           style={styles.input}
           onChange={(e) => setText(e.target.value)}
-          // onKeyPress={typeHandle}
+          onKeyPress={typeHandle}
+          
         />
         <i className="fas fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage}/>
       </div>
