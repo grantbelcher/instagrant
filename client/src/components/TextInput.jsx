@@ -1,3 +1,6 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-underscore-dangle */
+
 import React, { useState, useContext, useEffect } from 'react';
 import { connect } from 'react-redux';
 import SocketContext from '../context/index';
@@ -34,64 +37,79 @@ const styles = {
   },
 };
 
-const TextInput = ({ user, activeChat, updateChat }) => {
+const TextInput = ({ user, activeChat, typingUsers }) => {
   const [text, setText] = useState('');
-  const [typing, setTyping] = useState(false);
+  const [typing, setTyping] = useState('false');
   const connection = useContext(SocketContext);
   const sendMessage = () => {
     if (text.length > 0) {
-      console.log(text, 'sending');
-      connection.emit('MESSAGE_SENT', { user, text, chatId: activeChat._id});
+      connection.emit('SENDING_MESSAGE', { user, text, chatId: activeChat._id });
     } else {
       console.log('error');
     }
     setText('');
   };
+
   const typeHandle = () => {
-    setTyping(true);
-    setTimeout(() => {
-      setTyping(false);
-    }, 4000);
-  };
-
-  useEffect(() => {
-    const data = { ...user, chatId: activeChat._id };
+    console.log('called');
+    const userData = {
+      ...user,
+      chatId: activeChat._id,
+    };
     if (typing) {
-      connection.emit('START_TYPING', data);
+      console.log('typing is true');
+      connection.emit('TYPING', userData);
+      setTimeout(() => {
+        connection.emit('STOP_TYPING', userData);
+      }, 4000);
     } else {
-      console.log('initial');
-      connection.emit('STOP_TYPING', data);
+      console.log('typing is false');
     }
-  }, [typing]);
-
+  };
+  const typingUsersList = Object.values(typingUsers);
+  const usersTypingInChat = typingUsersList.filter((item) => {
+    return ((item.chatId === activeChat._id) && (item._id !== user._id));
+  });
+  let typingString = null;
+  if (usersTypingInChat.length === 1) {
+    typingString = `${usersTypingInChat[0].name} is typing...`
+  }
+  if (usersTypingInChat.length > 1) {
+    typingString = 'users typing...';
+  }
+  
   return (
-    <div style={styles.container}>
-      <div style={styles.g}>
-        <textarea
-          rows="2"
-          placeholder="whats up?"
-          value={text}
-          style={styles.input}
-          onChange={(e) => setText(e.target.value)}
-          onKeyPress={typeHandle}
-        />
-        <i className="fas fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage}/>
+    <>
+      <div>{typingString}</div>
+      <div style={styles.container}>
+        <div style={styles.g}>
+          <textarea
+            rows="2"
+            placeholder="whats up?"
+            value={text}
+            style={styles.input}
+            onChange={(e) => setText(e.target.value)}
+            onKeyPress={typeHandle}
+          />
+          <i className="fas fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
-const mapStateToProps = ({ auth, chats }) => {
+const mapStateToProps = ({ auth, chat }) => {
   const { user } = auth;
-  const { activeChat } = chats;
+  const { activeChat, typingUsers } = chat;
   return {
     user,
     activeChat,
+    typingUsers,
   };
 };
 
-const mapDispatchToProps = {
-  updateChat: selectChat,
-};
+// const mapDispatchToProps = {
+//   updateChat: selectChat,
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TextInput);
+export default connect(mapStateToProps, null)(TextInput);

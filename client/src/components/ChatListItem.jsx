@@ -19,7 +19,7 @@ const styles = {
 };
 
 const ChatListItem = ({
-  chat, currentUser, handleClick, activeChat,
+  chat, currentUser, activeChat, handleClick
 }) => {
   const { users, messages, name } = chat;
   let recipients;
@@ -32,6 +32,7 @@ const ChatListItem = ({
   let secondaryText;
   let primaryText;
   let date = '';
+
   if (messages & messages.length > 0) {
     date = moment(message[messages.length - 1].date).fromNow();
   }
@@ -94,29 +95,10 @@ const ChatListItem = ({
   );
 };
 
-// ChatListItem.propTypes = {
-//   users: PropTypes.array.isRequired,
-//   messages: PropTypes.array.isRequired,
-//   name: PropTypes.string,
-// };
 
-// ChatListItem.defaultProps = {
-//   users: [{
-//     name: 'loading',
-//     avatar: 'https://static1.squarespace.com/static/54b7b93ce4b0a3e130d5d232/54e20ebce4b014cdbc3fd71b/5a992947e2c48320418ae5e0/1519987239570/icon.png',
-//   },
-//   {
-//     name: 'loading',
-//     avatar: 'https://static1.squarespace.com/static/54b7b93ce4b0a3e130d5d232/54e20ebce4b014cdbc3fd71b/5a992947e2c48320418ae5e0/1519987239570/icon.png',
-//   }],
-//   messages: [{
-
-//   }],
-// };
-
-const mapStateToProps = ({ auth, chats }) => {
+const mapStateToProps = ({ auth, chat }) => {
   const { user: currentUser } = auth;
-  const { activeChat } = chats;
+  const { activeChat } = chat;
   return {
     currentUser,
     activeChat,

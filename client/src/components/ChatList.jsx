@@ -14,7 +14,9 @@ const styles = {
   },
 };
 
-const ChatList = ({ activeChat, allChats, token }) => {
+// const ChatList = ({ activeChat, allChats, token }) => {
+const ChatList = ({ allChats }) => {
+  if (!allChats) return null;
   const [chatList, setChatList] = useState([]);
   useEffect(() => {
     let chats = allChats.sort((a, b) => {
@@ -27,15 +29,14 @@ const ChatList = ({ activeChat, allChats, token }) => {
   return (
     <Paper style={styles.container}>
       <List>
-        {console.log(chatList, 'list   dsdsdd')}
         {chatList}
       </List>
     </Paper>
   );
 };
 
-const mapStateToProps = ({ chats, auth }) => {
-  const { activeChat, chats: allChats } = chats;
+const mapStateToProps = ({ chat }) => {
+  const { activeChat, chats: allChats } = chat;
   return {
     activeChat,
     allChats,

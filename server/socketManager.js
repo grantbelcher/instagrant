@@ -7,13 +7,6 @@ const Message = require('../db/models/Message');
 let connectedUsers = {};
 let typingUsers = {};
 
-const getCommunityChat = (callback) => {
-  Chat.findOne({ name: 'Community' }, (err, data) => {
-    if (err) console.error(err);
-    callback(data);
-  });
-};
-
 const socketManager = (socket) => {
   // USER CONNECTS
   socket.on('USER_CONNECTED', (user) => {
@@ -21,62 +14,37 @@ const socketManager = (socket) => {
     socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
     socket.emit('NEW_USER_CONNECTED', connectedUsers);
   });
-  // USER DISCONNECTS
-  socket.on('USER_DISCONNECTED', (user) => {
-    if (user !== null) {
-      connectedUsers = removeUser(connectedUsers, user);
-      socket.broadcast.emit('NEW_USER_CONNECTED', connectedUsers);
-    }
+  socket.on('DISCONNECTING', (user) => {
+    connectedUsers = removeUser(connectedUsers, user);
+    socket.broadcast.emit('USER_DISCONNECTED', connectedUsers);
   });
 
-  socket.on('MESSAGE_SENT', (message) => {
-    const { chatId, user, text } = message;
-    console.log(message, 'MESSAGE SENT');
-    let currentChat;
-    Chat.findById(chatId)
-      .then((doc) => {
-        doc.messages.push({
-          username: user.name,
-          avatar: user.avatar,
-          text,
-        });
-        return doc;
-      })
-      .then((updatedChat) => {
-        updatedChat.save()
-          .then((newChat) => {
-            socket.broadcast.emit('MESSAGE_RECIEVED', newChat);
-            socket.emit('MESSAGE_RECIEVED', newChat);
-          })
-          .catch((err) => {
-            console.error(err.message);
-          });
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-
-    // currentChat.save()
-    //   .then(() => {
-    //     socket.broadcast.emit('MESSAGE_RECIEVED', currentChat);
-    //   })
-    //   .then(() => {
-    //     socket.emit('MESSAGE_RECIEVED', currentChat);
-    //   })
-  //     .catch((err) => {
-  //       console.log(err.message);
-  //     });
-  // });
-   });
-  socket.on('NEW_CHAT_CREATED', async (chat) => {
-    console.log(chat, 'prior to broadcasting');
-    socket.broadcast.emit('NEW_CHAT', chat);
-    socket.emit('NEW_CHAT', chat);
-  });
-  socket.on('COMMUNITY_CHAT', (callback) => {
-    getCommunityChat(callback);
+  socket.on('SENDING_MESSAGE', async (message) => {
+    const { user, text, chatId } = message;
+    const chat = await Chat.findById(chatId);
+    if (!chat) return socket.emit('ERROR');
+    const newMessage = new Message({
+      username: user.name, avatar: user.avatar, text, chatId,
+    });
+    chat.messages.push(newMessage);
+    socket.broadcast.emit('MESSAGE_SENT', chat);
+    socket.emit('MESSAGE_SENT', chat);
+    await chat.save();
   });
 
+  socket.on('NEW_CHAT_CREATED', (newChat) => {
+    socket.broadcast.emit('NEW_CHAT_CREATED', newChat);
+    socket.emit('NEW_CHAT_CREATED', newChat);
+  });
+  socket.on('TYPING', (user) => {
+    typingUsers = addUser(typingUsers, user);
+    socket.broadcast.emit('USER_TYPING', typingUsers);
+  });
+  socket.on('STOP_TYPING', (user) => {
+    typingUsers = removeUser(typingUsers, user, () => {
+      socket.broadcast.emit('USER_TYPING', typingUsers);
+    });
+  });
 };
 
 
@@ -88,10 +56,13 @@ function addUser(userList, user) {
   return newList;
 }
 
-function removeUser(userList, user) {
-  let newList = userList;
+function removeUser(userList, user, callback) {
+  const newList = userList;
   if (newList[user.name]) {
     delete newList[user.name];
+    if (callback) {
+      callback();
+    }
   }
   return newList;
 }
