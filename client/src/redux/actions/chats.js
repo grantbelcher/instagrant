@@ -2,6 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios';
 import store from '../index';
+import { addNotification } from './auth';
 
 export const loadCommunityChat = () => (dispatch) => {
   axios.get('/chats/community')
@@ -35,6 +36,14 @@ export const loadChats = (user) => (dispatch) => {
     .catch((err) => console.error(err.message));
 };
 
+export const updateChatsRecipient = (updatedChat) => (dispatch) => {
+  dispatch({
+    type: 'UPDATE_CHATS',
+    payload: updatedChat,
+  });
+  console.log('dispatching next action from recipient');
+  dispatch(addNotification(updatedChat._id));
+};
 export const updateChats = (updatedChat) => (dispatch) => {
   dispatch({
     type: 'UPDATE_CHATS',

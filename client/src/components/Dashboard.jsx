@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
 import NewChat from './NewChat';
 import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
@@ -74,12 +75,24 @@ const styles = {
 // const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
 const Dashboard = ({ user }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  let notifications = null;
+  console.log('rendering NOTIFICATIONS')
+  if (user && user.notifications) {
+    notifications = user.notifications.length
+  }
   // const context = useContext(SocketContext);
 
   return (
     <div style={styles.container}>
       <div style={styles.col1}>
         <div style={styles.headerLeft}>
+
+          <Badge
+            color="primary"
+            badgeContent={notifications}
+          >
+            <i className="fas fa-bell fa-lg" style={styles.icon} />
+          </Badge>
           <div />
           <div style={styles.direct}>
             <h2>DMs</h2>

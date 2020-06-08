@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios';
 import setAuthToken from '../../../../utils/setAuthToken';
+import store from '../index';
 
 
 export const loadUser = (token) => async (dispatch) => {
@@ -46,5 +47,16 @@ export const signOut = () => async (dispatch) => {
     });
   } catch (err) {
     console.error(err.message);
+  }
+};
+
+export const addNotification = (id) => (dispatch) => {
+  const { activeChat } = store.getState().chat;
+  if (activeChat._id !== id) {
+    console.log('add notification action, not active chat');
+    dispatch({
+      type: 'ADD_NOTIFICATION',
+      payload: id,
+    });
   }
 };

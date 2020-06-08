@@ -27,7 +27,7 @@ const socketManager = (socket) => {
       username: user.name, avatar: user.avatar, text, chatId,
     });
     chat.messages.push(newMessage);
-    socket.broadcast.emit('MESSAGE_SENT', chat);
+    socket.broadcast.emit('MESSAGE_RECIEVED', chat);
     socket.emit('MESSAGE_SENT', chat);
     await chat.save();
   });
