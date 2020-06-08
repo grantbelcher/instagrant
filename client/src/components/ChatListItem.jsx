@@ -59,6 +59,7 @@ const ChatListItem = ({
     }
     recipient = recipients[0].name;
     recipientAvatar = recipients[0].avatar;
+    chatName = recipients.reduce((acc, user) => `${acc}, ${user.name}`, '');
   }
   if (chat.name === 'Community') {
     chatName = 'Community Chat';
@@ -76,6 +77,8 @@ const ChatListItem = ({
       </>
     );
   }
+  const unread = currentUser.notifications.indexOf(chat._id);
+  console.log(unread, currentUser.notifications);
   return (
     <>
       <ListItem
@@ -87,8 +90,8 @@ const ChatListItem = ({
         <ListItemText
           primary={primaryText}
           secondary={secondaryText}
-          // secondary={lastMessage.username ? `${lastMessage.username}: ${lastMessage.text.substr(0, 13)}...\n${lastActivity}` : 'loading'}
         />
+        {unread > -1 ? <i className="fa fa-envelope" /> : null}
       </ListItem>
       <Divider />
     </>
