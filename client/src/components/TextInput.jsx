@@ -61,7 +61,7 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
       connection.emit('TYPING', userData);
       setTimeout(() => {
         connection.emit('STOP_TYPING', userData);
-      }, 4000);
+      }, 3000);
     } else {
       console.log('typing is false');
     }
