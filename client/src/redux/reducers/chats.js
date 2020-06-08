@@ -50,7 +50,6 @@ export default function (state = initialState, action) {
       const indexInChats = chats.findIndex((chat) => {
         return chat._id === _id;
       });
-      console.log(activeChat._id, _id, 'CHAT ID IN REDUCER');
       if (indexInChats > -1) {
         const firstChats = chats.slice(0, indexInChats);
         const lastChats = chats.slice(indexInChats + 1, chats.length);
