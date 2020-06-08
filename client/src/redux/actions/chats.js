@@ -41,6 +41,13 @@ export const updateChats = (updatedChat) => (dispatch) => {
   });
 };
 
+export const selectChat = (chat) => (dispatch) => {
+  dispatch({
+    type: 'SELECT_CHAT',
+    payload: chat,
+  });
+};
+
 export const updateConnectedUsers = (list) => (dispatch) => {
   dispatch({
     type: 'UPDATE_CONNECTED_USERS',

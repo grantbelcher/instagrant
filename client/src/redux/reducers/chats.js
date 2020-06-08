@@ -27,6 +27,11 @@ export default function (state = initialState, action) {
         ...state,
         chats: payload,
       };
+    case 'SELECT_CHAT':
+      return {
+        ...state,
+        activeChat: payload,
+      };
     case 'UPDATE_CHATS':
       const { _id } = payload;
       const { chats, activeChat } = state;

@@ -19,7 +19,7 @@ const styles = {
 };
 
 const ChatListItem = ({
-  chat, currentUser, activeChat,
+  chat, currentUser, activeChat, handleClick
 }) => {
   const { users, messages, name } = chat;
   let recipients;
@@ -105,8 +105,8 @@ const mapStateToProps = ({ auth, chat }) => {
   };
 };
 
-// const mapDispatchToProps = {
-//   handleClick: selectChat,
-// };
+const mapDispatchToProps = {
+  handleClick: selectChat,
+};
 
-export default connect(mapStateToProps, null)(ChatListItem);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatListItem);
