@@ -25,21 +25,21 @@ const styles = {
   },
 };
 
-const Message = ({ message, last }) => {
-// const Message = ({ message, name, last }) => {
+
+const Message = ({ message, name, last }) => {
   const { date } = message;
   let formattedDate = moment(date).fromNow();
   const [relativeTime, setRelativeTime] = useState(formattedDate);
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     formattedDate = moment(date).fromNow();
-  //     console.log('intervall');
-  //     setRelativeTime(formattedDate);
-  //   }, 30000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      formattedDate = moment(date).fromNow();
+      console.log('intervall');
+      setRelativeTime(formattedDate);
+    }, 30000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   const primaryText = (
     <div style={styles.header}>
       <div>{`${message.username}`}</div>
@@ -55,8 +55,7 @@ const Message = ({ message, last }) => {
     <>
       <ListItem
         autoFocus={last}
-        style={styles.message}
-        // style={(name === message.username) ? styles.myMessage : styles.message}
+        style={(name === message.username) ? styles.myMessage : styles.message}
       >
         {/* <ListItemAvatar>
           <Avatar alt={message.username} src={message.avatar} />

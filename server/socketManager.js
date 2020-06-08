@@ -20,9 +20,11 @@ const socketManager = (socket) => {
   });
 
   socket.on('SENDING_MESSAGE', (message) => {
-    // const newMessage = new Message(message);
-    socket.broadcast.emit('MESSAGE_SENT', message);
-    socket.emit('MESSAGE_SENT', message);
+    const { user, text, chatId } = message;
+    const newMessage = new Message({ username: user.name, text, chatId });
+    console.log(newMessage, 'before');
+    socket.broadcast.emit('MESSAGE_SENT', newMessage);
+    socket.emit('MESSAGE_SENT', newMessage);
   });
 };
 

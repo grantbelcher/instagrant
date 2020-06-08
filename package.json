@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev-bundle": "webpack -w",
+    "bundle": "webpack -w",
     "start-dev": "nodemon ./server/index.js",
     "seed": "node ./db/seed.js"
   },

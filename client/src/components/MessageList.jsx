@@ -13,10 +13,8 @@ const styles = {
 };
 
 const MessageList = ({ activeChat }) => {
-  console.log(activeChat);
   if (!activeChat) return null;
   const { messages } = activeChat;
-  console.log(messages, 'look here');
   const listEndRef = useRef(null);
   const scrollToBottom = () => {
     listEndRef.current.scrollIntoView({ behavior: "auto" });

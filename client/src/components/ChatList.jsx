@@ -16,7 +16,6 @@ const styles = {
 
 // const ChatList = ({ activeChat, allChats, token }) => {
 const ChatList = ({ allChats }) => {
-  console.log(allChats, 'allChats');
   if (!allChats) return null;
   const [chatList, setChatList] = useState([]);
   useEffect(() => {
@@ -36,7 +35,7 @@ const ChatList = ({ allChats }) => {
   );
 };
 
-const mapStateToProps = ({ chat, auth }) => {
+const mapStateToProps = ({ chat }) => {
   const { activeChat, chats: allChats } = chat;
   return {
     activeChat,
