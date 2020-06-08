@@ -31,6 +31,11 @@ const socketManager = (socket) => {
     socket.emit('MESSAGE_SENT', chat);
     await chat.save();
   });
+
+  socket.on('NEW_CHAT_CREATED', (newChat) => {
+    socket.broadcast.emit('NEW_CHAT_CREATED', newChat);
+    socket.emit('NEW_CHAT_CREATED', newChat);
+  });
 };
 
 

@@ -32,6 +32,18 @@ export default function (state = initialState, action) {
         ...state,
         activeChat: payload,
       };
+    case 'CREATE_NEW_CHAT':
+
+      return {
+        ...state,
+        activeChat: payload,
+        chats: [payload, ...state.chats],
+      };
+    case 'ADDED_TO_CHAT':
+      return {
+        ...state,
+        chats: [payload, ...state.chats],
+      };
     case 'UPDATE_CHATS':
       const { _id } = payload;
       const { chats, activeChat } = state;

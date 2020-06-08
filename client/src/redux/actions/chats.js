@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios';
+import store from '../index';
 
 export const loadCommunityChat = () => (dispatch) => {
   axios.get('/chats/community')
@@ -46,6 +47,32 @@ export const selectChat = (chat) => (dispatch) => {
     type: 'SELECT_CHAT',
     payload: chat,
   });
+};
+
+export const createNewChat = (chat) => (dispatch) => {
+  const { users } = chat;
+  const { user } = store.getState().auth;
+  console.log(users, user, 'testing user destructuring');
+  const userIsRecipient = users.find(({ _id }) => _id === user._id);
+  console.log(userIsRecipient, 'user is a recipient test');
+  if (userIsRecipient) {
+    if (users[0]._id === user._id) {
+      dispatch({
+        type: 'CREATE_NEW_CHAT',
+        payload: chat,
+      });
+    } else {
+      console.log('BEING ADDED TO CHAT');
+      dispatch({
+        type: 'ADDED_TO_CHAT',
+        payload: chat,
+      });
+    }
+  } else {
+    dispatch({
+      type: 'NULL',
+    });
+  }
 };
 
 export const updateConnectedUsers = (list) => (dispatch) => {

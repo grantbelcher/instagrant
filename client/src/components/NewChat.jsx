@@ -31,6 +31,7 @@ const NewChat = ({ open, setModalOpen, user }) => {
 
   const handleClose = () => {
     setQuery('');
+    setRecipients([]);
     setModalOpen(false);
   };
 

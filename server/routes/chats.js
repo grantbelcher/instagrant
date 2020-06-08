@@ -57,7 +57,6 @@ router.post('/user', async (req, res) => {
   const { ids } = req.body;
   try {
     const chats = await Chat.find().where('_id').in(ids).exec();
-    console.log(chats, 'get chats route');
     return res.send(chats);
   } catch (error) {
     console.error(error.message);
