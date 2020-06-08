@@ -81,8 +81,8 @@ const LandingPage = () => {
       style={styles.container}
     >
       <div style={styles.box}>
-        <h1 style={styles.header}>InstaGrant</h1>
-        <h2 style={styles.header2}>make all of your friends jealous</h2>
+        <h1 style={styles.header}>Instagrant</h1>
+        <h2 style={styles.header2}>everything on the internet is permanent</h2>
         <div>
           <Button
             variant="contained"
