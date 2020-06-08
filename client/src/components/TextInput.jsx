@@ -1,3 +1,6 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-underscore-dangle */
+
 import React, { useState, useContext, useEffect } from 'react';
 import { connect } from 'react-redux';
 import SocketContext from '../context/index';
@@ -34,13 +37,13 @@ const styles = {
   },
 };
 
-const TextInput = ({ user, activeChat }) => {
+const TextInput = ({ user, activeChat, typingUsers }) => {
   const [text, setText] = useState('');
   const [typing, setTyping] = useState('false');
   const connection = useContext(SocketContext);
   const sendMessage = () => {
     if (text.length > 0) {
-      connection.emit('SENDING_MESSAGE', { user, text, chatId: activeChat._id});
+      connection.emit('SENDING_MESSAGE', { user, text, chatId: activeChat._id });
     } else {
       console.log('error');
     }
@@ -49,41 +52,59 @@ const TextInput = ({ user, activeChat }) => {
 
   const typeHandle = () => {
     console.log('called');
+    const userData = {
+      ...user,
+      chatId: activeChat._id,
+    };
     if (typing) {
       console.log('typing is true');
-      connection.emit('TYPING', user);
+      connection.emit('TYPING', userData);
       setTimeout(() => {
-        connection.emit('STOP_TYPING', user);
+        connection.emit('STOP_TYPING', userData);
       }, 4000);
     } else {
       console.log('typing is false');
     }
   };
-  console.log(typing, 'typing');
+  const typingUsersList = Object.values(typingUsers);
+  const usersTypingInChat = typingUsersList.filter((item) => {
+    return ((item.chatId === activeChat._id) && (item._id !== user._id));
+  });
+  let typingString = null;
+  if (usersTypingInChat.length === 1) {
+    typingString = `${usersTypingInChat[0].name} is typing...`
+  }
+  if (usersTypingInChat.length > 1) {
+    typingString = 'users typing...';
+  }
+  
   return (
-    <div style={styles.container}>
-      <div style={styles.g}>
-        <textarea
-          rows="2"
-          placeholder="whats up?"
-          value={text}
-          style={styles.input}
-          onChange={(e) => setText(e.target.value)}
-          onKeyPress={typeHandle}
-          
-        />
-        <i className="fas fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage}/>
+    <>
+      <div>{typingString}</div>
+      <div style={styles.container}>
+        <div style={styles.g}>
+          <textarea
+            rows="2"
+            placeholder="whats up?"
+            value={text}
+            style={styles.input}
+            onChange={(e) => setText(e.target.value)}
+            onKeyPress={typeHandle}
+          />
+          <i className="fas fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
 const mapStateToProps = ({ auth, chat }) => {
   const { user } = auth;
-  const { activeChat } = chat;
+  const { activeChat, typingUsers } = chat;
   return {
     user,
     activeChat,
+    typingUsers,
   };
 };
 
