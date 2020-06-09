@@ -12,10 +12,13 @@ import { selectChat } from '../redux/actions/chats';
 
 const styles = {
   activeStyle: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'rgba(223, 249, 246, 1.0)',
   },
   boldFont: {
     fontWeight: 'bold',
+  },
+  chatItem: {
+    backgroundColor: 'rgba(245, 245, 245, 0.6)',
   },
 };
 
@@ -83,7 +86,7 @@ const ChatListItem = ({
   return (
     <>
       <ListItem
-        style={activeChat._id === chat._id ? styles.activeStyle : null}
+        style={activeChat._id === chat._id ? styles.activeStyle : styles.chatItem}
         button
         onClick={() => handleClick(chat)}
       >

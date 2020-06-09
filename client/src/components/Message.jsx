@@ -9,10 +9,10 @@ import UserIcon from './UserIcon';
 
 const styles = {
   message: {
-    backgroundColor: '#DFF9F6',
+    backgroundColor: 'rgba(223, 249, 246, 1.0)',
   },
   myMessage: {
-    backgroundColor: '#F9DFF2',
+    backgroundColor: '#f5d0eb',
   },
   header: {
     display: 'flex',

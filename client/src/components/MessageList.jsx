@@ -9,6 +9,7 @@ const styles = {
     maxHeight: '69.5vh',
     minHeight: '69.5vh',
     overflow: 'auto',
+    backgroundColor: 'rgba(245, 245, 245, 0.6)',
   },
 };
 

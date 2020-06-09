@@ -6,11 +6,11 @@ import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Tooltip from '@material-ui/core/Tooltip';
+import Paper from '@material-ui/core/Paper';
 import NewChat from './NewChat';
 import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
 import Header from './Header';
-import SocketContext from '../context/index';
 
 
 const styles = {
@@ -49,6 +49,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: '#bbfcf6',
   },
   headerLeft: {
     borderBottom: 'solid',
@@ -60,6 +61,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: '#bbfcf6',
   },
   direct: {
     fontWeight: 'bold',
@@ -85,7 +87,7 @@ const Dashboard = ({ user, notifications }) => {
   return (
     <div style={styles.container}>
       <div style={styles.col1}>
-        <div style={styles.headerLeft}>
+        <Paper style={styles.headerLeft}>
           <Tooltip
             title={inbox === 1 ? `${inbox} unread chat` : `${inbox} unread chats`}
           >
@@ -104,11 +106,11 @@ const Dashboard = ({ user, notifications }) => {
           <IconButton onClick={() => setModalOpen(true)}>
             <i className="far fa-edit fa-sm" style={styles.icon} />
           </IconButton>
-        </div>
+        </Paper>
         <ChatList />
       </div>
       <div style={styles.col2}>
-        <div style={styles.headerRight}>
+        <Paper style={styles.headerRight}>
           <div style={styles.userInfoHeader}>
             <Header />
           </div>
@@ -119,7 +121,7 @@ const Dashboard = ({ user, notifications }) => {
             </Link>
           </Breadcrumbs>
           <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} user={user} />
-        </div>
+        </Paper>
         <ChatDisplay />
       </div>
     </div>
