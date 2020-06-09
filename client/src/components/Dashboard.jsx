@@ -95,7 +95,7 @@ const Dashboard = ({ user, notifications }) => {
               color="primary"
               badgeContent={inbox}
             >
-              <i className="fas fa-bell fa-lg" style={styles.icon} />
+              <i className="far fa-bell fa-lg" style={styles.icon} />
             </Badge>
 
           </Tooltip>

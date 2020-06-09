@@ -20,14 +20,20 @@ const NewChat = ({ open, setModalOpen, user }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [recipients, setRecipients] = useState([]);
 
+  console.log(user, 'dasadsasadadadsaadsas')
+
   const searchUsers = async () => {
     const results = await axios.get(`http://localhost:1000/users?q=${query}`);
-    setSuggestions(results.data);
+    const { data } = results;
+    console.log(data)
+    const users = data.filter((account) => account._id !== user._id);
+    console.log(users, 'too')
+    setSuggestions(users);
   };
-
   useEffect(() => {
     searchUsers();
-  }, [query]);
+  }, [query, user]);
+
 
   const handleClose = () => {
     setQuery('');
