@@ -6,6 +6,7 @@ export default function (state = initialState, action) {
     case 'GET_NOTIFICATIONS':
       return payload;
     case 'ADD_NOTIFICATION':
+      console.log(payload, 'reducer');
       return [...state, payload];
     case 'REMOVE_NOTIFICATION':
       return state.filter((id) => id !== payload);

@@ -71,6 +71,8 @@ export const createNewChat = (chat) => (dispatch) => {
         payload: chat,
       });
     } else {
+      console.log(chat._id);
+      dispatch(addNotification(chat._id));
       dispatch({
         type: 'ADDED_TO_CHAT',
         payload: chat,
