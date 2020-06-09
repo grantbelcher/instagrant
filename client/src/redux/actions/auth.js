@@ -1,6 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios';
+import { getNotifications } from './notifications';
 import setAuthToken from '../../../../utils/setAuthToken';
+import store from '../index';
 
 
 export const loadUser = (token) => async (dispatch) => {
@@ -13,6 +15,7 @@ export const loadUser = (token) => async (dispatch) => {
       type: 'USER_LOADED',
       payload: res.data.user,
     });
+    dispatch(getNotifications(res.data.user.notifications));
   } catch (error) {
     console.log(error.message);
   }

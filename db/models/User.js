@@ -15,6 +15,12 @@ const userSchema = new Schema({
       ref: 'Chats',
     },
   ],
+  notifications: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Chats',
+    },
+  ],
 });
 
 module.exports = mongoose.model('User', userSchema);

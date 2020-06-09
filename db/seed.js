@@ -71,7 +71,7 @@ const initialUsers = [
   {
     avatar: 'https://is2-ssl.mzstatic.com/image/thumb/Purple71/v4/f2/13/74/f21374ed-8a0f-70a4-2f03-b863315e0f4c/source/256x256bb.jpg',
     _id: '5ecef13ec868515bc9818eed',
-    name: 'Admin69',
+    name: 'admin69',
     password: '$2b$10$q1XfX9hzEupbutt2FYerKuJsV6whTHKeIekP07ZuMOUTGjI0q4peO',
     __v: 2,
   },
@@ -79,7 +79,7 @@ const initialUsers = [
 
 const initialMessage = {
   _id: '5ed81e09b1a0c469407c0216',
-  username: 'Admin69',
+  username: 'admin69',
   avatar: 'https://is2-ssl.mzstatic.com/image/thumb/Purple71/v4/f2/13/74/f21374ed-8a0f-70a4-2f03-b863315e0f4c/source/256x256bb.jpg',
   text: 'NEW CHAT CREATED',
 };

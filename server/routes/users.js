@@ -32,4 +32,17 @@ router.post('/addChat', async (req, res) => {
   }
 });
 
+router.patch('/notifications', async (req, res) => {
+  const { userId, notifications: newMessages } = req.body;
+  try {
+    const user = await User.findById(userId);
+    user.notifications = newMessages;
+    await user.save();
+    return res.send('saved');
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

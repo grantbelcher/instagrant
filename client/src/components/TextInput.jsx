@@ -51,36 +51,29 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
   };
 
   const typeHandle = () => {
-    console.log('called');
     const userData = {
       ...user,
       chatId: activeChat._id,
     };
     if (typing) {
-      console.log('typing is true');
       connection.emit('TYPING', userData);
       setTimeout(() => {
         connection.emit('STOP_TYPING', userData);
-      }, 4000);
-    } else {
-      console.log('typing is false');
+      }, 2000);
     }
   };
   const typingUsersList = Object.values(typingUsers);
-  const usersTypingInChat = typingUsersList.filter((item) => {
-    return ((item.chatId === activeChat._id) && (item._id !== user._id));
-  });
+  const usersTypingInChat = typingUsersList.filter((item) => ((item.chatId === activeChat._id) && (item._id !== user._id)));
   let typingString = null;
   if (usersTypingInChat.length === 1) {
-    typingString = `${usersTypingInChat[0].name} is typing...`
+    typingString = `${usersTypingInChat[0].name} is typing...`;
   }
   if (usersTypingInChat.length > 1) {
     typingString = 'users typing...';
   }
-  
   return (
     <>
-      <div>{typingString}</div>
+      <div style={{fontWeight: 'bold'}}>{typingString}</div>
       <div style={styles.container}>
         <div style={styles.g}>
           <textarea
@@ -108,8 +101,5 @@ const mapStateToProps = ({ auth, chat }) => {
   };
 };
 
-// const mapDispatchToProps = {
-//   updateChat: selectChat,
-// };
 
 export default connect(mapStateToProps, null)(TextInput);

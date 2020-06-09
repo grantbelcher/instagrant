@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -19,7 +20,7 @@ const styles = {
 };
 
 const ChatListItem = ({
-  chat, currentUser, activeChat, handleClick
+  chat, currentUser, activeChat, handleClick, notifications
 }) => {
   const { users, messages, name } = chat;
   let recipients;
@@ -59,23 +60,26 @@ const ChatListItem = ({
     }
     recipient = recipients[0].name;
     recipientAvatar = recipients[0].avatar;
+    chatName = recipients.reduce((acc, user) => `${acc}, ${user.name}`, '');
   }
   if (chat.name === 'Community') {
     chatName = 'Community Chat';
   }
+  const unread = notifications.indexOf(chat._id);
   if (messages && messages.length > 0) {
     lastMessage = messages[messages.length - 1];
     lastActivity = moment(lastMessage.date).fromNow();
     primaryText = (
-      <div style={activeChat._id === chat._id ? styles.boldFont : null}>{usernames || chatName}</div>
+      <div style={activeChat._id === chat._id ? styles.boldFont : (unread > -1 ? styles.boldFont : null)}>{usernames || chatName}</div>
     );
     secondaryText = (
       <>
-        <div style={activeChat._id === chat._id ? styles.boldFont : null}>{`${lastMessage.username}: ${lastMessage.text.substr(0, 15)}...`}</div>
-        <div style={activeChat._id === chat._id ? styles.boldFont : null}>{lastActivity}</div>
+        <div style={activeChat._id === chat._id ? styles.boldFont : (unread > -1 ? styles.boldFont : null)}>{`${lastMessage.username}: ${lastMessage.text.substr(0, 15)}...`}</div>
+        <div style={activeChat._id === chat._id ? styles.boldFont : (unread > -1 ? styles.boldFont : null)}>{lastActivity}</div>
       </>
     );
   }
+
   return (
     <>
       <ListItem
@@ -87,8 +91,8 @@ const ChatListItem = ({
         <ListItemText
           primary={primaryText}
           secondary={secondaryText}
-          // secondary={lastMessage.username ? `${lastMessage.username}: ${lastMessage.text.substr(0, 13)}...\n${lastActivity}` : 'loading'}
         />
+        {unread > -1 ? <i className="fa fa-envelope" /> : null}
       </ListItem>
       <Divider />
     </>
@@ -96,12 +100,13 @@ const ChatListItem = ({
 };
 
 
-const mapStateToProps = ({ auth, chat }) => {
+const mapStateToProps = ({ auth, chat, notifications }) => {
   const { user: currentUser } = auth;
   const { activeChat } = chat;
   return {
     currentUser,
     activeChat,
+    notifications
   };
 };
 

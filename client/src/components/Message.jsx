@@ -33,9 +33,8 @@ const Message = ({ message, name, last }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       formattedDate = moment(date).fromNow();
-      console.log('intervall');
       setRelativeTime(formattedDate);
-    }, 30000);
+    }, 2000);
     return () => {
       clearInterval(interval);
     };
@@ -87,13 +86,13 @@ Message.defaultProps = {
   },
 };
 
-// const mapStateToProps = ({ auth }) => {
-//   const { user } = auth;
-//   if (user.name !== undefined) {
-//     return {
-//       name: user.name,
-//     };
-//   }
-// };
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+  if (user.name !== undefined) {
+    return {
+      name: user.name,
+    };
+  }
+};
 
-export default connect(null, null)(Message);
+export default connect(mapStateToProps, null)(Message);

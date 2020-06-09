@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
+import Tooltip from '@material-ui/core/Tooltip';
 import NewChat from './NewChat';
 import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
@@ -72,15 +74,30 @@ const styles = {
 };
 
 // const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
-const Dashboard = ({ user }) => {
+const Dashboard = ({ user, notifications }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  let inbox = null;
+  if (user && notifications) {
+    inbox = notifications.length
+  }
   // const context = useContext(SocketContext);
 
   return (
     <div style={styles.container}>
       <div style={styles.col1}>
         <div style={styles.headerLeft}>
-          <div />
+          <Tooltip
+            title={inbox === 1 ? `${inbox} unread chat` : `${inbox} unread chats`}
+          >
+            <Badge
+              color="primary"
+              badgeContent={inbox}
+            >
+              <i className="fas fa-bell fa-lg" style={styles.icon} />
+            </Badge>
+
+          </Tooltip>
+          {/* <div /> */}
           <div style={styles.direct}>
             <h2>DMs</h2>
           </div>
@@ -121,10 +138,11 @@ const Dashboard = ({ user }) => {
 //   },
 // };
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, notifications }) => {
   const { user } = auth;
   return ({
     user,
+    notifications,
   });
 };
 

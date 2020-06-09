@@ -29,6 +29,11 @@ const styles = {
     textShadow: '2px 2px purple',
     fontSize: '4vh',
   },
+  header3: {
+    color: 'white',
+    textShadow: '2px 2px purple',
+    fontSize: '1.3vh',
+  },
   button1: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     borderRadius: 3,
@@ -81,8 +86,9 @@ const LandingPage = () => {
       style={styles.container}
     >
       <div style={styles.box}>
-        <h1 style={styles.header}>InstaGrant</h1>
-        <h2 style={styles.header2}>make all of your friends jealous</h2>
+        <h1 style={styles.header}>Instagrant</h1>
+        <h2 style={styles.header2}>everything on the internet is permanent</h2>
+        <h2 style={styles.header3}>please do not look at the developer tools or try to break my website</h2>
         <div>
           <Button
             variant="contained"

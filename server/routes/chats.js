@@ -37,6 +37,7 @@ router.post('/', async (req, res) => {
         User.findById(user._id)
           .then((doc) => {
             doc.chats.push(newChat._id);
+            doc.notifications.push(newChat._id);
             return doc;
           })
           .then((newDoc) => newDoc.save((err, data) => {
@@ -45,7 +46,6 @@ router.post('/', async (req, res) => {
       });
       return res.send(newChat);
     }
-    console.log('chat exists');
     return res.send(existingChat);
   } catch (err) {
     console.error(err);
