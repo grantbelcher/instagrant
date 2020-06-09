@@ -34,12 +34,9 @@ router.post('/addChat', async (req, res) => {
 
 router.patch('/notifications', async (req, res) => {
   const { userId, notifications: newMessages } = req.body;
-  console.log(userId, newMessages, 'notifications saved');
   try {
     const user = await User.findById(userId);
-    console.log(user, 'user found');
     user.notifications = newMessages;
-    console.log(user.notifications, 'after removing duplicates');
     await user.save();
     return res.send('saved');
   } catch (error) {

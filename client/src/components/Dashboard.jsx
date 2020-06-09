@@ -77,7 +77,6 @@ const styles = {
 const Dashboard = ({ user, notifications }) => {
   const [modalOpen, setModalOpen] = useState(false);
   let inbox = null;
-  console.log('rendering NOTIFICATIONS')
   if (user && notifications) {
     inbox = notifications.length
   }

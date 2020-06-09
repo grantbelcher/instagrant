@@ -59,8 +59,7 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
       connection.emit('TYPING', userData);
       setTimeout(() => {
         connection.emit('STOP_TYPING', userData);
-      }, 3000);
-    } else {
+      }, 2000);
     }
   };
   const typingUsersList = Object.values(typingUsers);

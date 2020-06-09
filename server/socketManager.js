@@ -22,19 +22,32 @@ const socketManager = (socket) => {
   socket.on('SENDING_MESSAGE', async (message) => {
     const { user, text, chatId } = message;
     const chat = await Chat.findById(chatId);
+    console.log(chat, 'before sending message');
     if (!chat) return socket.emit('ERROR');
     const newMessage = new Message({
       username: user.name, avatar: user.avatar, text, chatId,
     });
     chat.messages.push(newMessage);
+    console.log(chat, 'after adding message');
     socket.broadcast.emit('MESSAGE_RECIEVED', chat);
     socket.emit('MESSAGE_SENT', chat);
+    // for each user in the chat
+    const { users } = chat;
+    users.forEach(async ({ _id }) => {
+      const account = await User.findById(_id);
+      account.notifications.push(chatId);
+      await account.save();
+    });
     await chat.save();
   });
 
   socket.on('NEW_CHAT_CREATED', (newChat) => {
     socket.broadcast.emit('NEW_CHAT_CREATED', newChat);
     socket.emit('NEW_CHAT_CREATED', newChat);
+    // for each user in the chat
+      // find user by id
+      // push chatId to notifications
+      // save user
   });
   socket.on('TYPING', (user) => {
     typingUsers = addUser(typingUsers, user);

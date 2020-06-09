@@ -40,9 +40,7 @@ const Main = ({
       updateTyping(typingUsers);
     });
   };
-  console.log(notifications, 'notificications in main component')
   const disconnect = () => {
-    console.log(notifications, 'before disconnect')
     if (user) {
       axios.patch('/users/notifications', { userId: user._id, notifications: store.getState().notifications });
       socket.emit('DISCONNECTING', user);

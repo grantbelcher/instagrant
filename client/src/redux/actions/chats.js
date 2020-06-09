@@ -51,7 +51,6 @@ export const updateChats = (updatedChat) => (dispatch) => {
 };
 
 export const selectChat = (chat) => (dispatch) => {
-  console.log(chat);
   dispatch(removeNotification(chat._id));
   dispatch({
     type: 'SELECT_CHAT',
@@ -63,7 +62,6 @@ export const createNewChat = (chat) => (dispatch) => {
   const { users } = chat;
   const { user } = store.getState().auth;
   const userIsRecipient = users.find(({ _id }) => _id === user._id);
-  console.log(userIsRecipient, 'user is a recipient test');
   if (userIsRecipient) {
     if (users[0]._id === user._id) {
       dispatch({
@@ -71,7 +69,6 @@ export const createNewChat = (chat) => (dispatch) => {
         payload: chat,
       });
     } else {
-      console.log(chat._id);
       dispatch(addNotification(chat._id));
       dispatch({
         type: 'ADDED_TO_CHAT',
@@ -86,7 +83,6 @@ export const createNewChat = (chat) => (dispatch) => {
 };
 
 export const updateConnectedUsers = (list) => (dispatch) => {
-  console.log(list, 'action')
   dispatch({
     type: 'UPDATE_CONNECTED_USERS',
     payload: list,
