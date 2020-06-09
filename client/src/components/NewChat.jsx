@@ -14,20 +14,27 @@ import SocketContext from '../context/index';
 import store from '../redux/index';
 import { selectChat } from '../redux/actions/chats';
 
+const styles = {
+  error: {
+    color: 'red',
+    textAlign: 'center',
+    fontSize: '1.5vh',
+  },
+};
+
 const NewChat = ({ open, setModalOpen, user }) => {
   const connection = useContext(SocketContext);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [recipients, setRecipients] = useState([]);
-
-  console.log(user, 'dasadsasadadadsaadsas')
+  const [error, setError] = useState(null);
 
   const searchUsers = async () => {
     const results = await axios.get(`http://localhost:1000/users?q=${query}`);
     const { data } = results;
-    console.log(data)
+    console.log(data);
     const users = data.filter((account) => account._id !== user._id);
-    console.log(users, 'too')
+    console.log(users, 'too');
     setSuggestions(users);
   };
   useEffect(() => {
@@ -39,26 +46,34 @@ const NewChat = ({ open, setModalOpen, user }) => {
     setQuery('');
     setRecipients([]);
     setModalOpen(false);
+    setError(null);
   };
 
   const newChat = async () => {
-    const name = 'test';
-    const data = { name, recipients: [user, ...recipients] };
-    let results;
-    axios.post('http://localhost:1000/chats', data)
-      .then((res) => res.data)
-      .then((chat) => {
-        connection.emit('NEW_CHAT_CREATED', chat);
-        return chat;
-      })
-      .then((newActiveChat) => store.dispatch({
-        type: 'SELECT_CHAT',
-        payload: newActiveChat,
-      }))
-      .then(() => {
-        handleClose();
-      })
-      .catch((err) => console.error(err.message, ' errrrrr'));
+    if (recipients.length > 0) {
+      const name = 'test';
+      const data = { name, recipients: [user, ...recipients] };
+      let results;
+      axios.post('http://localhost:1000/chats', data)
+        .then((res) => res.data)
+        .then((chat) => {
+          connection.emit('NEW_CHAT_CREATED', chat);
+          return chat;
+        })
+        .then((newActiveChat) => store.dispatch({
+          type: 'SELECT_CHAT',
+          payload: newActiveChat,
+        }))
+        .then(() => {
+          handleClose();
+        })
+        .catch((err) => console.error(err.message, ' errrrrr'));
+    } else {
+      setError('please add a recipient*');
+      setTimeout(() => {
+        setError(null);
+      }, 5000);
+    }
   };
 
   return (
@@ -87,6 +102,7 @@ const NewChat = ({ open, setModalOpen, user }) => {
 
         </div>
         <DialogContent dividers>
+          <div style={styles.error}>{error}</div>
           To:
           {' '}
           <Recipients recipients={recipients} setRecipients={setRecipients} user={user} />
