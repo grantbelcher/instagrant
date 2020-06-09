@@ -27,11 +27,8 @@ const Header = ({ activeChat, user }) => {
     userNames = `${userNames.substr(0, 47)}...`;
     if (userNames[46] === ' ') {
       userNames = `${userNames.slice(0, 46)}...`;
-      console.log(userNames, 'after');
     }
   }
-
-
   return (
     <>
       <AvatarGroup

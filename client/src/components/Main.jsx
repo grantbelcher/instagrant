@@ -16,7 +16,7 @@ const socketUrl = 'http://localhost:1000/';
 const socket = io(socketUrl);
 
 const Main = ({
- user, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats,
+ user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats,
 }) => {
   const initSocket = () => {
     socket.emit('USER_CONNECTED', user);
@@ -24,7 +24,6 @@ const Main = ({
       updateConnections(connectedUsers);
     });
     socket.on('USER_DISCONNECTED', (connectedUsers) => {
-      console.log(connectedUsers, 'CONNECTED USERS');
       updateConnections(connectedUsers);
     });
     socket.on('MESSAGE_SENT', (updatedChat) => {
@@ -66,7 +65,7 @@ const Main = ({
 
 // const mapStateToProps = ({ auth, chats }) => {
 const mapStateToProps = ({ auth, chat }) => {
-  const { user, isLoggedIn } = auth;
+  const { user, isLoggedIn, token } = auth;
   const { activeChat, chats } = chat;
   // const { activeChat } = chats;
   return ({
@@ -74,6 +73,7 @@ const mapStateToProps = ({ auth, chat }) => {
     user,
     activeChat,
     chats,
+    token,
     // activeChat,
     // usersChats: chats['chats'],
   });

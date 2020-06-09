@@ -8,7 +8,6 @@ const Recipients = ({ recipients, setRecipients, user: currentUser }) => {
     const recipientCopy = recipients.filter((user) => user._id !== recipient._id);
     setRecipients(recipientCopy);
   };
-  console.log(recipients, 'quuiiii');
   const chips = recipients.map((user) => {
     if (!user._id || user._id === currentUser._id) return null;
     return (

@@ -74,12 +74,12 @@ const styles = {
 };
 
 // const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
-const Dashboard = ({ user }) => {
+const Dashboard = ({ user, notifications }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  let notifications = null;
+  let inbox = null;
   console.log('rendering NOTIFICATIONS')
-  if (user && user.notifications) {
-    notifications = user.notifications.length
+  if (user && notifications) {
+    inbox = notifications.length
   }
   // const context = useContext(SocketContext);
 
@@ -88,11 +88,11 @@ const Dashboard = ({ user }) => {
       <div style={styles.col1}>
         <div style={styles.headerLeft}>
           <Tooltip
-            title={notifications === 1 ? `${notifications} unread chat` : `${notifications} unread chats`}
+            title={inbox === 1 ? `${inbox} unread chat` : `${inbox} unread chats`}
           >
             <Badge
               color="primary"
-              badgeContent={notifications}
+              badgeContent={inbox}
             >
               <i className="fas fa-bell fa-lg" style={styles.icon} />
             </Badge>
@@ -139,10 +139,11 @@ const Dashboard = ({ user }) => {
 //   },
 // };
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, notifications }) => {
   const { user } = auth;
   return ({
     user,
+    notifications,
   });
 };
 

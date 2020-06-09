@@ -2,7 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios';
 import store from '../index';
-import { addNotification } from './auth';
+import { addNotification, removeNotification } from './notifications';
 
 export const loadCommunityChat = () => (dispatch) => {
   axios.get('/chats/community')
@@ -41,7 +41,6 @@ export const updateChatsRecipient = (updatedChat) => (dispatch) => {
     type: 'UPDATE_CHATS',
     payload: updatedChat,
   });
-  console.log('dispatching next action from recipient');
   dispatch(addNotification(updatedChat._id));
 };
 export const updateChats = (updatedChat) => (dispatch) => {
@@ -52,6 +51,8 @@ export const updateChats = (updatedChat) => (dispatch) => {
 };
 
 export const selectChat = (chat) => (dispatch) => {
+  console.log(chat);
+  dispatch(removeNotification(chat._id));
   dispatch({
     type: 'SELECT_CHAT',
     payload: chat,
@@ -61,7 +62,6 @@ export const selectChat = (chat) => (dispatch) => {
 export const createNewChat = (chat) => (dispatch) => {
   const { users } = chat;
   const { user } = store.getState().auth;
-  console.log(users, user, 'testing user destructuring');
   const userIsRecipient = users.find(({ _id }) => _id === user._id);
   console.log(userIsRecipient, 'user is a recipient test');
   if (userIsRecipient) {
@@ -71,7 +71,6 @@ export const createNewChat = (chat) => (dispatch) => {
         payload: chat,
       });
     } else {
-      console.log('BEING ADDED TO CHAT');
       dispatch({
         type: 'ADDED_TO_CHAT',
         payload: chat,

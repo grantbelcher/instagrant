@@ -51,19 +51,16 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
   };
 
   const typeHandle = () => {
-    console.log('called');
     const userData = {
       ...user,
       chatId: activeChat._id,
     };
     if (typing) {
-      console.log('typing is true');
       connection.emit('TYPING', userData);
       setTimeout(() => {
         connection.emit('STOP_TYPING', userData);
       }, 3000);
     } else {
-      console.log('typing is false');
     }
   };
   const typingUsersList = Object.values(typingUsers);

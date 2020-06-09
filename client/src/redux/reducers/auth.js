@@ -26,24 +26,44 @@ export default function (state = initialState, action) {
         loading: false,
         user: payload,
       };
-    case 'ADD_NOTIFICATION':
-      const { notifications } = state.user
-      console.log(payload, 'EYYYYYYYYY');
-      const alreadyPresent = notifications.find((id) => id === payload)
-      if (alreadyPresent) {
-        console.log(alreadyPresent, 'alreadyPresent???')
-        return {
-          ...state,
-        };
-      }
-      console.log('updating');
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          notifications: [...state.user.notifications, payload],
-        },
-      };
+    // case 'ADD_NOTIFICATION':
+    //   const { notifications } = state.user
+    //   console.log(payload, 'EYYYYYYYYY');
+    //   const alreadyPresent = notifications.find((id) => id === payload)
+    //   if (alreadyPresent) {
+    //     console.log(alreadyPresent, 'alreadyPresent???')
+    //     return {
+    //       ...state,
+    //     };
+    //   }
+    //   return {
+    //     ...state,
+    //     user: {
+    //       ...state.user,
+    //       notifications: [...state.user.notifications, payload],
+    //     },
+    //   };
+    // case 'REMOVE_NOTIFICATION':
+    //   console.log('dispatched');
+    //   const oldNotifications = state.user.notifications;
+    //   const inNotifications = oldNotifications.indexOf(payload);
+    //   console.log(inNotifications, oldNotifications, 'look here');
+    //   if (!inNotifications) {
+    //     console.log('not in notifications');
+    //     return {
+    //       ...state,
+    //     };
+    //   }
+    //   const firstNotificatons = oldNotifications.slice(0, inNotifications);
+    //   const lastNotificatons = oldNotifications.slice(inNotifications + 1, oldNotifications.length);
+    //   console.log(oldNotifications, [...firstNotificatons, ...lastNotificatons], 'before stat change')
+    //   return {
+    //     ...state,
+    //     user: {
+    //       ...state.user,
+    //       notifications: [...firstNotificatons, ...lastNotificatons],
+    //     },
+    //   };
     case 'AUTH_ERROR':
     case 'LOG_OUT':
       return {

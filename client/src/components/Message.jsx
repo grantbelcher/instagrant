@@ -33,9 +33,8 @@ const Message = ({ message, name, last }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       formattedDate = moment(date).fromNow();
-      console.log('intervall');
       setRelativeTime(formattedDate);
-    }, 30000);
+    }, 2000);
     return () => {
       clearInterval(interval);
     };

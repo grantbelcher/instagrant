@@ -65,7 +65,6 @@ export default function (state = initialState, action) {
             ],
           };
         }
-        console.log(state.chats, state.activeChat, 'ORIGINL STATE');
         return {
           ...state,
           chats: [
@@ -82,7 +81,6 @@ export default function (state = initialState, action) {
         connectedUsers: payload,
       };
     case 'UPDATE_TYPING_USERS':
-      console.log(payload, 'updating in reducer');
       return {
         ...state,
         typingUsers: payload,
