@@ -7,7 +7,8 @@ export default function (state = initialState, action) {
       return payload;
     case 'ADD_NOTIFICATION':
       console.log(payload, 'reducer');
-      return [...state, payload];
+      const noDuplicates = new Set(...state, payload)
+      return [...noDuplicates];
     case 'REMOVE_NOTIFICATION':
       return state.filter((id) => id !== payload);
     default:

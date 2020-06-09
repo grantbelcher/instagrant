@@ -2,6 +2,7 @@
 /* eslint-disable arrow-body-style */
 import React, { useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
@@ -16,7 +17,7 @@ const socketUrl = 'http://localhost:1000/';
 const socket = io(socketUrl);
 
 const Main = ({
- user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats,
+ user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats, notifications
 }) => {
   const initSocket = () => {
     socket.emit('USER_CONNECTED', user);
@@ -39,9 +40,11 @@ const Main = ({
       updateTyping(typingUsers);
     });
   };
-
+  console.log(notifications, 'notificications in main component')
   const disconnect = () => {
+    console.log(notifications, 'before disconnect')
     if (user) {
+      axios.patch('/users/notifications', { userId: user._id, notifications: store.getState().notifications });
       socket.emit('DISCONNECTING', user);
     }
   };
@@ -64,7 +67,7 @@ const Main = ({
 };
 
 // const mapStateToProps = ({ auth, chats }) => {
-const mapStateToProps = ({ auth, chat }) => {
+const mapStateToProps = ({ auth, chat, notifications }) => {
   const { user, isLoggedIn, token } = auth;
   const { activeChat, chats } = chat;
   // const { activeChat } = chats;
@@ -74,6 +77,7 @@ const mapStateToProps = ({ auth, chat }) => {
     activeChat,
     chats,
     token,
+    notifications,
     // activeChat,
     // usersChats: chats['chats'],
   });
