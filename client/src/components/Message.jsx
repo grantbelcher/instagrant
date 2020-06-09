@@ -43,9 +43,7 @@ const Message = ({ message, name, last }) => {
     <div style={styles.header}>
       <div>{`${message.username}`}</div>
       <div style={styles.messageDate}>
-        {' '}
-        ·
-        {relativeTime}
+        {`· ${relativeTime}`}
       </div>
     </div>
   );
