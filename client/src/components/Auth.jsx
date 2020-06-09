@@ -53,9 +53,13 @@ const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
         />
         <Button
           style={{ float: 'right' }}
-          onClick={() => setForm(type)}
+          onClick={() => {
+            setName('');
+            setPassword('');
+            setForm(type);
+          }}
         >
-          {form === 'Sign In' ? 'Dont have an account? Sign Up' : 'Already have an account? Sign In'}
+          {form === 'Sign In' ? 'Dont have an account?' : 'Already have an account?'}
         </Button>
       </DialogContent>
       <DialogActions>
