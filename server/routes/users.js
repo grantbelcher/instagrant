@@ -34,7 +34,7 @@ router.post('/addChat', async (req, res) => {
 
 router.patch('/notifications', async (req, res) => {
   const { userId, notifications: newMessages } = req.body;
-  console.log(userId, newMessages, 'req body');
+  console.log(userId, newMessages, 'notifications saved');
   try {
     const user = await User.findById(userId);
     console.log(user, 'user found');
