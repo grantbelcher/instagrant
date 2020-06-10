@@ -52,8 +52,25 @@ const socketManager = (socket) => {
       return itemId.equals(messageId);
     });
     console.log(message, 'MESSAGE');
-    await message.favorites.push(username);
+    message.favorites.push(username);
     console.log(chat.messages);
+    // broadcast and emit to client
+    socket.broadcast.emit('LIKE_RECIEVED', chat);
+    socket.emit('MESSAGE_LIKED', chat);
+    await chat.save();
+  });
+
+  socket.on('REMOVE_FAVORITE', async (messageInfo) => {
+    let { username, chatId, messageId } = messageInfo;
+    const chat = await Chat.findById(chatId);
+    // find message in chat
+    const message = chat.messages.find((item) => {
+      const itemId = mongoose.Types.ObjectId(item._id);
+      messageId = mongoose.Types.ObjectId(messageId);
+      return itemId.equals(messageId);
+    });
+    const indexOfName = message.favorites.findIndex((name) => name === username);
+    message.favorites.splice(indexOfName, 1);
     // broadcast and emit to client
     socket.broadcast.emit('LIKE_RECIEVED', chat);
     socket.emit('MESSAGE_LIKED', chat);

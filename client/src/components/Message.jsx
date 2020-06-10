@@ -48,15 +48,13 @@ const Message = ({
   }, []);
 
   const addFavorite = () => {
-    console.log('adding favorite');
     connection.emit('ADD_FAVORITE', { username: currentUsername, chatId: activeChat._id, messageId: message._id });
   };
   const removeFavorite = () => {
-    console.log('removing');
-    // connection.emit('REMOVE_FAVORITE', { username: currentUsername, chatId: activeChat._id, messageId: message._id });
+    connection.emit('REMOVE_FAVORITE', { username: currentUsername, chatId: activeChat._id, messageId: message._id });
   };
 
-  let heartIcon = (favorites.length > 0) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />;
+  let heartIcon = (favorites.length > 0) ? <i className="fas fa-heart" style={{ color: 'violet' }}/> : <i className="far fa-heart" />;
   console.log(favorites, favorites.length);
   const alreadyFavorited = favorites.find((username) => username === currentUsername);
   console.log(alreadyFavorited);
