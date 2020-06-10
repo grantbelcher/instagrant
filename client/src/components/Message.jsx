@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
+import Tooltip from '@material-ui/core/Tooltip';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import SocketContext from '../context/index';
@@ -54,10 +55,28 @@ const Message = ({
     connection.emit('REMOVE_FAVORITE', { username: currentUsername, chatId: activeChat._id, messageId: message._id });
   };
 
-  let heartIcon = (favorites.length > 0) ? <i className="fas fa-heart" style={{ color: 'violet' }}/> : <i className="far fa-heart" />;
-  console.log(favorites, favorites.length);
+
   const alreadyFavorited = favorites.find((username) => username === currentUsername);
-  console.log(alreadyFavorited);
+  const indexOfYou = favorites.findIndex((username) => username === currentUsername);
+  let favoritesCopy = [...favorites];
+  if (indexOfYou > -1) {
+    favoritesCopy.splice(indexOfYou, 1);
+    favoritesCopy = ['you', ...favoritesCopy];
+  }
+  let favoriteNames = favoritesCopy.reduce((acc, name) => {
+    return acc + `${name}, `
+  }, '');
+  favoriteNames = favoriteNames.substr(0, favoriteNames.length - 2);
+
+  let heartIcon = (!(favorites.length > 0)
+    ? <i className="far fa-heart" />
+    : (
+      <Tooltip title={favoriteNames}>
+        <i className="fas fa-heart" style={{ color: 'violet' }} />
+      </Tooltip>
+    )
+  );
+
   const primaryText = (
     <div style={styles.header}>
       <div>{`${message.username}`}</div>
