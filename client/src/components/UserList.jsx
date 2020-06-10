@@ -28,7 +28,7 @@ const UserList = ({ users, recipients, setRecipients }) => {
               />
             </ListItemAvatar> */}
             <UserIcon name={user.name} imgUrl={user.avatar} />
-            <ListItemText primary={user.name} secondary="placeholder" />
+            <ListItemText primary={user.name} />
           </ListItem>
         </div>
       );
