@@ -11,7 +11,7 @@ const styles = {
     position: 'absolute',
     width: '69%',
     bottom: '0%',
-    backgroundColor: 'rgba(355, 355, 355, 0.8)',
+    backgroundColor: 'rgba(355, 355, 355, 1)',
   },
   g: {
     display: 'flex',
@@ -34,6 +34,11 @@ const styles = {
     flex: 1,
     padding: '2.3%',
     marginLeft: 5,
+  },
+  typing: {
+    paddingBottom: 3,
+    marginBottom: '1vh',
+    marginLeft: '1vw',
   },
 };
 
@@ -59,7 +64,7 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
       connection.emit('TYPING', userData);
       setTimeout(() => {
         connection.emit('STOP_TYPING', userData);
-      }, 2000);
+      }, 3000);
     }
   };
   const typingUsersList = Object.values(typingUsers);
@@ -69,12 +74,14 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
     typingString = `${usersTypingInChat[0].name} is typing...`;
   }
   if (usersTypingInChat.length > 1) {
-    typingString = 'users typing...';
+    typingString = 'Users are typing...';
   }
   return (
     <>
-      <div style={{fontWeight: 'bold'}}>{typingString}</div>
       <div style={styles.container}>
+        <div style={styles.typing}>
+          {typingString}
+        </div>
         <div style={styles.g}>
           <textarea
             rows="2"
