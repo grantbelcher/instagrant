@@ -6,6 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { makeStyles } from '@material-ui/core/styles';
 import store from '../redux/index';
 import { signIn } from '../redux/actions/auth';
 
@@ -15,6 +16,11 @@ const styles = {
     marginLeft: 20,
   },
 };
+
+// mobile,
+  // marginLeft: 15vw,
+  // maxWidth: 70vw
+
 
 const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
   const [name, setName] = useState('');
@@ -48,6 +54,7 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
       onClose={closeModal}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      style={{ maxWidth: '34vw', marginLeft: '34vw' }}
     >
       <DialogTitle>{form}</DialogTitle>
       <div style={styles.error}>
@@ -55,7 +62,7 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
       </div>
       <DialogContent>
         <TextField
-          autoFocus
+          autoFocus={true}
           margin="dense"
           id="name"
           label="username"
@@ -63,6 +70,7 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
           required
           onChange={(e) => setName(e.target.value)}
           value={name}
+          style={{ maxWidth: '100%' }}
         />
         <TextField
           margin="dense"
@@ -73,6 +81,7 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
           required
           onChange={(e) => setPassword(e.target.value)}
           value={password}
+          style={{ maxWidth: '100%' }}
         />
         <Button
           style={{ float: 'right' }}
