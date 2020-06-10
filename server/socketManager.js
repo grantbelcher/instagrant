@@ -1,4 +1,4 @@
-
+const mongoose = require('mongoose')
 const User = require('../db/models/User');
 const Chat = require('../db/models/Chat');
 const Message = require('../db/models/Message');
@@ -22,7 +22,6 @@ const socketManager = (socket) => {
   socket.on('SENDING_MESSAGE', async (message) => {
     const { user, text, chatId } = message;
     const chat = await Chat.findById(chatId);
-    console.log(chat, 'before sending message');
     if (!chat) return socket.emit('ERROR');
     const newMessage = new Message({
       username: user.name, avatar: user.avatar, text, chatId,
@@ -41,13 +40,29 @@ const socketManager = (socket) => {
     await chat.save();
   });
 
+  socket.on('ADD_FAVORITE', async (messageInfo) => {
+    let { username, chatId, messageId } = messageInfo;
+    const chat = await Chat.findById(chatId);
+    // find message in chat
+    console.log(username, chatId, messageId, 'bullshit');
+    console.log(chat, 'CHAT');
+    const message = chat.messages.find((item) => {
+      const itemId = mongoose.Types.ObjectId(item._id);
+      messageId = mongoose.Types.ObjectId(messageId);
+      return itemId.equals(messageId);
+    });
+    console.log(message, 'MESSAGE');
+    await message.favorites.push(username);
+    console.log(chat.messages);
+    // broadcast and emit to client
+    socket.broadcast.emit('LIKE_RECIEVED', chat);
+    socket.emit('MESSAGE_LIKED', chat);
+    await chat.save();
+  });
+
   socket.on('NEW_CHAT_CREATED', (newChat) => {
     socket.broadcast.emit('NEW_CHAT_CREATED', newChat);
     socket.emit('NEW_CHAT_CREATED', newChat);
-    // for each user in the chat
-      // find user by id
-      // push chatId to notifications
-      // save user
   });
   socket.on('TYPING', (user) => {
     typingUsers = addUser(typingUsers, user);

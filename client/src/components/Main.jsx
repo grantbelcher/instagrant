@@ -34,6 +34,12 @@ const Main = ({
     socket.on('MESSAGE_RECIEVED', (updatedChat) => {
       updateRecipientChats(updatedChat);
     });
+    socket.on('MESSAGE_LIKED', (updatedChat) => {
+      updateChatList(updatedChat);
+    });
+    socket.on('LIKE_RECIEVED', (updatedChat) => {
+      updateRecipientChats(updatedChat, true);
+    });
     socket.on('NEW_CHAT_CREATED', (newChat) => {
       createChat(newChat);
     });

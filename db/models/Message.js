@@ -12,6 +12,9 @@ const messageSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  favorites: [
+    String,
+  ],
 });
 
 module.exports = mongoose.model('Message', messageSchema);

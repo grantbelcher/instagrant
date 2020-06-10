@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import SocketContext from '../context/index';
 import UserIcon from './UserIcon';
 
 const styles = {
@@ -26,19 +28,38 @@ const styles = {
 };
 
 
-const Message = ({ message, name, last }) => {
+const Message = ({
+  message, currentUsername, last, activeChat
+}) => {
+  const connection = useContext(SocketContext);
+  const { favorites } = message;
   const { date } = message;
   let formattedDate = moment(date).fromNow();
   const [relativeTime, setRelativeTime] = useState(formattedDate);
+
   useEffect(() => {
     const interval = setInterval(() => {
       formattedDate = moment(date).fromNow();
       setRelativeTime(formattedDate);
-    }, 2000);
+    }, 5000);
     return () => {
       clearInterval(interval);
     };
   }, []);
+
+  const addFavorite = () => {
+    console.log('adding favorite');
+    connection.emit('ADD_FAVORITE', { username: currentUsername, chatId: activeChat._id, messageId: message._id });
+  };
+  const removeFavorite = () => {
+    console.log('removing');
+    // connection.emit('REMOVE_FAVORITE', { username: currentUsername, chatId: activeChat._id, messageId: message._id });
+  };
+
+  let heartIcon = (favorites.length > 0) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />;
+  console.log(favorites, favorites.length);
+  const alreadyFavorited = favorites.find((username) => username === currentUsername);
+  console.log(alreadyFavorited);
   const primaryText = (
     <div style={styles.header}>
       <div>{`${message.username}`}</div>
@@ -47,6 +68,8 @@ const Message = ({ message, name, last }) => {
       </div>
     </div>
   );
+
+
 
   return (
     <>
@@ -62,6 +85,9 @@ const Message = ({ message, name, last }) => {
           primary={primaryText}
           secondary={message.text}
         />
+        <IconButton onClick={alreadyFavorited ? removeFavorite : addFavorite}>
+          {heartIcon}
+        </IconButton>
       </ListItem>
       <Divider />
     </>
@@ -84,11 +110,14 @@ Message.defaultProps = {
   },
 };
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, chat }) => {
   const { user } = auth;
+  const { activeChat } = chat;
   if (user.name !== undefined) {
     return {
-      name: user.name,
+      currentUsername: user.name,
+      activeChat,
+
     };
   }
 };

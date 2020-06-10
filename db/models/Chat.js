@@ -25,6 +25,9 @@ const chatSchema = new Schema({
         type: Date,
         default: Date.now,
       },
+      favorites: [
+        String,
+      ],
       chatId: String,
     },
   ],
