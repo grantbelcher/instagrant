@@ -4,6 +4,7 @@ const initialState = {
   token: null,
   loading: false,
   user: null,
+  error: null,
 };
 
 export default function (state = initialState, action) {
@@ -27,6 +28,18 @@ export default function (state = initialState, action) {
         user: payload,
       };
     case 'AUTH_ERROR':
+      return {
+        isLoggedIn: false,
+        token: null,
+        loading: false,
+        user: null,
+        error: payload,
+      };
+    case 'REMOVE_ERROR':
+      return {
+        ...state,
+        error: null,
+      };
     case 'LOG_OUT':
       return {
         isLoggedIn: false,

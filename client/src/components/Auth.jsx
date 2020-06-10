@@ -6,14 +6,34 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import store from '../redux/index';
 import { signIn } from '../redux/actions/auth';
 
-const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
+const styles = {
+  error: {
+    color: 'red',
+    marginLeft: 20,
+  },
+};
+
+const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const submit = async () => {
-    const path = form.split(' ').join('');
-    submitForm(name, password, path);
+    if (name.length > 5 && password.length > 5) {
+      const path = form.split(' ').join('');
+      submitForm(name, password, path);
+    } else {
+      store.dispatch({
+        type: 'AUTH_ERROR',
+        payload: 'name & password must be at least 6 characters*',
+      });
+      setTimeout(() => {
+        store.dispatch({
+          type: 'REMOVE_ERROR',
+        });
+      }, 4000);
+    }
   };
 
   const closeModal = () => {
@@ -30,6 +50,9 @@ const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
       aria-describedby="simple-modal-description"
     >
       <DialogTitle>{form}</DialogTitle>
+      <div style={styles.error}>
+      {` `}{error}
+      </div>
       <DialogContent>
         <TextField
           autoFocus
@@ -72,8 +95,15 @@ const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
   );
 };
 
+const mapStateToProps = ({ auth }) => {
+  const { error } = auth;
+  return {
+    error,
+  };
+};
+
 const mapDispatchToProps = {
   submitForm: signIn,
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

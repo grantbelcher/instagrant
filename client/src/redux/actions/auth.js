@@ -34,9 +34,16 @@ export const signIn = (name, password, path) => async (dispatch) => {
       payload: response.data.token,
     });
   } catch (err) {
+    console.log(err, 'aquii');
     dispatch({
       type: 'AUTH_ERROR',
+      payload: 'invalid credentials*',
     });
+    setTimeout(() => {
+      dispatch({
+        type: 'REMOVE_ERROR',
+      });
+    }, 4000);
   }
 };
 
