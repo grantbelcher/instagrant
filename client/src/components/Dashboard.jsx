@@ -49,7 +49,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#bbfcf6',
+    backgroundColor: 'rgba(187, 252, 246, 0.8)',
   },
   headerLeft: {
     borderBottom: 'solid',
@@ -61,7 +61,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#bbfcf6',
+    backgroundColor: 'rgba(187, 252, 246, 0.8)',
   },
   direct: {
     fontWeight: 'bold',

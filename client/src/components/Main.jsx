@@ -6,6 +6,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import SocketContext from '../context/index';
+import { startTimer } from '../redux/actions/timer';
 import {
   updateConnectedUsers, loadCommunityChat, loadChats, updateChats, updateChatsRecipient, createNewChat, updateTypingUsers,
 } from '../redux/actions/chats';
@@ -17,7 +18,7 @@ const socketUrl = 'http://localhost:1000/';
 const socket = io(socketUrl);
 
 const Main = ({
- user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats, notifications
+ user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats, notifications, startTime
 }) => {
   const initSocket = () => {
     socket.emit('USER_CONNECTED', user);
@@ -49,6 +50,7 @@ const Main = ({
 
   useEffect(() => {
     if (user) {
+      startTime();
       initSocket();
       loadCommunity();
       loadUsersChats(user);
@@ -89,6 +91,7 @@ const mapDispatchToProps = {
   createChat: createNewChat,
   updateTyping: updateTypingUsers,
   updateRecipientChats: updateChatsRecipient,
+  startTime: startTimer,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -23,7 +23,7 @@ const styles = {
 };
 
 const ChatListItem = ({
-  chat, currentUser, activeChat, handleClick, notifications
+  chat, currentUser, activeChat, handleClick, notifications, timer,
 }) => {
   const { users, messages, name } = chat;
   let recipients;
@@ -67,6 +67,7 @@ const ChatListItem = ({
   }
   if (chat.name === 'Community') {
     chatName = 'Community Chat';
+    console.log(timer, 'timer');
   }
   const unread = notifications.indexOf(chat._id);
   if (messages && messages.length > 0) {
@@ -103,13 +104,16 @@ const ChatListItem = ({
 };
 
 
-const mapStateToProps = ({ auth, chat, notifications }) => {
+const mapStateToProps = ({
+  auth, chat, notifications, timer,
+}) => {
   const { user: currentUser } = auth;
   const { activeChat } = chat;
   return {
     currentUser,
     activeChat,
-    notifications
+    notifications,
+    timer,
   };
 };
 
