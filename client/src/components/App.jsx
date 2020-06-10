@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import Main from './Main';
+import Home from './Home';
 import { loadUser } from '../redux/actions/auth';
 import store from '../redux/index';
 import setAuthToken from '../../../utils/setAuthToken';
@@ -26,6 +27,9 @@ const App = ({ isLoggedIn, token }) => {
         </Route>
         <Route path="/dashboard">
           <Main />
+        </Route>
+        <Route path="/home">
+          <Home />
         </Route>
       </Switch>
     </div>

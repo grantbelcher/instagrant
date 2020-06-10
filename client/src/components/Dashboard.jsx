@@ -100,9 +100,12 @@ const Dashboard = ({ user, notifications }) => {
 
           </Tooltip>
           {/* <div /> */}
-          <div style={styles.direct}>
+          {/* <div style={styles.direct}>
             <h2>DMs</h2>
-          </div>
+          </div> */}
+          <Link href="/home">
+            <i className="fas fa-home" />
+          </Link>
           <IconButton onClick={() => setModalOpen(true)}>
             <i className="far fa-edit fa-sm" style={styles.icon} />
           </IconButton>
