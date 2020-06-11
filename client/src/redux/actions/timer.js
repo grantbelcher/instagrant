@@ -6,3 +6,9 @@ export const startTimer = () => (dispatch) => {
     });
   }, 5000);
 };
+
+export const rickAstley = () => (dispatch) => {
+  dispatch({
+    type: 'RICK_ASTLEY',
+  });
+};

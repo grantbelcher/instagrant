@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
+import Home from './Home';
 import SocketContext from '../context/index';
 import { startTimer } from '../redux/actions/timer';
 import {
@@ -18,7 +19,7 @@ const socketUrl = 'http://localhost:1000/';
 const socket = io(socketUrl);
 
 const Main = ({
- user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats, notifications, startTime
+ user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats, notifications, startTime, rickAstley
 }) => {
   const initSocket = () => {
     socket.emit('USER_CONNECTED', user);
@@ -64,6 +65,9 @@ const Main = ({
     window.addEventListener('beforeunload', disconnect);
   }, [user]);
 
+  if (rickAstley) {
+    return <Home />;
+  }
 
   return (
     <SocketContext.Provider value={socket}>
@@ -73,9 +77,10 @@ const Main = ({
 };
 
 // const mapStateToProps = ({ auth, chats }) => {
-const mapStateToProps = ({ auth, chat, notifications }) => {
+const mapStateToProps = ({ auth, chat, notifications, timer }) => {
   const { user, isLoggedIn, token } = auth;
   const { activeChat, chats } = chat;
+  const { rickAstley } = timer;
   // const { activeChat } = chats;
   return ({
     isLoggedIn,
@@ -84,6 +89,7 @@ const mapStateToProps = ({ auth, chat, notifications }) => {
     chats,
     token,
     notifications,
+    rickAstley,
     // activeChat,
     // usersChats: chats['chats'],
   });

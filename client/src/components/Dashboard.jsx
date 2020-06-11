@@ -11,6 +11,7 @@ import NewChat from './NewChat';
 import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
 import Header from './Header';
+import { rickAstley } from '../redux/actions/timer'
 
 
 const styles = {
@@ -76,7 +77,7 @@ const styles = {
 };
 
 // const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
-const Dashboard = ({ user, notifications }) => {
+const Dashboard = ({ user, notifications, goToRick }) => {
   const [modalOpen, setModalOpen] = useState(false);
   let inbox = null;
   if (user && notifications) {
@@ -103,9 +104,10 @@ const Dashboard = ({ user, notifications }) => {
           {/* <div style={styles.direct}>
             <h2>DMs</h2>
           </div> */}
-          <Link href="/home">
+          <IconButton onClick={() => goToRick()}>
             <i className="fas fa-home" />
-          </Link>
+          </IconButton>
+
           <IconButton onClick={() => setModalOpen(true)}>
             <i className="far fa-edit fa-sm" style={styles.icon} />
           </IconButton>
@@ -151,5 +153,9 @@ const mapStateToProps = ({ auth, notifications }) => {
   });
 };
 
+const mapDispatchToProps = {
+  goToRick: rickAstley,
+};
 
-export default connect(mapStateToProps, null)(Dashboard);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

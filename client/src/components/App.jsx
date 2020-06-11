@@ -28,9 +28,6 @@ const App = ({ isLoggedIn, token }) => {
         <Route path="/dashboard">
           <Main />
         </Route>
-        <Route path="/home">
-          <Home />
-        </Route>
       </Switch>
     </div>
   );
