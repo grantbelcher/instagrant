@@ -26,7 +26,8 @@ export const signIn = (name, password, path) => async (dispatch) => {
     // dispatch({
     //   type: 'LOADING',
     // });
-    const response = await axios.post(`http://ec2-54-202-4-206.us-west-2.compute.amazonaws.com/auth/${path}`, { name, password });
+    console.log(name, password, path);
+    const response = await axios.post(`/auth/${path}`, { name, password });
     // localStorage.setItem('token', response.data.token);
     console.log(response.data, 'RESPONSE!!!!!!');
     dispatch(loadUser(response.data.token));
