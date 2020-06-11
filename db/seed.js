@@ -69,6 +69,13 @@ const initialUsers = [
     __v: 0,
   },
   {
+    avatar: 'https://memegenerator.net/img/images/12711869.jpg',
+    _id: '5ecef0f1c868515bc9818eec',
+    name: 'Grandma',
+    password: '$2b$10$CBoVdt0MMxpvy9nKaY5Z9u1q.GZ.1Xmav3ryQlL9c1IQ7R3Bm/Lt.',
+    __v: 0,
+  },
+  {
     avatar: 'https://is2-ssl.mzstatic.com/image/thumb/Purple71/v4/f2/13/74/f21374ed-8a0f-70a4-2f03-b863315e0f4c/source/256x256bb.jpg',
     _id: '5ecef13ec868515bc9818eed',
     name: 'admin69',

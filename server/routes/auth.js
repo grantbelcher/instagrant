@@ -55,7 +55,7 @@ router.post(
       newUser.chats.push(communityChat._id);
       await newUser.save();
       const { id } = newUser;
-      const secret = config.get('secret_key');
+      const secret = 'mysecretkey';
       const token = jwt.sign({ id }, secret, { expiresIn: '1h' });
       return res.json({ token });
     } catch (err) {
@@ -82,7 +82,7 @@ router.post(
       const match = await bcrypt.compare(password, user.password);
       if (!match || !user) return res.status(404).json({ message: 'invalid credentials' });
       const { id } = user;
-      const secret = config.get('secret_key');
+      const secret = 'mysecretkey';
       const token = jwt.sign({ id }, secret, { expiresIn: '1h' });
       return res.json({ token });
     } catch (err) {
