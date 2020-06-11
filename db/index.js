@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('config');
 
-const dbUrl = config.get('dbUrl');
+const dbUrl = 'mongodb://ec2-34-222-36-118.us-west-2.compute.amazonaws.com:27017';
 
 module.exports = () => {
   mongoose.connect(
