@@ -25,7 +25,7 @@ db();
 
 io.on('connection', socketManager);
 
-const PORT = 1000;
+const PORT = 80;
 
 
 server.listen(PORT, () => {

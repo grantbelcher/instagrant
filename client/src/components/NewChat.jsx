@@ -30,7 +30,7 @@ const NewChat = ({ open, setModalOpen, user }) => {
   const [error, setError] = useState(null);
 
   const searchUsers = async () => {
-    const results = await axios.get(`http://localhost:1000/users?q=${query}`);
+    const results = await axios.get(`http://ec2-54-202-4-206.us-west-2.compute.amazonaws.com/users?q=${query}`);
     const { data } = results;
     console.log(data);
     const users = data.filter((account) => account._id !== user._id);
@@ -54,7 +54,7 @@ const NewChat = ({ open, setModalOpen, user }) => {
       const name = 'test';
       const data = { name, recipients: [user, ...recipients] };
       let results;
-      axios.post('http://localhost:1000/chats', data)
+      axios.post('http://ec2-54-202-4-206.us-west-2.compute.amazonaws.com/chats', data)
         .then((res) => res.data)
         .then((chat) => {
           connection.emit('NEW_CHAT_CREATED', chat);
