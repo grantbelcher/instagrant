@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const config = require('config');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
@@ -48,8 +48,9 @@ router.post(
       const { name, password, avatar } = req.body;
       const userExists = await User.findOne({ name });
       if (userExists) return res.status(401).json({ message: 'user already exists' });
-      const salt = await bcrypt.genSalt(10);
-      const hashedPass = await bcrypt.hash(password, salt);
+      // const salt = await bcrypt.genSalt(10);
+      // const hashedPass = await bcrypt.hash(password, salt);
+      const hashedPass = password;
       const newUser = new User({ name, password: hashedPass, avatar });
       const communityChat = await Chat.findOne({ name: 'Community' });
       newUser.chats.push(communityChat._id);
@@ -79,7 +80,7 @@ router.post(
     try {
       const { name, password } = req.body;
       const user = await User.findOne({ name });
-      const match = await bcrypt.compare(password, user.password);
+      const match = (password === user.password);
       if (!match || !user) return res.status(404).json({ message: 'invalid credentials' });
       const { id } = user;
       const secret = 'mysecretkey';
