@@ -2,7 +2,7 @@
 export const startTimer = () => (dispatch) => {
   setInterval(() => {
     dispatch({
-      type: 'UPDATE_TIMER',
+      type: 'NULL',
     });
   }, 5000);
 };

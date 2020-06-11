@@ -32,9 +32,7 @@ const NewChat = ({ open, setModalOpen, user }) => {
   const searchUsers = async () => {
     const results = await axios.get(`/users?q=${query}`);
     const { data } = results;
-    console.log(data);
     const users = data.filter((account) => account._id !== user._id);
-    console.log(users, 'too');
     setSuggestions(users);
   };
   useEffect(() => {

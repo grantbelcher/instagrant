@@ -26,7 +26,6 @@ const ChatList = ({ allChats }) => {
       return moment(b.messages[b.messages.length - 1].date) - moment(a.messages[a.messages.length - 1].date);
     });
     chats = allChats.map((chat) => <ChatListItem button chat={chat} />);
-    chats.shift();
     setChatList(chats);
   }, [allChats]);
 

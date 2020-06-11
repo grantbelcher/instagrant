@@ -33,12 +33,14 @@ export default function (state = initialState, action) {
         activeChat: payload,
       };
     case 'CREATE_NEW_CHAT':
+      console.log([payload, ...state.chats], 'REDUCER BEFORE UPDATED STATE');
       return {
         ...state,
         activeChat: payload,
         chats: [payload, ...state.chats],
       };
     case 'ADDED_TO_CHAT':
+      console.log([payload, ...state.chats], 'REDUCER BEFORE UPDATED STATE');
       return {
         ...state,
         chats: [payload, ...state.chats],
@@ -88,17 +90,3 @@ export default function (state = initialState, action) {
       return state;
   }
 }
-
-// const indexInChats = chats.findIndex((chat) => chat._id === message.chatId);
-// if (indexInChats) {
-//   // if message.chatId === activeChat._id => different action
-//   // else
-//   const allChatsCopy = chats;
-//   const chatCopy = chats[indexInChats];
-//   console.log(chats, 'look here');
-// chatCopy.messages = [...chatCopy.messages, message];
-// allChatsCopy.splice(indexInChats, 1, chatCopy);
-
-// look in active chat
-// compare ids
-// if mathc
