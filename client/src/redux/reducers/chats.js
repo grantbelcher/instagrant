@@ -33,14 +33,22 @@ export default function (state = initialState, action) {
         activeChat: payload,
       };
     case 'CREATE_NEW_CHAT':
-      console.log([payload, ...state.chats], 'REDUCER BEFORE UPDATED STATE');
+      if (payload._id === state.chats[0]._id) {
+        return {
+          ...state,
+        };
+      }
       return {
         ...state,
         activeChat: payload,
         chats: [payload, ...state.chats],
       };
     case 'ADDED_TO_CHAT':
-      console.log([payload, ...state.chats], 'REDUCER BEFORE UPDATED STATE');
+      if (payload._id === state.chats[0]._id) {
+        return {
+          ...state,
+        };
+      }
       return {
         ...state,
         chats: [payload, ...state.chats],
