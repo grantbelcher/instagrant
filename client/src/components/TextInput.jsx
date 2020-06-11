@@ -78,7 +78,10 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
     setText('');
   };
 
-  const typeHandle = () => {
+  const typeHandle = (e) => {
+    if (e.key === 'Enter') {
+      console.log('pressed enter')
+    }
     const userData = {
       ...user,
       chatId: activeChat._id,
@@ -86,7 +89,7 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
       connection.emit('TYPING', userData);
       setTimeout(() => {
         connection.emit('STOP_TYPING', userData);
-      }, 3000);
+      }, 5000);
   };
   const typingUsersList = Object.values(typingUsers);
   const usersTypingInChat = typingUsersList.filter((item) => ((item.chatId === activeChat._id) && (item._id !== user._id)));
@@ -113,7 +116,7 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
             value={text}
             style={styles.input}
             onChange={(e) => setText(e.target.value)}
-            onKeyPress={typeHandle}
+            onKeyPress={(e) => typeHandle(e)}
           />
           <i className="fa fa-paper-plane-o fa-sm" style={styles.iconBorder} onClick={sendMessage} />
         </div>

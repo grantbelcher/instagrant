@@ -27,9 +27,9 @@ const MessageList = ({ activeChat }) => {
       <List>
         {messages.map((message, i) => {
           if (i === messages.length - 1) {
-            return <Message ref={listEndRef} message={message} last={(i === messages.length - 1)} />;
+            return <Message ref={listEndRef} message={message} index={i} last={(i === messages.length - 1)} />;
           }
-          return <Message message={message} last={(i === messages.length - 1)} />;
+          return <Message message={message} index={i} last={(i === messages.length - 1)} />;
         })}
         <div ref={listEndRef} />
       </List>

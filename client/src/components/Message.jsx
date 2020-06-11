@@ -11,11 +11,17 @@ import SocketContext from '../context/index';
 import UserIcon from './UserIcon';
 
 const styles = {
-  message: {
-    backgroundColor: 'rgba(223, 249, 246, 1.0)',
+  // message: {
+  //   backgroundColor: 'rgba(223, 249, 246, 1.0)',
+  // },
+  odd: {
+    backgroundColor: 'rgba(223, 249, 246, 0.8)',
   },
-  myMessage: {
-    backgroundColor: '#f5d0eb',
+  // myMessage: {
+  //   backgroundColor: '#f5d0eb',
+  // },
+ even: {
+    backgroundColor: 'rgba(245, 208, 235, 0.8)',
   },
   header: {
     display: 'flex',
@@ -30,7 +36,7 @@ const styles = {
 
 
 const Message = ({
-  message, currentUsername, last, activeChat
+  message, currentUsername, last, activeChat, index
 }) => {
   const connection = useContext(SocketContext);
   const { favorites } = message;
@@ -85,14 +91,13 @@ const Message = ({
       </div>
     </div>
   );
-
-
-
+    console.log(index % 2 === 0, 'index')
   return (
     <>
       <ListItem
         autoFocus={last}
-        style={(name === message.username) ? styles.myMessage : styles.message}
+        style={(index % 2 === 0) ? styles.even : styles.odd}
+        // style={(currentUsername === message.username) ? styles.myMessage : styles.message}
       >
         {/* <ListItemAvatar>
           <Avatar alt={message.username} src={message.avatar} />

@@ -50,7 +50,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'rgba(187, 252, 246, 0.8)',
+    backgroundColor: 'rgba(223, 249, 246, 1.0)',
   },
   headerLeft: {
     borderBottom: 'solid',
@@ -62,7 +62,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'rgba(187, 252, 246, 0.8)',
+    backgroundColor: 'rgba(223, 249, 246, 1.0)',
   },
   direct: {
     fontWeight: 'bold',
