@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('config');
 
-const dbUrl = "mongodb+srv://native-d4ivu.mongodb.net/instagrant";
+const dbUrl = 'mongodb+srv://12345:12345@native-d4ivu.mongodb.net/instagrant?retryWrites=true&w=majority';
 
 module.exports = () => {
   mongoose.connect(
