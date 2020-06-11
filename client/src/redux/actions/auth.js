@@ -26,13 +26,15 @@ export const signIn = (name, password, path) => async (dispatch) => {
     // dispatch({
     //   type: 'LOADING',
     // });
-    dispatch(loadUser());
+
+    console.log(path);
     const response = await axios.post(`http://ec2-54-202-4-206.us-west-2.compute.amazonaws.com/auth/${path}`, { name, password });
     // localStorage.setItem('token', response.data.token);
     dispatch({
       type: 'AUTH_SUCCESS',
       payload: response.data.token,
     });
+        dispatch(loadUser());
   } catch (err) {
     console.log(err, 'aquii');
     dispatch({
