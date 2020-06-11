@@ -14,7 +14,7 @@ import {
 import store from '../redux/index';
 
 
-const socketUrl = 'http://localhost:1000/';
+const socketUrl = 'http://ec2-54-202-4-206.us-west-2.compute.amazonaws.com/';
 
 const socket = io(socketUrl);
 
