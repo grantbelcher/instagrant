@@ -6,14 +6,40 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { makeStyles } from '@material-ui/core/styles';
+import store from '../redux/index';
 import { signIn } from '../redux/actions/auth';
 
-const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
+const styles = {
+  error: {
+    color: 'red',
+    marginLeft: 20,
+  },
+};
+
+// mobile,
+  // marginLeft: 15vw,
+  // maxWidth: 70vw
+
+
+const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const submit = async () => {
-    const path = form.split(' ').join('');
-    submitForm(name, password, path);
+    if (name.length > 5 && password.length > 5) {
+      const path = form.split(' ').join('');
+      submitForm(name, password, path);
+    } else {
+      store.dispatch({
+        type: 'AUTH_ERROR',
+        payload: 'name & password must be at least 6 characters*',
+      });
+      setTimeout(() => {
+        store.dispatch({
+          type: 'REMOVE_ERROR',
+        });
+      }, 4000);
+    }
   };
 
   const closeModal = () => {
@@ -28,11 +54,15 @@ const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
       onClose={closeModal}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      style={{ maxWidth: '34vw', marginLeft: '34vw' }}
     >
       <DialogTitle>{form}</DialogTitle>
+      <div style={styles.error}>
+      {` `}{error}
+      </div>
       <DialogContent>
         <TextField
-          autoFocus
+          autoFocus={true}
           margin="dense"
           id="name"
           label="username"
@@ -40,6 +70,7 @@ const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
           required
           onChange={(e) => setName(e.target.value)}
           value={name}
+          style={{ maxWidth: '100%' }}
         />
         <TextField
           margin="dense"
@@ -50,12 +81,17 @@ const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
           required
           onChange={(e) => setPassword(e.target.value)}
           value={password}
+          style={{ maxWidth: '100%' }}
         />
         <Button
           style={{ float: 'right' }}
-          onClick={() => setForm(type)}
+          onClick={() => {
+            setName('');
+            setPassword('');
+            setForm(type);
+          }}
         >
-          {form === 'Sign In' ? 'Dont have an account? Sign Up' : 'Already have an account? Sign In'}
+          {form === 'Sign In' ? 'Dont have an account?' : 'Already have an account?'}
         </Button>
       </DialogContent>
       <DialogActions>
@@ -68,8 +104,15 @@ const Auth = ({ handleClose, open, form, setForm, submitForm}) => {
   );
 };
 
+const mapStateToProps = ({ auth }) => {
+  const { error } = auth;
+  return {
+    error,
+  };
+};
+
 const mapDispatchToProps = {
   submitForm: signIn,
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

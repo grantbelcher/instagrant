@@ -6,11 +6,12 @@ import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Tooltip from '@material-ui/core/Tooltip';
+import Paper from '@material-ui/core/Paper';
 import NewChat from './NewChat';
 import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
 import Header from './Header';
-import SocketContext from '../context/index';
+import { rickAstley } from '../redux/actions/timer'
 
 
 const styles = {
@@ -49,6 +50,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: 'rgba(187, 252, 246, 0.8)',
   },
   headerLeft: {
     borderBottom: 'solid',
@@ -60,6 +62,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: 'rgba(187, 252, 246, 0.8)',
   },
   direct: {
     fontWeight: 'bold',
@@ -74,7 +77,7 @@ const styles = {
 };
 
 // const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
-const Dashboard = ({ user, notifications }) => {
+const Dashboard = ({ user, notifications, goToRick }) => {
   const [modalOpen, setModalOpen] = useState(false);
   let inbox = null;
   if (user && notifications) {
@@ -85,7 +88,7 @@ const Dashboard = ({ user, notifications }) => {
   return (
     <div style={styles.container}>
       <div style={styles.col1}>
-        <div style={styles.headerLeft}>
+        <Paper style={styles.headerLeft}>
           <Tooltip
             title={inbox === 1 ? `${inbox} unread chat` : `${inbox} unread chats`}
           >
@@ -93,22 +96,26 @@ const Dashboard = ({ user, notifications }) => {
               color="primary"
               badgeContent={inbox}
             >
-              <i className="fas fa-bell fa-lg" style={styles.icon} />
+              <i className="far fa-bell fa-lg" style={styles.icon} />
             </Badge>
 
           </Tooltip>
           {/* <div /> */}
-          <div style={styles.direct}>
+          {/* <div style={styles.direct}>
             <h2>DMs</h2>
-          </div>
+          </div> */}
+          <IconButton onClick={() => goToRick()}>
+            <i className="fas fa-home" />
+          </IconButton>
+
           <IconButton onClick={() => setModalOpen(true)}>
             <i className="far fa-edit fa-sm" style={styles.icon} />
           </IconButton>
-        </div>
+        </Paper>
         <ChatList />
       </div>
       <div style={styles.col2}>
-        <div style={styles.headerRight}>
+        <Paper style={styles.headerRight}>
           <div style={styles.userInfoHeader}>
             <Header />
           </div>
@@ -119,7 +126,7 @@ const Dashboard = ({ user, notifications }) => {
             </Link>
           </Breadcrumbs>
           <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} user={user} />
-        </div>
+        </Paper>
         <ChatDisplay />
       </div>
     </div>
@@ -146,5 +153,9 @@ const mapStateToProps = ({ auth, notifications }) => {
   });
 };
 
+const mapDispatchToProps = {
+  goToRick: rickAstley,
+};
 
-export default connect(mapStateToProps, null)(Dashboard);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

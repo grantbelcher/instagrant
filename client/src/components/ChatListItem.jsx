@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import Tooltip from '@material-ui/core/Tooltip';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
@@ -12,15 +13,18 @@ import { selectChat } from '../redux/actions/chats';
 
 const styles = {
   activeStyle: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'rgba(223, 249, 246, 1.0)',
   },
   boldFont: {
     fontWeight: 'bold',
   },
+  chatItem: {
+    backgroundColor: 'rgba(245, 245, 245, 0.6)',
+  },
 };
 
 const ChatListItem = ({
-  chat, currentUser, activeChat, handleClick, notifications
+  chat, currentUser, activeChat, handleClick, notifications, timer,
 }) => {
   const { users, messages, name } = chat;
   let recipients;
@@ -53,14 +57,17 @@ const ChatListItem = ({
 
   if (users !== undefined && users.length > 0) {
     recipients = users.filter((user) => user._id !== currentUser._id);
-    if (recipients.length > 1) {
-      usernames = `${recipients[0].name}, ${recipients[1].name.substr(0, 4)}...`;
+    if (recipients.length > 2) {
+      usernames = `${recipients[0].name}, ${recipients[1].name}...`;
+    } else if (recipients.length === 2) {
+      usernames = `${recipients[0].name} & ${recipients[1].name}`;
     } else {
       usernames = recipients[0].name;
     }
     recipient = recipients[0].name;
     recipientAvatar = recipients[0].avatar;
-    chatName = recipients.reduce((acc, user) => `${acc}, ${user.name}`, '');
+    chatName = recipients.reduce((acc, user) => `${acc} ${user.name}, `, '');
+    chatName = chatName.substr(0, chatName.length - 2);
   }
   if (chat.name === 'Community') {
     chatName = 'Community Chat';
@@ -70,11 +77,13 @@ const ChatListItem = ({
     lastMessage = messages[messages.length - 1];
     lastActivity = moment(lastMessage.date).fromNow();
     primaryText = (
-      <div style={activeChat._id === chat._id ? styles.boldFont : (unread > -1 ? styles.boldFont : null)}>{usernames || chatName}</div>
+      <Tooltip title={chatName}>
+        <div style={activeChat._id === chat._id ? styles.boldFont : (unread > -1 ? styles.boldFont : null)}>{usernames || chatName}</div>
+      </Tooltip>
     );
     secondaryText = (
       <>
-        <div style={activeChat._id === chat._id ? styles.boldFont : (unread > -1 ? styles.boldFont : null)}>{`${lastMessage.username}: ${lastMessage.text.substr(0, 15)}...`}</div>
+        <div style={activeChat._id === chat._id ? styles.boldFont : (unread > -1 ? styles.boldFont : null)}>{`${lastMessage.username}: ${lastMessage.text.substr(0, 15)}...`}</div> 
         <div style={activeChat._id === chat._id ? styles.boldFont : (unread > -1 ? styles.boldFont : null)}>{lastActivity}</div>
       </>
     );
@@ -83,7 +92,7 @@ const ChatListItem = ({
   return (
     <>
       <ListItem
-        style={activeChat._id === chat._id ? styles.activeStyle : null}
+        style={activeChat._id === chat._id ? styles.activeStyle : styles.chatItem}
         button
         onClick={() => handleClick(chat)}
       >
@@ -100,13 +109,16 @@ const ChatListItem = ({
 };
 
 
-const mapStateToProps = ({ auth, chat, notifications }) => {
+const mapStateToProps = ({
+  auth, chat, notifications, timer,
+}) => {
   const { user: currentUser } = auth;
   const { activeChat } = chat;
   return {
     currentUser,
     activeChat,
-    notifications
+    notifications,
+    timer,
   };
 };
 

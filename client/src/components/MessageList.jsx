@@ -6,9 +6,10 @@ import Message from './Message';
 
 const styles = {
   container: {
-    maxHeight: '69.5vh',
-    minHeight: '69.5vh',
+    maxHeight: '68vh',
+    minHeight: '68vh',
     overflow: 'auto',
+    backgroundColor: 'rgba(245, 245, 245, 0.6)',
   },
 };
 

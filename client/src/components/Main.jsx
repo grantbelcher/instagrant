@@ -5,7 +5,9 @@ import io from 'socket.io-client';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
+import Home from './Home';
 import SocketContext from '../context/index';
+import { startTimer } from '../redux/actions/timer';
 import {
   updateConnectedUsers, loadCommunityChat, loadChats, updateChats, updateChatsRecipient, createNewChat, updateTypingUsers,
 } from '../redux/actions/chats';
@@ -17,7 +19,7 @@ const socketUrl = 'http://localhost:1000/';
 const socket = io(socketUrl);
 
 const Main = ({
- user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats, notifications
+ user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats, notifications, startTime, rickAstley
 }) => {
   const initSocket = () => {
     socket.emit('USER_CONNECTED', user);
@@ -32,6 +34,12 @@ const Main = ({
     });
     socket.on('MESSAGE_RECIEVED', (updatedChat) => {
       updateRecipientChats(updatedChat);
+    });
+    socket.on('MESSAGE_LIKED', (updatedChat) => {
+      updateChatList(updatedChat);
+    });
+    socket.on('LIKE_RECIEVED', (updatedChat) => {
+      updateRecipientChats(updatedChat, true);
     });
     socket.on('NEW_CHAT_CREATED', (newChat) => {
       createChat(newChat);
@@ -49,6 +57,7 @@ const Main = ({
 
   useEffect(() => {
     if (user) {
+      startTime();
       initSocket();
       loadCommunity();
       loadUsersChats(user);
@@ -56,6 +65,9 @@ const Main = ({
     window.addEventListener('beforeunload', disconnect);
   }, [user]);
 
+  if (rickAstley) {
+    return <Home />;
+  }
 
   return (
     <SocketContext.Provider value={socket}>
@@ -65,9 +77,10 @@ const Main = ({
 };
 
 // const mapStateToProps = ({ auth, chats }) => {
-const mapStateToProps = ({ auth, chat, notifications }) => {
+const mapStateToProps = ({ auth, chat, notifications, timer }) => {
   const { user, isLoggedIn, token } = auth;
   const { activeChat, chats } = chat;
+  const { rickAstley } = timer;
   // const { activeChat } = chats;
   return ({
     isLoggedIn,
@@ -76,6 +89,7 @@ const mapStateToProps = ({ auth, chat, notifications }) => {
     chats,
     token,
     notifications,
+    rickAstley,
     // activeChat,
     // usersChats: chats['chats'],
   });
@@ -89,6 +103,7 @@ const mapDispatchToProps = {
   createChat: createNewChat,
   updateTyping: updateTypingUsers,
   updateRecipientChats: updateChatsRecipient,
+  startTime: startTimer,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

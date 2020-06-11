@@ -36,12 +36,15 @@ export const loadChats = (user) => (dispatch) => {
     .catch((err) => console.error(err.message));
 };
 
-export const updateChatsRecipient = (updatedChat) => (dispatch) => {
+export const updateChatsRecipient = (updatedChat, favorite = false) => (dispatch) => {
+  console.log(favorite, 'did second arg work???')
   dispatch({
     type: 'UPDATE_CHATS',
     payload: updatedChat,
   });
-  dispatch(addNotification(updatedChat._id));
+  if (!favorite) {
+    dispatch(addNotification(updatedChat._id));
+  }
 };
 export const updateChats = (updatedChat) => (dispatch) => {
   dispatch({

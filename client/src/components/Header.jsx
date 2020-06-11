@@ -13,7 +13,7 @@ const styles = {
 };
 
 const Header = ({ activeChat, user }) => {
-// const Header = ({ user }) => {
+// const Header = ({ user }) => {ss
   let userNames;
   let allNames;
   if (!activeChat.users) return null;
