@@ -6,7 +6,6 @@ const config = require('config');
 const authMiddleware = async (req, res, next) => {
   try {
     const { token } = req.headers;
-    console.log(token, 'AUTH MIDDLEWARE');
     if (!token) return res.status(401).json({ message: 'token required' });
     const secret = 'mysecretkey';
     const payload = jwt.decode(token, secret);

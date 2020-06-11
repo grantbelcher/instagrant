@@ -37,7 +37,6 @@ export const loadChats = (user) => (dispatch) => {
 };
 
 export const updateChatsRecipient = (updatedChat, favorite = false) => (dispatch) => {
-  console.log(favorite, 'did second arg work???')
   dispatch({
     type: 'UPDATE_CHATS',
     payload: updatedChat,
@@ -63,9 +62,11 @@ export const selectChat = (chat) => (dispatch) => {
 
 export const createNewChat = (chat) => (dispatch) => {
   const { users } = chat;
+  console.log(chat, 'chat in action')
   const { user } = store.getState().auth;
   const userIsRecipient = users.find(({ _id }) => _id === user._id);
   if (userIsRecipient) {
+    console.log(userIsRecipient, 'if block of new chat action')
     if (users[0]._id === user._id) {
       dispatch({
         type: 'CREATE_NEW_CHAT',

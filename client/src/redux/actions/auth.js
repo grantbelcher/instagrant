@@ -23,13 +23,8 @@ export const loadUser = (token) => async (dispatch) => {
 
 export const signIn = (name, password, path) => async (dispatch) => {
   try {
-    // dispatch({
-    //   type: 'LOADING',
-    // });
-    console.log(name, password, path);
     const response = await axios.post(`/auth/${path}`, { name, password });
     // localStorage.setItem('token', response.data.token);
-    console.log(response.data, 'RESPONSE!!!!!!');
     dispatch(loadUser(response.data.token));
     dispatch({
       type: 'AUTH_SUCCESS',

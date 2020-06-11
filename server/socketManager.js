@@ -27,7 +27,6 @@ const socketManager = (socket) => {
       username: user.name, avatar: user.avatar, text, chatId,
     });
     chat.messages.push(newMessage);
-    console.log(chat, 'after adding message');
     socket.broadcast.emit('MESSAGE_RECIEVED', chat);
     socket.emit('MESSAGE_SENT', chat);
     // for each user in the chat
@@ -44,16 +43,12 @@ const socketManager = (socket) => {
     let { username, chatId, messageId } = messageInfo;
     const chat = await Chat.findById(chatId);
     // find message in chat
-    console.log(username, chatId, messageId, 'bullshit');
-    console.log(chat, 'CHAT');
     const message = chat.messages.find((item) => {
       const itemId = mongoose.Types.ObjectId(item._id);
       messageId = mongoose.Types.ObjectId(messageId);
       return itemId.equals(messageId);
     });
-    console.log(message, 'MESSAGE');
     message.favorites.push(username);
-    console.log(chat.messages);
     // broadcast and emit to client
     socket.broadcast.emit('LIKE_RECIEVED', chat);
     socket.emit('MESSAGE_LIKED', chat);
@@ -78,6 +73,7 @@ const socketManager = (socket) => {
   });
 
   socket.on('NEW_CHAT_CREATED', (newChat) => {
+    console.log(newChat, 'before broadcasting INSIDE CHAT MANAGER')
     socket.broadcast.emit('NEW_CHAT_CREATED', newChat);
     socket.emit('NEW_CHAT_CREATED', newChat);
   });
