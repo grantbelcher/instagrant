@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import List from '@material-ui/core/List';
 import Paper from '@material-ui/core/Paper';
 import Message from './Message';
+import Loading from './Loading';
 
 const styles = {
   container: {
@@ -15,8 +16,9 @@ const styles = {
 
 const MessageList = ({ activeChat, loading, loadingChats }) => {
   if (loading || loadingChats) {
-    return <h1>LOADING...</h1>;
+    return <Loading dimensions={styles.container} />;
   }
+  // return <Loading dimensions={styles.container} />;
   // if (!activeChat) return null;
   const { messages } = activeChat;
   const listEndRef = useRef(null);

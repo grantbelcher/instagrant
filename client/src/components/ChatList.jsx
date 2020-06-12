@@ -5,6 +5,7 @@ import moment from 'moment';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ChatListItem from './ChatListItem';
+import Loading from './Loading';
 
 
 const styles = {
@@ -18,8 +19,8 @@ const styles = {
 };
 
 // const ChatList = ({ activeChat, allChats, token }) => {
-const ChatList = ({ allChats }) => {
-  if (!allChats) return null;
+const ChatList = ({ allChats, loading }) => {
+  if (!allChats || loading) return <Loading dimensions={styles.container} />;
   const [chatList, setChatList] = useState([]);
   useEffect(() => {
     let chats = allChats.sort((a, b) => {
@@ -40,10 +41,11 @@ const ChatList = ({ allChats }) => {
 };
 
 const mapStateToProps = ({ chat }) => {
-  const { activeChat, chats: allChats } = chat;
+  const { activeChat, chats: allChats, loading } = chat;
   return {
     activeChat,
     allChats,
+    loading,
   };
 };
 
