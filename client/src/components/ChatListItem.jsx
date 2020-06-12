@@ -13,13 +13,13 @@ import { selectChat } from '../redux/actions/chats';
 
 const styles = {
   activeStyle: {
-    backgroundColor: 'rgba(223, 249, 246, 1.0)',
+    backgroundColor: 'rgba(223, 249, 246, 0.7)',
   },
   boldFont: {
     fontWeight: 'bold',
   },
   chatItem: {
-    backgroundColor: 'rgba(245, 245, 245, 0.6)',
+    backgroundColor: 'rgba(245, 208, 235, 0.2)',
   },
 };
 

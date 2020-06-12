@@ -78,7 +78,7 @@ const Message = ({
     ? <i className="far fa-heart" />
     : (
       <Tooltip title={favoriteNames}>
-        <i className="fas fa-heart" style={{ color: 'violet' }} />
+        <i className="fas fa-heart" style={{ color: 'indianred' }} />
       </Tooltip>
     )
   );
@@ -99,9 +99,6 @@ const Message = ({
         style={(index % 2 === 0) ? styles.even : styles.odd}
         // style={(currentUsername === message.username) ? styles.myMessage : styles.message}
       >
-        {/* <ListItemAvatar>
-          <Avatar alt={message.username} src={message.avatar} />
-        </ListItemAvatar> */}
         <UserIcon name={message.username} imgUrl={message.avatar} />
         <ListItemText
           primary={primaryText}
