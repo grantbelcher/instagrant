@@ -19,6 +19,7 @@ const App = ({ isLoggedIn, token }) => {
     store.dispatch(loadUser(jwt));
     setJWT(webToken);
   }, []);
+  console.log(jwt, isLoggedIn);
 
   // useEffect(() => {
   //   if (isLoggedIn) {
@@ -30,7 +31,7 @@ const App = ({ isLoggedIn, token }) => {
     <div>
       <Switch>
         <Route exact path="/">
-          {jwt ? <Redirect to="/dashboard" /> : <LandingPage />}
+          {jwt || token ? <Redirect to="/dashboard" /> : <LandingPage setToken={setJWT} />}
         </Route>
         <Route path="/dashboard">
           <Main />

@@ -22,7 +22,7 @@ const styles = {
   // maxWidth: 70vw
 
 
-const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
+const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn, setToken }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const submit = async () => {
@@ -105,9 +105,10 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
 };
 
 const mapStateToProps = ({ auth }) => {
-  const { error } = auth;
+  const { error, isLoggedIn } = auth;
   return {
     error,
+    isLoggedIn,
   };
 };
 

@@ -11,7 +11,8 @@ import NewChat from './NewChat';
 import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
 import Header from './Header';
-import { rickAstley } from '../redux/actions/timer'
+import { rickAstley } from '../redux/actions/timer';
+import { signOut } from '../redux/actions/auth';
 
 
 const styles = {
@@ -77,7 +78,7 @@ const styles = {
 };
 
 // const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
-const Dashboard = ({ user, notifications, goToRick }) => {
+const Dashboard = ({ user, notifications, goToRick, logOut }) => {
   const [modalOpen, setModalOpen] = useState(false);
   let inbox = null;
   if (user && notifications) {
@@ -89,17 +90,18 @@ const Dashboard = ({ user, notifications, goToRick }) => {
     <div style={styles.container}>
       <div style={styles.col1}>
         <Paper style={styles.headerLeft}>
-          <Tooltip
-            title={inbox === 1 ? `${inbox} unread chat` : `${inbox} unread chats`}
-          >
-            <Badge
-              color="primary"
-              badgeContent={inbox}
+          <IconButton>
+            <Tooltip
+              title={inbox === 1 ? `${inbox} unread chat` : `${inbox} unread chats`}
             >
-              <i className="far fa-bell fa-lg" style={styles.icon} />
-            </Badge>
-
-          </Tooltip>
+              <Badge
+                color="primary"
+                badgeContent={inbox}
+              >
+                <i className="far fa-bell fa-sm" style={styles.icon} />
+              </Badge>
+            </Tooltip>
+          </IconButton>
           {/* <div /> */}
           {/* <div style={styles.direct}>
             <h2>DMs</h2>
@@ -120,10 +122,10 @@ const Dashboard = ({ user, notifications, goToRick }) => {
             <Header />
           </div>
           <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/">
+            <IconButton color="white" onClick={logOut}>
               log out
               <i className="fas fa-cog fa-lg" style={styles.icon} />
-            </Link>
+            </IconButton>
           </Breadcrumbs>
           <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} user={user} />
         </Paper>
@@ -155,6 +157,7 @@ const mapStateToProps = ({ auth, notifications }) => {
 
 const mapDispatchToProps = {
   goToRick: rickAstley,
+  logOut: signOut,
 };
 
 

@@ -58,7 +58,7 @@ const styles = {
   },
 };
 
-const LandingPage = () => {
+const LandingPage = ({ setToken }) => {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -106,7 +106,7 @@ const LandingPage = () => {
           >
             Sign Up
           </Button>
-          <Auth handleClose={handleClose} open={open} form={form} setForm={setForm} />
+          <Auth handleClose={handleClose} open={open} form={form} setForm={setForm} setToken={setToken} />
         </div>
       </div>
     </div>

@@ -14,7 +14,6 @@ export const loadUser = (token) => async (dispatch) => {
       type: 'LOADING_USER',
     });
     const res = await axios.get('/auth/profile', { token });
-    console.l
     dispatch({
       type: 'USER_LOADED',
       payload: res.data.user,
@@ -49,9 +48,10 @@ export const signIn = (name, password, path) => async (dispatch) => {
 };
 
 
-export const signOut = () => async (dispatch) => {
+export const signOut = () => (dispatch) => {
   try {
-    // await localStorage.removeItem('token');
+    localStorage.removeItem('token');
+    window.location.replace('/');
     dispatch({
       type: 'LOG_OUT',
     });
