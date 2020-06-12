@@ -4,7 +4,11 @@ import axios from 'axios';
 import store from '../index';
 import { addNotification, removeNotification } from './notifications';
 
+
 export const loadCommunityChat = () => (dispatch) => {
+  dispatch({
+    type: 'LOADING_CHATS',
+  });
   axios.get('/chats/community')
     .then((res) => {
       const { data } = res;
@@ -21,7 +25,9 @@ export const loadCommunityChat = () => (dispatch) => {
 
 export const loadChats = (user) => (dispatch) => {
   const { chats: ids } = user;
-
+  dispatch({
+    type: 'LOADING_CHATS',
+  });
   axios.post('/chats/user', { ids })
     .then((res) => {
       const { data } = res;

@@ -10,7 +10,7 @@ const initialState = {
 export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case 'LOADING':
+    case 'LOADING_USER':
       return {
         ...state,
         loading: true,

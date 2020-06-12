@@ -13,8 +13,11 @@ const styles = {
   },
 };
 
-const MessageList = ({ activeChat }) => {
-  if (!activeChat) return null;
+const MessageList = ({ activeChat, loading, loadingChats }) => {
+  if (loading || loadingChats) {
+    return <h1>LOADING...</h1>;
+  }
+  // if (!activeChat) return null;
   const { messages } = activeChat;
   const listEndRef = useRef(null);
   const scrollToBottom = () => {
@@ -38,11 +41,14 @@ const MessageList = ({ activeChat }) => {
   );
 };
 
-const mapStateToProps = ({ chat }) => {
-  const { activeChat } = chat;
+const mapStateToProps = ({ chat, auth }) => {
+  const { activeChat, loading: loadingChats } = chat;
+  const { loading } = auth;
   return {
     activeChat,
+    loading,
+    loadingChats,
   };
-}
+};
 
 export default connect(mapStateToProps, null)(MessageList);
