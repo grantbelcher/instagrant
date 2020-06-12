@@ -7,8 +7,8 @@ import Loading from './Loading';
 
 const styles = {
   container: {
-    maxHeight: '68vh',
-    minHeight: '68vh',
+    maxHeight: '69.7vh',
+    minHeight: '69.7vh',
     overflow: 'auto',
     backgroundColor: 'rgba(245, 245, 245, 0.6)',
   },

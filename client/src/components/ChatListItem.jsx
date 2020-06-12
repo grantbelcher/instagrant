@@ -19,7 +19,7 @@ const styles = {
     fontWeight: 'bold',
   },
   chatItem: {
-    backgroundColor: 'rgba(245, 208, 235, 0.2)',
+    backgroundColor: 'rgba(245, 208, 235, 0.5)',
   },
 };
 

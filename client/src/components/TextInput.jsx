@@ -3,6 +3,7 @@
 
 import React, { useState, useContext, useEffect } from 'react';
 import { connect } from 'react-redux';
+import Paper from '@material-ui/core/Paper';
 import SocketContext from '../context/index';
 import { selectChat } from '../redux/actions/chats';
 
@@ -11,7 +12,7 @@ const styles = {
     position: 'absolute',
     width: '69.4%',
     bottom: '0%',
-    backgroundColor: 'rgba(355, 355, 355, 1)',
+    backgroundColor: 'rgba(245, 208, 235, 0.4)',
   },
   g: {
     display: 'flex',
@@ -27,13 +28,13 @@ const styles = {
   iconBorder: {
     position: 'relative',
     borderRadius: '20%',
-    backgroundColor: '#bbfcf6',
+    backgroundColor: 'rgb(198, 245, 239)',
     justifyContent: 'center',
     alignContent: 'center',
     alignSelf: 'flex-end',
     flex: 1,
-    padding: '10px',
-    marginLeft: 5,
+    padding: 11,
+    marginLeft: 1,
   },
   typing: {
     paddingBottom: 3,
@@ -102,7 +103,7 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
   }
   return (
     <>
-      <div style={styles.container}>
+      <Paper style={styles.container}>
         <div style={styles.error}>
           {error}
         </div>
@@ -118,9 +119,9 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
             onChange={(e) => setText(e.target.value)}
             onKeyPress={(e) => typeHandle(e)}
           />
-          <i className="fa fa-paper-plane-o fa-sm" style={styles.iconBorder} onClick={sendMessage} />
+          <i className="fa fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage} />
         </div>
-      </div>
+      </Paper>
     </>
   );
 };
