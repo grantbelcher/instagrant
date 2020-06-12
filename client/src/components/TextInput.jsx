@@ -80,7 +80,7 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
 
   const typeHandle = (e) => {
     if (e.key === 'Enter') {
-      console.log('pressed enter')
+      sendMessage();
     }
     const userData = {
       ...user,
