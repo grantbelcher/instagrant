@@ -84,7 +84,7 @@ router.post(
       if (!match || !user) return res.status(404).json({ message: 'invalid credentials' });
       const { id } = user;
       const secret = 'mysecretkey';
-      const token = jwt.sign({ id }, secret, { expiresIn: '1h' });
+      const token = jwt.sign({ id }, secret, { expiresIn: 1200 });
       return res.json({ token });
     } catch (err) {
       console.error(err.message);
