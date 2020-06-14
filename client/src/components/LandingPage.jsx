@@ -28,6 +28,7 @@ const styles = {
     color: 'white',
     textShadow: '2px 2px purple',
     fontSize: '4vh',
+    textAlign: 'center',
   },
   header3: {
     color: 'white',
