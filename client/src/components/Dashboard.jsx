@@ -2,15 +2,12 @@ import React, { useState, useContext } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import Tooltip from '@material-ui/core/Tooltip';
 import Paper from '@material-ui/core/Paper';
 import NewChat from './NewChat';
-import ChatList from './ChatList';
 import ChatDisplay from './ChatDisplay';
 import Header from './Header';
+import Inbox from '../views/Inbox';
 import { rickAstley } from '../redux/actions/timer';
 import { signOut } from '../redux/actions/auth';
 
@@ -40,13 +37,13 @@ const styles = {
     right: '0%',
     display: 'flex',
   },
-  col1: {
-    width: '30%',
-    border: 'solid',
-    borderColor: '#CCCCCC',
-    borderWidth: 'thin',
+  // col1: {
+  //   width: '30%',
+  //   border: 'solid',
+  //   borderColor: '#CCCCCC',
+  //   borderWidth: 'thin',
 
-  },
+  // },
   col2: {
     width: '70%',
     border: 'solid',
@@ -96,34 +93,10 @@ const Dashboard = ({ user, notifications, goToRick, logOut, deviceType }) => {
   if (user && notifications) {
     inbox = notifications.length
   }
-  // const context = useContext(SocketContext);
 
   return (
     <div style={styles[`${deviceType}`]}>
-      <div style={styles.col1}>
-        <Paper style={styles.headerLeft}>
-          <IconButton>
-            <Tooltip
-              title={inbox === 1 ? `${inbox} unread chat` : `${inbox} unread chats`}
-            >
-              <Badge
-                color="primary"
-                badgeContent={inbox}
-              >
-                <i className="far fa-bell fa-sm" style={styles.icon} />
-              </Badge>
-            </Tooltip>
-          </IconButton>
-          <IconButton onClick={() => goToRick()}>
-            <i className="fas fa-home" />
-          </IconButton>
-
-          <IconButton onClick={() => setModalOpen(true)}>
-            <i className="far fa-edit fa-sm" style={styles.icon} />
-          </IconButton>
-        </Paper>
-        <ChatList />
-      </div>
+      <Inbox user={user} goToRick={goToRick} inbox={inbox} modalOpen={modalOpen} setModalOpen={setModalOpen} />
       <div style={styles.col2}>
         <Paper style={styles.headerRight}>
           <div style={styles.userInfoHeader}>
