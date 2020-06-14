@@ -14,6 +14,15 @@ const styles = {
     bottom: '0%',
     backgroundColor: 'rgba(245, 208, 235, 0.4)',
   },
+  mobile: {
+    position: 'absolute',
+    width: '90vw',
+    paddingRight: '4vw',
+    paddingLeft: '4vw',
+    paddingBottom: '4vw',
+    bottom: '0%',
+    backgroundColor: 'rgba(245, 208, 235, 0.4)',
+  },
   g: {
     display: 'flex',
     flexDirection: 'row',
@@ -49,7 +58,9 @@ const styles = {
   },
 };
 
-const TextInput = ({ user, activeChat, typingUsers }) => {
+const TextInput = ({
+  user, activeChat, typingUsers, device,
+}) => {
   const [text, setText] = useState('');
   const [typing, setTyping] = useState(false);
   const [spam, setSpam] = useState(false);
@@ -87,10 +98,10 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
       ...user,
       chatId: activeChat._id,
     };
-      connection.emit('TYPING', userData);
-      setTimeout(() => {
-        connection.emit('STOP_TYPING', userData);
-      }, 5000);
+    connection.emit('TYPING', userData);
+    setTimeout(() => {
+      connection.emit('STOP_TYPING', userData);
+    }, 5000);
   };
   const typingUsersList = Object.values(typingUsers);
   const usersTypingInChat = typingUsersList.filter((item) => ((item.chatId === activeChat._id) && (item._id !== user._id)));
@@ -101,9 +112,10 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
   if (usersTypingInChat.length > 1) {
     typingString = 'Users are typing...';
   }
+  const button = <i className="fa fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage} />
   return (
     <>
-      <Paper style={styles.container}>
+      <Paper style={device === 'mobile' ? styles.mobile : styles.container}>
         <div style={styles.error}>
           {error}
         </div>
@@ -119,20 +131,22 @@ const TextInput = ({ user, activeChat, typingUsers }) => {
             onChange={(e) => setText(e.target.value)}
             onKeyPress={(e) => typeHandle(e)}
           />
-          <i className="fa fa-paper-plane fa-sm" style={styles.iconBorder} onClick={sendMessage} />
+          {device === 'desktop' ? button : null}
         </div>
       </Paper>
     </>
   );
 };
 
-const mapStateToProps = ({ auth, chat }) => {
+const mapStateToProps = ({ auth, chat, views }) => {
   const { user } = auth;
   const { activeChat, typingUsers } = chat;
+  const { device } = views;
   return {
     user,
     activeChat,
     typingUsers,
+    device,
   };
 };
 
