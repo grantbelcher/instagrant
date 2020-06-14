@@ -16,7 +16,7 @@ import { signOut } from '../redux/actions/auth';
 
 
 const styles = {
-  container: {
+  desktop: {
     border: 'solid',
     borderColor: '#CCCCCC',
     borderWidth: 'thin',
@@ -26,6 +26,18 @@ const styles = {
     bottom: '5%',
     left: '10%',
     right: '10%',
+    display: 'flex',
+  },
+  mobile: {
+    border: 'solid',
+    borderColor: '#CCCCCC',
+    borderWidth: 'thin',
+    borderRadius: '1%',
+    position: 'fixed',
+    top: '0%',
+    bottom: '0%',
+    left: '0%',
+    right: '0%',
     display: 'flex',
   },
   col1: {
@@ -78,7 +90,7 @@ const styles = {
 };
 
 // const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
-const Dashboard = ({ user, notifications, goToRick, logOut }) => {
+const Dashboard = ({ user, notifications, goToRick, logOut, deviceType }) => {
   const [modalOpen, setModalOpen] = useState(false);
   let inbox = null;
   if (user && notifications) {
@@ -87,7 +99,7 @@ const Dashboard = ({ user, notifications, goToRick, logOut }) => {
   // const context = useContext(SocketContext);
 
   return (
-    <div style={styles.container}>
+    <div style={styles[`${deviceType}`]}>
       <div style={styles.col1}>
         <Paper style={styles.headerLeft}>
           <IconButton>
@@ -102,10 +114,6 @@ const Dashboard = ({ user, notifications, goToRick, logOut }) => {
               </Badge>
             </Tooltip>
           </IconButton>
-          {/* <div /> */}
-          {/* <div style={styles.direct}>
-            <h2>DMs</h2>
-          </div> */}
           <IconButton onClick={() => goToRick()}>
             <i className="fas fa-home" />
           </IconButton>
@@ -135,23 +143,13 @@ const Dashboard = ({ user, notifications, goToRick, logOut }) => {
   );
 };
 
-// Dashboard.propTypes = {
-//   user: PropTypes.shape({
-//     chats: PropTypes.array.isRequired,
-//   }),
-// };
 
-// Dashboard.defaultProps = {
-//   user: {
-//     chats: [],
-//   },
-// };
-
-const mapStateToProps = ({ auth, notifications }) => {
+const mapStateToProps = ({ auth, notifications, dimensions }) => {
   const { user } = auth;
   return ({
     user,
     notifications,
+    deviceType: dimensions,
   });
 };
 

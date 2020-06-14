@@ -19,7 +19,7 @@ const socketUrl = '/';
 const socket = io(socketUrl);
 
 const Main = ({
- user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats, notifications, startTime, rickAstley
+  user, token, isLoggedIn, updateConnections, loadCommunity, loadUsersChats, chats, updateChatList, createChat, updateTyping, updateRecipientChats, notifications, startTime, rickAstley, deviceType,
 }) => {
   const initSocket = () => {
     socket.emit('USER_CONNECTED', user);
@@ -77,7 +77,9 @@ const Main = ({
 };
 
 // const mapStateToProps = ({ auth, chats }) => {
-const mapStateToProps = ({ auth, chat, notifications, timer }) => {
+const mapStateToProps = ({
+  auth, chat, notifications, timer, dimensions,
+}) => {
   const { user, isLoggedIn, token } = auth;
   const { activeChat, chats } = chat;
   const { rickAstley } = timer;
@@ -90,6 +92,7 @@ const mapStateToProps = ({ auth, chat, notifications, timer }) => {
     token,
     notifications,
     rickAstley,
+    deviceType: dimensions,
     // activeChat,
     // usersChats: chats['chats'],
   });
