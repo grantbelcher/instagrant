@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
@@ -19,8 +20,14 @@ const styles = {
     justifyContent: 'space-between',
     backgroundColor: 'rgba(223, 249, 246, 1.0)',
   },
-  col2: {
+  container: {
     width: '70%',
+    border: 'solid',
+    borderColor: '#CCCCCC',
+    borderWidth: 'thin',
+  },
+  mobileContainer: {
+    width: '100%',
     border: 'solid',
     borderColor: '#CCCCCC',
     borderWidth: 'thin',
@@ -34,9 +41,9 @@ const styles = {
   },
 };
 
-const Messenger = ({ logOut }) => {
+const Messenger = ({ logOut, device }) => {
   return (
-    <div style={styles.col2}>
+    <div style={device === 'mobile' ? styles.mobile : styles.col2}>
       <Paper style={styles.headerRight}>
         <div style={styles.userInfoHeader}>
           <Header />
@@ -52,5 +59,13 @@ const Messenger = ({ logOut }) => {
     </div>
   );
 };
-// yoo
-export default Messenger;
+
+const mapStateToProps = ({ views }) => {
+  const { device, view } = views;
+  return {
+    device,
+    view,
+  };
+};
+
+export default connect(mapStateToProps, null)(Messenger);

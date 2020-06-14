@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Inbox from '../views/Inbox';
 import Messenger from '../views/Messenger';
 import { rickAstley } from '../redux/actions/timer';
@@ -57,13 +56,19 @@ const styles = {
 };
 
 // const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
-const Dashboard = ({ user, notifications, goToRick, logOut, deviceType }) => {
+const Dashboard = ({ user, notifications, goToRick, logOut, deviceType, view }) => {
   const [modalOpen, setModalOpen] = useState(false);
   let inbox = null;
   if (user && notifications) {
     inbox = notifications.length
   }
-
+  if (deviceType === 'mobile') {
+    return (
+      <div style={styles[`${deviceType}`]}>
+        {view === 'messenger' ? <Messenger logOut={logOut} /> : <Inbox user={user} goToRick={goToRick} inbox={inbox} modalOpen={modalOpen} setModalOpen={setModalOpen} />}
+      </div>
+    );
+  }
   return (
     <div style={styles[`${deviceType}`]}>
       <Inbox user={user} goToRick={goToRick} inbox={inbox} modalOpen={modalOpen} setModalOpen={setModalOpen} />
@@ -75,11 +80,12 @@ const Dashboard = ({ user, notifications, goToRick, logOut, deviceType }) => {
 
 const mapStateToProps = ({ auth, notifications, views }) => {
   const { user } = auth;
-  const { device } = views;
+  const { device, view } = views;
   return ({
     user,
     notifications,
     deviceType: device,
+    view,
   });
 };
 
