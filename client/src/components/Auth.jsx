@@ -15,14 +15,11 @@ const styles = {
     color: 'red',
     marginLeft: 20,
   },
-  mobile: {
-
-  },
   container: {
     maxWidth: '34vw',
     marginLeft: '34vw',
   },
-  mobileContainer: {
+  mobile: {
     marginLeft: '15vw',
     maxWidth: '70vw',
   },
@@ -33,7 +30,7 @@ const styles = {
   // maxWidth: 70vw
 
 
-const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn, setToken }) => {
+const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn, setToken, deviceType }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const submit = async () => {
@@ -65,7 +62,7 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn,
       onClose={closeModal}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
-      style={styles.mobileContainer}
+      style={(deviceType === 'mobile') ? styles.mobile : styles.container}
     >
       <DialogTitle>{form}</DialogTitle>
       <div style={styles.error}>
@@ -115,11 +112,12 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn,
   );
 };
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, dimensions }) => {
   const { error, isLoggedIn } = auth;
   return {
     error,
     isLoggedIn,
+    deviceType: dimensions,
   };
 };
 
