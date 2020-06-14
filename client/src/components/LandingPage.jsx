@@ -67,7 +67,7 @@ const styles = {
     padding: '0 20px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     minWidth: '75vw',
-    marginTop: '5vh',
+    marginTop: '13vh',
   },
 };
 
@@ -150,8 +150,11 @@ const LandingPage = ({ setToken, deviceType }) => {
   );
 };
 
-const mapStateToProps = ({ dimensions }) => ({
-  deviceType: dimensions,
-});
+const mapStateToProps = ({ views }) => {
+  const { device } = views;
+  return {
+    deviceType: device,
+  };
+};
 
 export default connect(mapStateToProps, null)(LandingPage);

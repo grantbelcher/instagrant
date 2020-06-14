@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Inbox from '../views/Inbox';
-import Messager from '../views/Messager';
+import Messenger from '../views/Messenger';
 import { rickAstley } from '../redux/actions/timer';
 import { signOut } from '../redux/actions/auth';
 
@@ -67,18 +67,19 @@ const Dashboard = ({ user, notifications, goToRick, logOut, deviceType }) => {
   return (
     <div style={styles[`${deviceType}`]}>
       <Inbox user={user} goToRick={goToRick} inbox={inbox} modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      <Messager logOut={logOut} />
+      <Messenger logOut={logOut} />
     </div>
   );
 };
 
 
-const mapStateToProps = ({ auth, notifications, dimensions }) => {
+const mapStateToProps = ({ auth, notifications, views }) => {
   const { user } = auth;
+  const { device } = views;
   return ({
     user,
     notifications,
-    deviceType: dimensions,
+    deviceType: device,
   });
 };
 

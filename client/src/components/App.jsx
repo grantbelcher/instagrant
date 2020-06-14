@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import Main from './Main';
-import { setDeviceWidth } from '../redux/actions/dimensions';
+import { setDeviceWidth } from '../redux/actions/views';
 import { loadUser } from '../redux/actions/auth';
 import store from '../redux/index';
 import setAuthToken from '../../../utils/setAuthToken';
@@ -22,12 +22,6 @@ const App = ({ isLoggedIn, token, setWidth }) => {
     store.dispatch(loadUser(jwt));
     setJWT(webToken);
   }, []);
-
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     store.dispatch(loadUser(token));
-  //   }
-  // }, [isLoggedIn]);
 
   return (
     <div>

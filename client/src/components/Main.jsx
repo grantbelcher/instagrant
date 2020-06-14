@@ -78,11 +78,12 @@ const Main = ({
 
 // const mapStateToProps = ({ auth, chats }) => {
 const mapStateToProps = ({
-  auth, chat, notifications, timer, dimensions,
+  auth, chat, notifications, timer, views,
 }) => {
   const { user, isLoggedIn, token } = auth;
   const { activeChat, chats } = chat;
   const { rickAstley } = timer;
+  const { device } = views;
   // const { activeChat } = chats;
   return ({
     isLoggedIn,
@@ -92,7 +93,7 @@ const mapStateToProps = ({
     token,
     notifications,
     rickAstley,
-    deviceType: dimensions,
+    deviceType: device,
     // activeChat,
     // usersChats: chats['chats'],
   });

@@ -112,12 +112,13 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn,
   );
 };
 
-const mapStateToProps = ({ auth, dimensions }) => {
+const mapStateToProps = ({ auth, views }) => {
   const { error, isLoggedIn } = auth;
+  const { device } = views;
   return {
     error,
     isLoggedIn,
-    deviceType: dimensions,
+    deviceType: device,
   };
 };
 

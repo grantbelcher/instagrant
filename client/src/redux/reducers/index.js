@@ -3,12 +3,12 @@ import auth from './auth';
 import chat from './chats';
 import notifications from './notifications';
 import timer from './timer';
-import dimensions from './dimensions';
+import views from './views';
 
 export default combineReducers({
   auth,
   chat,
   notifications,
   timer,
-  dimensions,
+  views,
 });
