@@ -15,6 +15,17 @@ const styles = {
     color: 'red',
     marginLeft: 20,
   },
+  mobile: {
+
+  },
+  container: {
+    maxWidth: '34vw',
+    marginLeft: '34vw',
+  },
+  mobileContainer: {
+    marginLeft: '15vw',
+    maxWidth: '70vw',
+  },
 };
 
 // mobile,
@@ -54,7 +65,7 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn,
       onClose={closeModal}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
-      style={{ maxWidth: '34vw', marginLeft: '34vw' }}
+      style={styles.mobileContainer}
     >
       <DialogTitle>{form}</DialogTitle>
       <div style={styles.error}>
