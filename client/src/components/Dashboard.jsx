@@ -1,13 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import NewChat from './NewChat';
-import ChatDisplay from './ChatDisplay';
-import Header from './Header';
 import Inbox from '../views/Inbox';
+import Messager from '../views/Messager';
 import { rickAstley } from '../redux/actions/timer';
 import { signOut } from '../redux/actions/auth';
 
@@ -44,24 +39,6 @@ const styles = {
   //   borderWidth: 'thin',
 
   // },
-  col2: {
-    width: '70%',
-    border: 'solid',
-    borderColor: '#CCCCCC',
-    borderWidth: 'thin',
-  },
-  headerRight: {
-    borderBottom: 'solid',
-    borderBottomColor: '#CCCCCC',
-    borderBottomWidth: 'thin',
-    height: '11vh',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'rgba(223, 249, 246, 1.0)',
-  },
   headerLeft: {
     borderBottom: 'solid',
     borderBottomColor: '#CCCCCC',
@@ -77,13 +54,6 @@ const styles = {
   direct: {
     fontWeight: 'bold',
   },
-  icon: {
-    marginRight: '1vw',
-    marginLeft: '1vw',
-  },
-  userInfoHeader: {
-    marginLeft: '1vw',
-  },
 };
 
 // const Dashboard = ({ user, chatSelector, loadChats, activeChat }) => {
@@ -97,21 +67,7 @@ const Dashboard = ({ user, notifications, goToRick, logOut, deviceType }) => {
   return (
     <div style={styles[`${deviceType}`]}>
       <Inbox user={user} goToRick={goToRick} inbox={inbox} modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      <div style={styles.col2}>
-        <Paper style={styles.headerRight}>
-          <div style={styles.userInfoHeader}>
-            <Header />
-          </div>
-          <Breadcrumbs aria-label="breadcrumb">
-            <IconButton color="white" onClick={logOut}>
-              log out
-              <i className="fas fa-cog fa-lg" style={styles.icon} />
-            </IconButton>
-          </Breadcrumbs>
-          <NewChat open={modalOpen} setModalOpen={setModalOpen} style={{ minHeight: 1000 }} user={user} />
-        </Paper>
-        <ChatDisplay />
-      </div>
+      <Messager logOut={logOut} />
     </div>
   );
 };
