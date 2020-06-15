@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import ChatDisplay from '../components/ChatDisplay';
 import Header from '../components/Header';
-import Menu from '../components/Menu';
+import IconMenu from '../components/IconMenu';
 
 
 const styles = {
@@ -36,13 +36,13 @@ const styles = {
   },
 };
 
-const Messenger = ({ logOut, device }) => (
+const Messenger = ({ logOut, device, inbox }) => (
   <div style={device === 'mobile' ? styles.mobile : styles.col2}>
     <Paper style={styles.headerRight}>
       <div style={styles.userInfoHeader}>
         <Header />
       </div>
-      <Menu logOut={logOut} device={device} />
+      <IconMenu logOut={logOut} device={device} inbox={inbox} />
     </Paper>
     <ChatDisplay />
   </div>

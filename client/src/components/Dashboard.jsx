@@ -72,7 +72,7 @@ const Dashboard = ({ user, notifications, goToRick, logOut, deviceType, view }) 
   return (
     <div style={styles[`${deviceType}`]}>
       <Inbox user={user} goToRick={goToRick} inbox={inbox} modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      <Messenger logOut={logOut} />
+      <Messenger inbox={inbox} logOut={logOut} />
     </div>
   );
 };
