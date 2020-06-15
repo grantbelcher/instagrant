@@ -100,7 +100,7 @@ const IconMenu = ({ logOut, device, notifications, showInbox, leaveActiveChat })
           onClick={handleClick}
           style={{ backgroundColor: 'rgba(245, 208, 235, 0.9)' }}
         >
-          <i className="fas fa-bars fa-lg" style={{ color: 'black' }} />
+          <i className="fas fa-bars fa-sm" style={{ color: 'black' }} />
         </IconButton>
         <StyledMenu
           id="customized-menu"
