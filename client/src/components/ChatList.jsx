@@ -22,7 +22,6 @@ const styles = {
   },
 };
 
-// const ChatList = ({ activeChat, allChats, token }) => {
 const ChatList = ({ allChats, loading, device }) => {
   if (!allChats || loading) return <Loading dimensions={styles.container} />;
   const [chatList, setChatList] = useState([]);
@@ -45,10 +44,9 @@ const ChatList = ({ allChats, loading, device }) => {
 };
 
 const mapStateToProps = ({ chat, views }) => {
-  const { activeChat, chats: allChats, loading } = chat;
+  const { chats: allChats, loading } = chat;
   const { device } = views;
   return {
-    activeChat,
     allChats,
     loading,
     device,

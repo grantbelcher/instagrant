@@ -106,7 +106,9 @@ export default function (state = initialState, action) {
     case 'LEAVE_CHAT':
       return {
         ...state,
-        activeChat: null,
+        activeChat: {
+          _id: null,
+        },
       };
     default:
       return state;

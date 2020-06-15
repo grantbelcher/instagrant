@@ -107,7 +107,8 @@ export const updateTypingUsers = (list) => (dispatch) => {
 };
 
 export const leaveChat = () => (dispatch) => {
+  console.log('DISPATCHINGGG!!!')
   dispatch({
     type: 'LEAVE_CHAT',
-  })
-}
+  });
+};

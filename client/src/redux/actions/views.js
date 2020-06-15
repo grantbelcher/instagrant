@@ -1,4 +1,4 @@
-import { leaveChat } from '../actions/chats';
+import { leaveChat } from './chats';
 
 export const setDeviceWidth = (width) => (dispatch) => {
   if (width < 700) {

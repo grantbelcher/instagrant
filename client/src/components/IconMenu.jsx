@@ -8,6 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
 import { displayInbox } from '../redux/actions/views';
+import { leaveChat } from '../redux/actions/chats';
 
 const StyledMenu = withStyles({
   paper: {
@@ -42,7 +43,7 @@ const StyledMenuItem = withStyles((theme) => ({
 }))(MenuItem);
 
 
-const IconMenu = ({ logOut, device, notifications, showInbox }) => {
+const IconMenu = ({ logOut, device, notifications, showInbox, leaveActiveChat }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   let inbox = null;
@@ -59,8 +60,14 @@ const IconMenu = ({ logOut, device, notifications, showInbox }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const changeViews = () => {
+    leaveActiveChat();
+    showInbox();
+  };
+
   const inboxButton = (
-    <StyledMenuItem onClick={showInbox}>
+    <StyledMenuItem onClick={changeViews}>
       <ListItemIcon>
         <Badge
           color="primary"
@@ -119,6 +126,7 @@ const mapStateToProps = ({ notifications }) => ({
 
 const mapDispatchToProps = {
   showInbox: displayInbox,
-}
+  leaveActiveChat: leaveChat,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(IconMenu);
