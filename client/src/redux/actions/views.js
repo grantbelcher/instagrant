@@ -18,5 +18,4 @@ export const displayMessenger = () => (dispatch) => {
   dispatch({
     type: 'DISPLAY_MESSENGER',
   });
-  dispatch(leaveChat());
 };
