@@ -45,13 +45,20 @@ const StyledMenuItem = withStyles((theme) => ({
 
 const IconMenu = ({ logOut, device, notifications, showInbox, leaveActiveChat }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  let inbox = null;
-  useContext(() => {
-    if (notifications) {
-      inbox = notifications.length;
-    }
-  }, [notifications]);
+  // let inbox;
+  // console.log(notifications, 'yooooooo');
+  // useContext(() => {
+  //   console.log(notifications, 'useContext');
+  //   if (notifications) {
+  //     console.log(notifications, 'useContext IF BLOCK');
+  //     inbox = notifications.length;
+  //     console.log(inbox);
+  //   }
+  // }, []);
+  let inbox;
+  if (notifications) {
+    inbox = notifications.length
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,7 +78,7 @@ const IconMenu = ({ logOut, device, notifications, showInbox, leaveActiveChat })
       <ListItemIcon>
         <Badge
           color="primary"
-          badgeContent={inbox}
+          badgeContent={inbox ? inbox : null}
         >
           <i className="fas fa-envelope-open-text" />
         </Badge>

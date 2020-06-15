@@ -25,11 +25,6 @@ const styles = {
   },
 };
 
-// mobile,
-  // marginLeft: 15vw,
-  // maxWidth: 70vw
-
-
 const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn, setToken, deviceType }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -64,11 +59,13 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn,
       aria-describedby="simple-modal-description"
       style={(deviceType === 'mobile') ? styles.mobile : styles.container}
     >
-      <DialogTitle>{form}</DialogTitle>
+      <DialogTitle style={{ backgroundColor: 'rgba(223, 249, 246, 1.0)' }}>{form}</DialogTitle>
       <div style={styles.error}>
       {` `}{error}
       </div>
-      <DialogContent>
+      <DialogContent
+        style={{ backgroundColor: 'rgba(223, 249, 246, 1.0)' }}
+      >
         <TextField
           autoFocus={true}
           margin="dense"
@@ -102,7 +99,7 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn,
           {form === 'Sign In' ? 'Dont have an account?' : 'Already have an account?'}
         </Button>
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{ backgroundColor: 'rgba(223, 249, 246, 1.0)' }}>
         <Button onClick={submit}>submit</Button>
         <Button onClick={closeModal}>close</Button>
       </DialogActions>

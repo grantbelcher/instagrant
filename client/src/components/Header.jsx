@@ -10,12 +10,22 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
   },
+  mobile: {
+    height: '14vh',
+    width: '81vw',
+    paddingTop: '5vh',
+    paddingLeft: '3vw',
+  }
 };
 
-const Header = ({ activeChat, user }) => {
+const Header = ({ activeChat, user, device }) => {
 // const Header = ({ user }) => {ss
   let userNames;
   let allNames;
+  let textLength = 47;
+  if (device === 'mobile') {
+    textLength = 27;
+  }
   if (!activeChat.users) return null;
   if (activeChat.name === 'Community') return <h1>{activeChat.name}</h1>;
   let { users } = activeChat;
@@ -23,14 +33,14 @@ const Header = ({ activeChat, user }) => {
   userNames = users.reduce((acc, obj) => `${acc + obj.name}, `, '');
   allNames = userNames.substr(0, userNames.length - 2);
   userNames = userNames.substr(0, userNames.length - 2);
-  if (userNames.length > 47) {
-    userNames = `${userNames.substr(0, 47)}...`;
-    if (userNames[46] === ' ') {
-      userNames = `${userNames.slice(0, 46)}...`;
+  if (userNames.length > textLength) {
+    userNames = `${userNames.substr(0, textLength)}...`;
+    if (userNames[textLength - 1] === ' ') {
+      userNames = `${userNames.slice(0, textLength - 1)}...`;
     }
   }
   return (
-    <>
+    <div style={device === 'mobile' ? styles.mobile : null}>
       <AvatarGroup
         max={3}
       >
@@ -46,16 +56,18 @@ const Header = ({ activeChat, user }) => {
           {userNames}
         </span>
       </Tooltip>
-    </>
+    </div>
   );
 };
 
-const mapStateToProps = ({ auth, chat }) => {
+const mapStateToProps = ({ auth, chat, views }) => {
   const { activeChat } = chat;
   const { user } = auth;
+  const { device } = views;
   return {
     activeChat,
     user,
+    device
   };
 };
 

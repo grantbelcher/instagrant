@@ -26,7 +26,7 @@ const styles = {
     borderWidth: 'thin',
   },
   mobileContainer: {
-    width: '100%',
+    width: '100vw',
     border: 'solid',
     borderColor: '#CCCCCC',
     borderWidth: 'thin',

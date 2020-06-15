@@ -31,13 +31,9 @@ const styles = {
     right: '0%',
     display: 'flex',
   },
-  // col1: {
-  //   width: '30%',
-  //   border: 'solid',
-  //   borderColor: '#CCCCCC',
-  //   borderWidth: 'thin',
-
-  // },
+  headerMobile: {
+    height: '14vh'
+  },
   headerLeft: {
     borderBottom: 'solid',
     borderBottomColor: '#CCCCCC',
@@ -71,8 +67,7 @@ const Dashboard = ({ user, notifications, goToRick, logOut, deviceType, view }) 
   }
   return (
     <div style={styles[`${deviceType}`]}>
-      <Inbox user={user} goToRick={goToRick} inbox={inbox} modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      <Messenger inbox={inbox} logOut={logOut} />
+      <Messenger inbox={inbox} logOut={logOut} device={deviceType} />
     </div>
   );
 };
