@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -7,8 +8,14 @@ import ChatList from '../components/ChatList';
 import NewChat from '../components/NewChat';
 
 const styles = {
-  col1: {
+  container: {
     width: '30%',
+    border: 'solid',
+    borderColor: '#CCCCCC',
+    borderWidth: 'thin',
+  },
+  mobile: {
+    width: '100%',
     border: 'solid',
     borderColor: '#CCCCCC',
     borderWidth: 'thin',
@@ -32,8 +39,8 @@ const styles = {
 };
 
 
-const Inbox = ({ inbox, goToRick, modalOpen, setModalOpen, user }) => (
-  <div style={styles.col1}>
+const Inbox = ({ inbox, goToRick, modalOpen, setModalOpen, user, device }) => (
+  <div style={device === 'mobile' ? styles.mobile : styles.container}>
     <Paper style={styles.headerLeft}>
       <IconButton>
         <Tooltip
@@ -59,4 +66,11 @@ const Inbox = ({ inbox, goToRick, modalOpen, setModalOpen, user }) => (
   </div>
 );
 
-export default Inbox;
+const mapStateToProps = ({ views }) => {
+  const { device } = views;
+  return {
+    device,
+  };
+};
+
+export default connect(mapStateToProps, null)(Inbox);

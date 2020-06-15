@@ -13,13 +13,17 @@ const styles = {
     maxHeight: '78.2vh',
     minHeight: '78.2vh',
     overflow: 'auto',
-    // backgroundColor: 'rgb(249, 223, 242)',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  },
+  mobile: {
+    maxHeight: '100vh',
+    overflow: 'auto',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
 };
 
 // const ChatList = ({ activeChat, allChats, token }) => {
-const ChatList = ({ allChats, loading }) => {
+const ChatList = ({ allChats, loading, device }) => {
   if (!allChats || loading) return <Loading dimensions={styles.container} />;
   const [chatList, setChatList] = useState([]);
   useEffect(() => {
@@ -32,7 +36,7 @@ const ChatList = ({ allChats, loading }) => {
 
 
   return (
-    <Paper style={styles.container}>
+    <Paper style={device === 'mobile' ? styles.mobile : styles.container}>
       <List>
         {chatList}
       </List>
@@ -40,12 +44,14 @@ const ChatList = ({ allChats, loading }) => {
   );
 };
 
-const mapStateToProps = ({ chat }) => {
+const mapStateToProps = ({ chat, views }) => {
   const { activeChat, chats: allChats, loading } = chat;
+  const { device } = views;
   return {
     activeChat,
     allChats,
     loading,
+    device,
   };
 };
 
