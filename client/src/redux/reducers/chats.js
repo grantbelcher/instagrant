@@ -103,6 +103,11 @@ export default function (state = initialState, action) {
         ...state,
         loading: true,
       };
+    case 'LEAVE_CHAT':
+      return {
+        ...state,
+        activeChat: null,
+      };
     default:
       return state;
   }

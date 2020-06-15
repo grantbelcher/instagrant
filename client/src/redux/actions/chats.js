@@ -105,3 +105,9 @@ export const updateTypingUsers = (list) => (dispatch) => {
     payload: list,
   });
 };
+
+export const leaveChat = () => (dispatch) => {
+  dispatch({
+    type: 'LEAVE_CHAT',
+  })
+}

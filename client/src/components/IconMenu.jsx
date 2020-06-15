@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
@@ -6,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
-import Tooltip from '@material-ui/core/Tooltip';
+import { displayInbox } from '../redux/actions/views';
 
 const StyledMenu = withStyles({
   paper: {
@@ -41,19 +42,15 @@ const StyledMenuItem = withStyles((theme) => ({
 }))(MenuItem);
 
 
-// const styles = {
-//   icon: {
-//     marginRight: '1vw',
-//     marginLeft: '1vw',
-//   },
-// };
-
-const IconMenu = ({ logOut, device, inbox }) => {
-  // return (
-  // <IconButton onClick={logOut}>
-  //   <i className="fas fa-bars fa-lg" />
-  // </IconButton>
+const IconMenu = ({ logOut, device, notifications, showInbox }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  let inbox = null;
+  useContext(() => {
+    if (notifications) {
+      inbox = notifications.length;
+    }
+  }, [notifications]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -62,60 +59,66 @@ const IconMenu = ({ logOut, device, inbox }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(inbox)
-  return (
-    <div style={{ paddingRight: '4vw' }}>
+  const inboxButton = (
+    <StyledMenuItem onClick={showInbox}>
+      <ListItemIcon>
         <Badge
           color="primary"
-          badgeContent={4}
+          badgeContent={inbox}
         >
-          <IconButton
-            aria-controls="customized-menu"
-            aria-haspopup="true"
-            variant="contained"
-            onClick={handleClick}
-            style={{ backgroundColor: 'rgba(245, 208, 235, 0.9)' }}
-          >
-            <i className="fas fa-bars fa-lg" style={{ color: 'black' }} />
-          </IconButton>
-          <StyledMenu
-            id="customized-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <StyledMenuItem>
-              <ListItemIcon>
-                <i className="fas fa-home" />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </StyledMenuItem>
-            <StyledMenuItem>
-              <ListItemIcon>
-                <i className="fas fa-envelope-open-text" />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </StyledMenuItem>
-            <StyledMenuItem>
-              <ListItemIcon onClick={logOut}>
-                <i className="fas fa-door-open" />
-              </ListItemIcon>
-              <ListItemText primary="Log out" />
-            </StyledMenuItem>
-          </StyledMenu>
+          <i className="fas fa-envelope-open-text" />
         </Badge>
+      </ListItemIcon>
+      <ListItemText primary="Inbox" />
+    </StyledMenuItem>
+  );
+
+  return (
+    <div style={{ paddingRight: '4vw' }}>
+      <Badge
+        color="primary"
+        badgeContent={device === 'mobile' ? inbox : 0}
+      >
+        <IconButton
+          aria-controls="customized-menu"
+          aria-haspopup="true"
+          variant="contained"
+          onClick={handleClick}
+          style={{ backgroundColor: 'rgba(245, 208, 235, 0.9)' }}
+        >
+          <i className="fas fa-bars fa-lg" style={{ color: 'black' }} />
+        </IconButton>
+        <StyledMenu
+          id="customized-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <StyledMenuItem>
+            <ListItemIcon>
+              <i className="fas fa-home" />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </StyledMenuItem>
+          {device === 'mobile' ? inboxButton : null}
+          <StyledMenuItem>
+            <ListItemIcon onClick={logOut}>
+              <i className="fas fa-door-open" />
+            </ListItemIcon>
+            <ListItemText primary="Log out" />
+          </StyledMenuItem>
+        </StyledMenu>
+      </Badge>
     </div>
   );
 };
+const mapStateToProps = ({ notifications }) => ({
+  notifications,
+});
 
-export default IconMenu;
+const mapDispatchToProps = {
+  showInbox: displayInbox,
+}
 
-  // <Tooltip
-  //   title={inbox === 1 ? `${inbox} unread chat` : `${inbox} unread chats`}
-  // >
-  //   <Badge
-  //     color="primary"
-  //     badgeContent={inbox}
-  //   />
-  // </Tooltip>;
+export default connect(mapStateToProps, mapDispatchToProps)(IconMenu);

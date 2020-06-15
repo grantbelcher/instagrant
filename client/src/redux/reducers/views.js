@@ -14,7 +14,12 @@ export default function (state = initialState, action) {
     case 'DISPLAY_INBOX':
       return {
         ...state,
-        device: 'inbox',
+        view: 'inbox',
+      };
+    case 'DISPLAY_MESSENGER':
+      return {
+        ...state,
+        view: 'messenger',
       };
     default:
       return state;

@@ -1,4 +1,5 @@
-/* eslint-disable import/prefer-default-export */
+import { leaveChat } from '../actions/chats';
+
 export const setDeviceWidth = (width) => (dispatch) => {
   if (width < 700) {
     dispatch({
@@ -17,4 +18,5 @@ export const displayMessenger = () => (dispatch) => {
   dispatch({
     type: 'DISPLAY_MESSENGER',
   });
+  dispatch(leaveChat());
 };
