@@ -16,7 +16,7 @@ const styles = {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
   mobile: {
-    maxHeight: '100vh',
+    maxHeight: '85vh',
     overflow: 'auto',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
