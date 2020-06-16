@@ -12,6 +12,7 @@ const initialState = {
   chats: [],
   connectedUsers: {},
   typingUsers: {},
+  loading: false,
 };
 
 export default function (state = initialState, action) {
@@ -21,11 +22,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         activeChat: payload,
+        loading: false,
       };
     case 'LOAD_CHATS':
       return {
         ...state,
         chats: payload,
+        loading: false,
       };
     case 'SELECT_CHAT':
       return {
@@ -93,6 +96,19 @@ export default function (state = initialState, action) {
       return {
         ...state,
         typingUsers: payload,
+      };
+    case 'LOADING_CHATS':
+      console.log('loading chats');
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'LEAVE_CHAT':
+      return {
+        ...state,
+        activeChat: {
+          _id: null,
+        },
       };
     default:
       return state;

@@ -11,12 +11,19 @@ import SocketContext from '../context/index';
 import UserIcon from './UserIcon';
 
 const styles = {
+  odd: {
+    backgroundColor: 'rgba(223, 249, 246, 0.8)',
+  },
+ even: {
+    backgroundColor: 'rgba(245, 208, 235, 0.8)',
+  },
   message: {
-    backgroundColor: 'rgba(223, 249, 246, 1.0)',
+    backgroundColor: 'rgba(223, 249, 246, 0.8)',
   },
   myMessage: {
-    backgroundColor: '#f5d0eb',
+    backgroundColor: 'rgba(245, 208, 235, 0.8)',
   },
+
   header: {
     display: 'flex',
     flexDirection: 'row',
@@ -30,7 +37,7 @@ const styles = {
 
 
 const Message = ({
-  message, currentUsername, last, activeChat
+  message, currentUsername, last, activeChat, index, device
 }) => {
   const connection = useContext(SocketContext);
   const { favorites } = message;
@@ -72,7 +79,7 @@ const Message = ({
     ? <i className="far fa-heart" />
     : (
       <Tooltip title={favoriteNames}>
-        <i className="fas fa-heart" style={{ color: 'violet' }} />
+        <i className="fas fa-heart" style={{ color: 'indianred' }} />
       </Tooltip>
     )
   );
@@ -86,17 +93,15 @@ const Message = ({
     </div>
   );
 
-
-
   return (
     <>
       <ListItem
         autoFocus={last}
-        style={(name === message.username) ? styles.myMessage : styles.message}
+        style={device === 'desktop' ? ((index % 2 === 0) ? styles.even : styles.odd) : (currentUsername === message.username) ? styles.myMessage : styles.message}
+          // : {(currentUsername === message.username) ? styles.myMessage : styles.message}
+        // }
+        // style=
       >
-        {/* <ListItemAvatar>
-          <Avatar alt={message.username} src={message.avatar} />
-        </ListItemAvatar> */}
         <UserIcon name={message.username} imgUrl={message.avatar} />
         <ListItemText
           primary={primaryText}
@@ -127,13 +132,15 @@ Message.defaultProps = {
   },
 };
 
-const mapStateToProps = ({ auth, chat }) => {
+const mapStateToProps = ({ auth, chat, views }) => {
+  const { device } = views;
   const { user } = auth;
   const { activeChat } = chat;
   if (user.name !== undefined) {
     return {
       currentUsername: user.name,
       activeChat,
+      device,
 
     };
   }

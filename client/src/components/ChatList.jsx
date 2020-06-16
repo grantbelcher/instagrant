@@ -5,6 +5,7 @@ import moment from 'moment';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ChatListItem from './ChatListItem';
+import Loading from './Loading';
 
 
 const styles = {
@@ -12,14 +13,17 @@ const styles = {
     maxHeight: '78.2vh',
     minHeight: '78.2vh',
     overflow: 'auto',
-    // backgroundColor: 'rgb(249, 223, 242)',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  },
+  mobile: {
+    maxHeight: '85vh',
+    overflow: 'auto',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
 };
 
-// const ChatList = ({ activeChat, allChats, token }) => {
-const ChatList = ({ allChats }) => {
-  if (!allChats) return null;
+const ChatList = ({ allChats, loading, device }) => {
+  if (!allChats || loading) return <Loading dimensions={styles.container} />;
   const [chatList, setChatList] = useState([]);
   useEffect(() => {
     let chats = allChats.sort((a, b) => {
@@ -31,7 +35,7 @@ const ChatList = ({ allChats }) => {
 
 
   return (
-    <Paper style={styles.container}>
+    <Paper style={device === 'mobile' ? styles.mobile : styles.container}>
       <List>
         {chatList}
       </List>
@@ -39,11 +43,13 @@ const ChatList = ({ allChats }) => {
   );
 };
 
-const mapStateToProps = ({ chat }) => {
-  const { activeChat, chats: allChats } = chat;
+const mapStateToProps = ({ chat, views }) => {
+  const { chats: allChats, loading } = chat;
+  const { device } = views;
   return {
-    activeChat,
     allChats,
+    loading,
+    device,
   };
 };
 

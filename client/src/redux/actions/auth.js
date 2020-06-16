@@ -10,6 +10,9 @@ export const loadUser = (token) => async (dispatch) => {
     setAuthToken(token);
   }
   try {
+    dispatch({
+      type: 'LOADING_USER',
+    });
     const res = await axios.get('/auth/profile', { token });
     dispatch({
       type: 'USER_LOADED',
@@ -24,7 +27,7 @@ export const loadUser = (token) => async (dispatch) => {
 export const signIn = (name, password, path) => async (dispatch) => {
   try {
     const response = await axios.post(`/auth/${path}`, { name, password });
-    // localStorage.setItem('token', response.data.token);
+    localStorage.setItem('token', response.data.token);
     dispatch(loadUser(response.data.token));
     dispatch({
       type: 'AUTH_SUCCESS',
@@ -45,9 +48,10 @@ export const signIn = (name, password, path) => async (dispatch) => {
 };
 
 
-export const signOut = () => async (dispatch) => {
+export const signOut = () => (dispatch) => {
   try {
-    // await localStorage.removeItem('token');
+    localStorage.removeItem('token');
+    window.location.replace('/');
     dispatch({
       type: 'LOG_OUT',
     });

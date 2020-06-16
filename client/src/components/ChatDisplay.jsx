@@ -6,13 +6,12 @@ import MessageList from './MessageList';
 // import placeholder from '../../../utils/placeholder';
 
 const ChatDisplay = ({ activeChat }) => {
-  // const [messages, setMessages] = useState(placeholder);
+  console.log('RERENDERED')
   return (
-    <div>
+    <>
       <MessageList />
-      {/* <MessageList messages={activeChat.messages} /> */}
       <TextInput chat={activeChat} />
-    </div>
+    </>
   );
 };
 

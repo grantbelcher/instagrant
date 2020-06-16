@@ -15,14 +15,17 @@ const styles = {
     color: 'red',
     marginLeft: 20,
   },
+  container: {
+    maxWidth: '34vw',
+    marginLeft: '34vw',
+  },
+  mobile: {
+    marginLeft: '15vw',
+    maxWidth: '70vw',
+  },
 };
 
-// mobile,
-  // marginLeft: 15vw,
-  // maxWidth: 70vw
-
-
-const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
+const Auth = ({ handleClose, open, form, setForm, submitForm, error, isLoggedIn, setToken, deviceType }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const submit = async () => {
@@ -54,13 +57,15 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
       onClose={closeModal}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
-      style={{ maxWidth: '34vw', marginLeft: '34vw' }}
+      style={(deviceType === 'mobile') ? styles.mobile : styles.container}
     >
-      <DialogTitle>{form}</DialogTitle>
+      <DialogTitle style={{ backgroundColor: 'rgba(223, 249, 246, 1.0)' }}>{form}</DialogTitle>
       <div style={styles.error}>
       {` `}{error}
       </div>
-      <DialogContent>
+      <DialogContent
+        style={{ backgroundColor: 'rgba(223, 249, 246, 1.0)' }}
+      >
         <TextField
           autoFocus={true}
           margin="dense"
@@ -94,7 +99,7 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
           {form === 'Sign In' ? 'Dont have an account?' : 'Already have an account?'}
         </Button>
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{ backgroundColor: 'rgba(223, 249, 246, 1.0)' }}>
         <Button onClick={submit}>submit</Button>
         <Button onClick={closeModal}>close</Button>
       </DialogActions>
@@ -104,10 +109,13 @@ const Auth = ({ handleClose, open, form, setForm, submitForm, error }) => {
   );
 };
 
-const mapStateToProps = ({ auth }) => {
-  const { error } = auth;
+const mapStateToProps = ({ auth, views }) => {
+  const { error, isLoggedIn } = auth;
+  const { device } = views;
   return {
     error,
+    isLoggedIn,
+    deviceType: device,
   };
 };
 

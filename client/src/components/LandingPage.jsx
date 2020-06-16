@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Auth from './Auth';
@@ -28,6 +29,7 @@ const styles = {
     color: 'white',
     textShadow: '2px 2px purple',
     fontSize: '4vh',
+    textAlign: 'center',
   },
   header3: {
     color: 'white',
@@ -56,9 +58,20 @@ const styles = {
     marginRight: '3vw',
     marginTop: '10vh',
   },
+  buttonMobile: {
+    background: 'linear-gradient(45deg, #FF8E53 30%, #FE6B8B 70% )',
+    borderRadius: 3,
+    border: 2,
+    color: 'white',
+    height: 48,
+    padding: '0 20px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    minWidth: '75vw',
+    marginTop: '3vh',
+  },
 };
 
-const LandingPage = () => {
+const LandingPage = ({ setToken, deviceType }) => {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -76,6 +89,47 @@ const LandingPage = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const buttons = deviceType === 'mobile' ? (
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        style={styles.buttonMobile}
+        onClick={(e) => handleOpen(e)}
+      >
+        Sign In
+      </Button>
+      <Button
+        variant="outlined"
+        color="primary"
+        style={styles.buttonMobile}
+        onClick={handleOpen}
+      >
+        Sign Up
+      </Button>
+    </>
+  ) : (
+    <div>
+      <Button
+        variant="contained"
+        color="primary"
+        style={styles.button2}
+        onClick={(e) => handleOpen(e)}
+      >
+        Sign In
+      </Button>
+      <Button
+        variant="outlined"
+        color="primary"
+        style={styles.button2}
+        onClick={handleOpen}
+      >
+        Sign Up
+      </Button>
+    </div>
+  );
+
   return loading ? (
     <div>
       <LinearProgress />
@@ -89,28 +143,18 @@ const LandingPage = () => {
         <h1 style={styles.header}>Instagrant</h1>
         <h2 style={styles.header2}>everything on the internet is permanent</h2>
         <h2 style={styles.header3}>please do not look at the developer tools or try to break my website</h2>
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            style={styles.button2}
-            onClick={(e) => handleOpen(e)}
-          >
-            Sign In
-          </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            style={styles.button1}
-            onClick={handleOpen}
-          >
-            Sign Up
-          </Button>
-          <Auth handleClose={handleClose} open={open} form={form} setForm={setForm} />
-        </div>
+        {buttons}
+        <Auth handleClose={handleClose} open={open} form={form} setForm={setForm} setToken={setToken} />
       </div>
     </div>
   );
 };
 
-export default LandingPage;
+const mapStateToProps = ({ views }) => {
+  const { device } = views;
+  return {
+    deviceType: device,
+  };
+};
+
+export default connect(mapStateToProps, null)(LandingPage);

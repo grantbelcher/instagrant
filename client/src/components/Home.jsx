@@ -15,7 +15,7 @@ const styles = {
 const Home = () => (
   <>
     <div style={styles.cover}></div>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/lJp12Viu0ec?controls=0&amp;start=22&amp;autoplay=1&amp;controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/lJp12Viu0ec?controls=0&amp;start=21&amp;autoplay=1&amp;controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </>
 );
 

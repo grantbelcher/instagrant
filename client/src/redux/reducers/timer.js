@@ -1,4 +1,3 @@
-import { defineLocale } from "moment";
 
 const initialState = {
   timer: 0,

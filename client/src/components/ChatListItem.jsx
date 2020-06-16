@@ -10,21 +10,22 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import UserIcon from './UserIcon';
 import { selectChat } from '../redux/actions/chats';
+import { displayMessenger } from '../redux/actions/views';
 
 const styles = {
   activeStyle: {
-    backgroundColor: 'rgba(223, 249, 246, 1.0)',
+    backgroundColor: 'rgba(223, 249, 246, 0.7)',
   },
   boldFont: {
     fontWeight: 'bold',
   },
   chatItem: {
-    backgroundColor: 'rgba(245, 245, 245, 0.6)',
+    backgroundColor: 'rgba(245, 208, 235, 0.5)',
   },
 };
 
 const ChatListItem = ({
-  chat, currentUser, activeChat, handleClick, notifications, timer,
+  chat, currentUser, activeChat, setActiveChat, notifications, timer, changeView
 }) => {
   const { users, messages, name } = chat;
   let recipients;
@@ -89,12 +90,16 @@ const ChatListItem = ({
     );
   }
 
+  const handleClick = () => {
+    setActiveChat(chat);
+    changeView();
+  };
   return (
     <>
       <ListItem
         style={activeChat._id === chat._id ? styles.activeStyle : styles.chatItem}
         button
-        onClick={() => handleClick(chat)}
+        onClick={handleClick}
       >
         <UserIcon name={recipient} imgUrl={recipientAvatar} />
         <ListItemText
@@ -123,7 +128,8 @@ const mapStateToProps = ({
 };
 
 const mapDispatchToProps = {
-  handleClick: selectChat,
+  setActiveChat: selectChat,
+  changeView: displayMessenger,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatListItem);

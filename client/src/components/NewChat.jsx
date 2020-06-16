@@ -63,6 +63,11 @@ const NewChat = ({ open, setModalOpen, user }) => {
           payload: newActiveChat,
         }))
         .then(() => {
+          store.dispatch({
+            type: 'DISPLAY_MESSENGER',
+          });
+        })
+        .then(() => {
           handleClose();
         })
         .catch((err) => console.error(err.message, ' errrrrr'));
