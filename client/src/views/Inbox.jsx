@@ -14,6 +14,7 @@ const styles = {
     border: 'solid',
     borderColor: '#CCCCCC',
     borderWidth: 'thin',
+    marginRight: 2,
   },
   mobile: {
     width: '100%',
@@ -32,6 +33,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'rgba(223, 249, 246, 1.0)',
+    marginBottom: 1.5,
   },
   icon: {
     marginRight: '1vw',

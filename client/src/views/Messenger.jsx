@@ -18,6 +18,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'rgba(223, 249, 246, 1.0)',
+    marginBottom: 1.5,
   },
   container: {
     width: '70%',
