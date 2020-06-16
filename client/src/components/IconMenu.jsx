@@ -88,6 +88,7 @@ const IconMenu = ({ logOut, device, notifications, showInbox, leaveActiveChat })
   );
 
   return (
+    // you my bitch
     <div style={{ paddingRight: '4vw' }}>
       <Badge
         color="primary"

@@ -6,7 +6,7 @@ import Message from './Message';
 import Loading from './Loading';
 
 const styles = {
-  container: {
+  desktop: {
     maxHeight: '69.7vh',
     minHeight: '69.7vh',
     overflow: 'auto',
@@ -31,12 +31,19 @@ const MessageList = ({ activeChat, loading, loadingChats, device }) => {
   };
 
   useEffect(scrollToBottom, [messages]);
+  let y;
+  const trackScroll = () => {
+    let element = document.getElementById('testing');
+    y = element.scrollTop;
+  };
+
+
   return (
-    <Paper style={device === 'mobile' ? styles.mobile : styles.container}>
-      <List>
+    <Paper style={styles[`${device}`]}>
+      <List id="testing">
         {messages.map((message, i) => {
           if (i === messages.length - 1) {
-            return <Message ref={listEndRef} message={message} index={i} last={(i === messages.length - 1)} />;
+            return <Message id="last" ref={listEndRef} message={message} index={i} last={(i === messages.length - 1)} />;
           }
           return <Message message={message} index={i} last={(i === messages.length - 1)} />;
         })}

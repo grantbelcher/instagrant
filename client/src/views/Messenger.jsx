@@ -38,7 +38,7 @@ const styles = {
 };
 
 const Messenger = ({ logOut, device, inbox }) => (
-  <div style={device === 'mobile' ? styles.mobile : styles.col2}>
+  <div style={device === 'mobile' ? styles.mobileContainer : styles.container}>
     <Paper style={styles.headerRight}>
       <div style={styles.userInfoHeader}>
         <Header />

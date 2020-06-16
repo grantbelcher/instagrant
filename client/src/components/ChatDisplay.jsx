@@ -6,11 +6,12 @@ import MessageList from './MessageList';
 // import placeholder from '../../../utils/placeholder';
 
 const ChatDisplay = ({ activeChat }) => {
+  console.log('RERENDERED')
   return (
-    <div>
+    <>
       <MessageList />
       <TextInput chat={activeChat} />
-    </div>
+    </>
   );
 };
 
