@@ -47,7 +47,7 @@ const MessageList = ({ activeChat, loading, loadingChats, device }) => {
           }
           return <Message message={message} index={i} last={(i === messages.length - 1)} />;
         })}
-        <div ref={listEndRef} />
+        <div ref={listEndRef} id="last"/>
       </List>
     </Paper>
 
