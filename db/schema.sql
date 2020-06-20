@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS 'users';
 CREATE TABLE `users` (
   `userId` INT AUTOINCREMENT,
   `username` VARCHAR(20) NOT NULL,
-  `fullname` VARCHAR(20) NOT NULL,
+  `fullName` VARCHAR(20) NOT NULL,
   `bio` VARCHAR(255) NOT NULL,
   `photo` VARCHAR(255), 
   PRIMARY KEY(`userId`)

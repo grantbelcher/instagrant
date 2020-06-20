@@ -1,25 +1,11 @@
-const mongoose = require('mongoose');
-const config = require('config');
+const mysql = require('mysql');
+const config = require('./config');
 
-const dbUrl = config.get('dbUrl');
+const connection = mysql.createConnection(config);
 
-module.exports = () => {
-  mongoose.connect(
-    dbUrl,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
-  );
+connection.connect((err) => {
+  if (err) console.error(err), 'errrr';
+  console.log('connected');
+});
 
-  mongoose.connection.on('connected', () => {
-    console.log('Mongoose connection open');
-  });
-
-  mongoose.connection.on('error', (err) => {
-    console.log(err, 'Mongoose connection FAILED');
-  });
-  mongoose.connection.on('disconnected', () => {
-    console.log('Mongoose connection disconnected');
-  });
-};
+module.exports = connection;
