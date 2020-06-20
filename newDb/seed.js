@@ -14,8 +14,7 @@ const initialUsers = [
     username: 'PresTrump',
     fullname: 'Donald J Trump',
     bio: 'a huge piece of shit',
-    photo: null,
-    // photo: 'https://i2.wp.com/www.wizmnews.com/wp-content/uploads/2020/04/Donald-Trump-Ap-13-presser-face-AP.jpeg?resize=80%2C80&ssl=1',
+    photo: 'https://i2.wp.com/www.wizmnews.com/wp-content/uploads/2020/04/Donald-Trump-Ap-13-presser-face-AP.jpeg?resize=80%2C80&ssl=1',
   },
   {
     username: 'BillyOcean',
