@@ -27,17 +27,6 @@ CREATE TABLE `posts`(
   FOREIGN KEY (`authorId`) REFERENCES `users`(`userId`)
 );
 
-DROP TABLE IF EXISTS `likes`;
-
-CREATE TABLE `likes`(
-  `id` INT AUTOINCREMENT,
-  `followerId` INT,
-  `followingId` INT,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`followerId`) REFERENCES `users`(`userId`),
-  FOREIGN KEY (`followingId`) REFERENCES `users`(`userId`)
-);
-
 DROP TABLE IF EXISTS `relationships`;
 
 CREATE TABLE `relationships`(
