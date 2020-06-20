@@ -2,6 +2,52 @@
 const Promise = require('bluebird');
 const db = require('./index');
 
+const createUserQuery = ({
+  username, fullname, bio, photo,
+}) => {
+  const values = `"${username}", "${fullname}", "${bio}", "${photo}"`;
+  return `INSERT INTO users (username, fullname, bio, photo) VALUES (${values});`;
+};
+
+const initialUsers = [
+  {
+    username: 'PresTrump',
+    fullname: 'Donald J Trump',
+    bio: 'a huge piece of shit',
+    photo: null,
+    // photo: 'https://i2.wp.com/www.wizmnews.com/wp-content/uploads/2020/04/Donald-Trump-Ap-13-presser-face-AP.jpeg?resize=80%2C80&ssl=1',
+  },
+  {
+    username: 'BillyOcean',
+    fullname: 'Billy Ocean',
+    bio: 'Get out of my dreams and into my car!',
+    photo: 'https://jilliebushell.com/wp-content/uploads/2017/01/billyochds.jpg',
+  },
+  {
+    username: 'BillyIdol',
+    fullname: 'BillyIdol',
+    bio: 'Its a nice day for a White Wedding',
+    photo: 'https://www.whosampled.com/static/track_images/r9591_201069_21950898901.jpg',
+  },
+  {
+    username: 'TrillMurray420',
+    fullname: 'Bill Murray',
+    bio: 'The best way to teach your kids about taxes is by eating 30 percent of their ice cream.',
+    photo: 'https://d1ynl4hb5mx7r8.cloudfront.net/wp-content/uploads/2014/09/bill-murray-100.jpg',
+  },
+  {
+    username: 'KimK',
+    fullname: 'Kim Kardashian',
+    bio: 'a waste of a human being',
+    photo: 'https://thehill.com/sites/default/files/styles/thumb_100/public/kardashiankourtney_04232018getty_0.jpg?itok=J6S55Obi',
+  },
+  {
+    username: 'SexySaxMan',
+    fullname: 'Bill Clinton',
+    bio: 'when I was in England I experimented with marijuana a time or two, and I didn’t like it. I didn’t inhale it, and never tried it again',
+    photo: 'https://pbs.twimg.com/profile_images/1016163015723552769/ZsrVkp3e_400x400.jpg',
+  },
+];
 
 const configureDb = () => {
   Promise.promisifyAll(db);
@@ -76,6 +122,12 @@ const configureDb = () => {
         FOREIGN KEY (postId) REFERENCES posts(postId),
         FOREIGN KEY (parentId) REFERENCES comments(commentId)
       );`);
+    })
+    .then(() => {
+      initialUsers.forEach((user) => {
+        const insertQuery = createUserQuery(user);
+        db.queryAsync(insertQuery);
+      });
     })
     .catch((err) => {
       console.log(err, 'ERROR');
